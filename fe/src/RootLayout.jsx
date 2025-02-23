@@ -1,7 +1,10 @@
-import React from 'react'
+import React from 'react';
+import Home from './pages/Home';
 
 export default function RootLayout() {
   return (
-    <div>RootLayout</div>
-  )
+    <>
+      <Home />
+    </>
+  );
 }
