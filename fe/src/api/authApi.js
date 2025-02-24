@@ -9,3 +9,5 @@ const authApi = {
     return response;
   }
 }
+
+export default authApi;
