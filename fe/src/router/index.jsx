@@ -15,6 +15,15 @@ const router = createBrowserRouter([
         index: true,
         element: <Home />,
       },
+      {
+        path: '/calendar',
+        element: <Calendar />,
+      },
+      {
+        path: '/day',
+        element: <Day />,
+        children: [],
+      },
     ],
   },
   {
@@ -25,15 +34,7 @@ const router = createBrowserRouter([
     path: '/login',
     element: <Login />,
   },
-  {
-    path: '/calendar',
-    element: <Calendar />,
-  },
-  {
-    path: '/day',
-    element: <Day />,
-    children: [],
-  },
+  
 ]);
 
 export default router;
