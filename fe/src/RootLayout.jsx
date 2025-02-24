@@ -23,9 +23,9 @@ export default function RootLayout() {
 
   return (
     <section>
-      <Header></Header>
-      <Outlet></Outlet>
-      <Footer></Footer>
+      <Header />
+      <Outlet />
+      <Footer />
     </section>
   );
 }
