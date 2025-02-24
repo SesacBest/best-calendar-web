@@ -79,14 +79,14 @@ export default function Login() {
             </div>
             
             <button
-              className="w-full py-2 px-4 bg-[#2799C3] text-white rounded-md text-sm
-                hover:bg-[#2182a7] focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[#2799C3]"
+              className="w-full py-2 px-4 bg-primary text-white rounded-md text-base
+                hover:bg-secondary focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary"
               type="submit"
             >
               {isLoading ? '처리중...' : '로그인'}
             </button>
 
-            <nav className="text-center text-sm text-gray-600">
+            <nav className="text-center text-base text-gray-600">
               <Link to="/signup">회원가입</Link>
             </nav>
 
