@@ -21,7 +21,6 @@ public class GlobalExceptionHandler {
                 .body(ApiResponse.error("입력된 형식이 올바르지 않습니다.", "BAD_REQUEST"));
     }
 
-
     @ExceptionHandler(ConstraintViolationException.class)
     public ResponseEntity<ApiResponse<Void>> handleConstraintViolationException(ConstraintViolationException ex) {
         return ResponseEntity
