@@ -56,4 +56,11 @@ public class AuthService {
 
 
     }
+
+    public void verifyEmail(String username) {
+        User user = userRepository.findByUsername(username).orElse(null);
+        if (user != null) {
+            throw new IllegalArgumentException("이미 사용 중인 이메일입니다.");
+        }
+    }
 }
