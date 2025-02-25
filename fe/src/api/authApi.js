@@ -2,10 +2,15 @@ import api from './axios';
 const ENDPOINT = '/auth';
 
 const authApi = {
-
   // 회원가입 api
   signup: async (formData) => {
     const response = await api.post(`${ENDPOINT}/signup`, formData);
+    return response;
+  },
+
+  // email 중복체크
+  checkEmailAvailability: async (email) => {
+    const response = await api.get(`${ENDPOINT}/verify-email`, { params: { username: email } });
     return response;
   },
 
