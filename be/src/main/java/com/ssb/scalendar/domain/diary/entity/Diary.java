@@ -4,6 +4,7 @@ import com.ssb.scalendar.domain.user.entity.User;
 import com.ssb.scalendar.global.entity.BaseTimeEntity;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -26,4 +27,10 @@ public class Diary extends BaseTimeEntity {
     @ManyToOne
     @JoinColumn(name = "user_id")
     private User user;
+
+    @Builder
+    public Diary(LocalDate selectedDate, String content) {
+        this.selectedDate = selectedDate;
+        this.content = content;
+    }
 }
