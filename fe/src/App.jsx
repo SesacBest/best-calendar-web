@@ -6,12 +6,17 @@ import { RouterProvider } from 'react-router-dom';
 import router from './router';
 import store from './store/store';
 import { Provider } from 'react-redux';
+import AuthProvider from './AuthProvider';
 
 function App() {
   return (
     <>
     <Provider store={store}>
-      <RouterProvider router={router}></RouterProvider>
+      <RouterProvider router={router}>
+        <AuthProvider>
+          <RootLayout /> {/* children으로 전달 */}
+        </AuthProvider>
+      </RouterProvider>
     </Provider>
     </>
   );
