@@ -17,6 +17,9 @@ export default function Signup() {
 
   const [nicknameTouched, setNicknameTouched] = useState(false);
   const [passwordTouched, setPasswordTouched] = useState(false);
+  const [isPasswordVerified, setIsPasswordVerified] = useState(false);
+
+  const [verifiedPassword, setVerifiedPassword] = useState('');
 
   const passwordRegex = /^(?=.*[A-Za-z])(?=.*\d)(?=.*[#?!]).{8,}$/;
   const nicknameRegex = /^[가-힣a-zA-Z0-9]{2,15}$/;
@@ -27,6 +30,9 @@ export default function Signup() {
     'border border-blue bg-primary text-white hover:bg-secondary w-full h-10 rounded-lg mt-10';
   const disabledClasses =
     'border border-gray-300 bg-gray-200 text-gray-500 w-full h-10 rounded-lg mt-10 cursor-not-allowed';
+
+  const validPassword = 'text-green-500 px-2 focus:outline-none';
+  const noValidPassword = 'text-red-600 px-2 focus:outline-none';
 
   const handleFormInput = (e) => {
     const { name, value } = e.target;
@@ -57,6 +63,12 @@ export default function Signup() {
     setIsPasswordValid(passwordRegex.test(value));
   };
 
+  const handleVerifyPassword = (e) => {
+    const { value } = e.target;
+    setVerifiedPassword(value);
+    setIsPasswordVerified(value === formData.password);
+  };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     setError('');
@@ -71,9 +83,15 @@ export default function Signup() {
     }
   };
 
+  const toHome = () => {
+    navigate('/');
+  };
+
   return (
-    <section className="flex flex-col items-center gap-13 mt-35">
-      <h1 className="text-5xl font-se">S-Calendar</h1>
+    <section className="flex flex-col items-center gap-15 mt-30">
+      <h1 className="text-6xl font-semibold" onClick={toHome}>
+        S-Calendar
+      </h1>
       <h2 className="text-[28px] font-semibold mb-10">쉽고 간편한 달력, 지금 시작해 보세요</h2>
       <section className="w-100">
         <form onSubmit={handleSubmit}>
@@ -99,7 +117,7 @@ export default function Signup() {
           <input
             type="text"
             name="nickname"
-            placeholder="닉네임"
+            placeholder="닉네임(2자 이상)"
             value={formData.nickname}
             onChange={handleNicknameChange}
             onBlur={() => setNicknameTouched(true)}
@@ -109,7 +127,7 @@ export default function Signup() {
           <hr className="mb-10 mt-0.5" />
           {!isNicknameValid && nicknameTouched && (
             <p className="text-red-600 text-[10px] mb-10">
-              닉네임은 한글, 영문, 숫자를 사용할 수 있고, 2자 이상 25자 이하여야 합니다.
+              닉네임은 한글, 영문, 숫자를 사용할 수 있고, 2자 이상 15자 이하여야 합니다.
             </p>
           )}
           <input
@@ -128,6 +146,17 @@ export default function Signup() {
               비밀번호는 8자 이상, 영문, 숫자, 특수문자(#, ?, !)가 각각 1자 이상 포함되어야 합니다.
             </p>
           )}
+          <input
+            type="password"
+            name="verifyPassword"
+            placeholder="비밀번호 확인"
+            onChange={handleVerifyPassword}
+            value={verifiedPassword}
+            onBlur={() => setPasswordTouched(true)}
+            className={isPasswordVerified ? validPassword : noValidPassword}
+            required
+          />
+          <hr className="mb-10 mt-0.5" />
           <button
             className={isButtonEnabled ? enabledClasses : disabledClasses}
             disabled={!isButtonEnabled}
