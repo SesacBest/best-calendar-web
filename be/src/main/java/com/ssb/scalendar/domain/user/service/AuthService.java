@@ -27,7 +27,6 @@ public class AuthService {
 
     @Transactional
     public void signup(SignupRequestDto requestDto) {
-        System.out.println(requestDto.getUsername());
         if (userRepository.existsByUsername(requestDto.getUsername())) {
             throw new IllegalArgumentException("이미 사용 중인 이메일입니다.");
         }
