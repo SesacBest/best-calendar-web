@@ -1,4 +1,4 @@
-@import "tailwindcss";
+@import 'tailwindcss';
 
 :root {
   font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
@@ -16,6 +16,6 @@
 }
 
 @theme {
-  --color-primary: #2799C3;
+  --color-primary: #2799c3;
   --color-secondary: #2182a7;
 }

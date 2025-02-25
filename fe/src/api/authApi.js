@@ -1,11 +1,17 @@
-import api from "./axios";
-
-const ENDPOINT = "/auth";
+import api from './axios';
+const ENDPOINT = '/auth';
 
 const authApi = {
+
+  // 회원가입 api
+  signup: async (formData) => {
+    const response = await api.post(`${ENDPOINT}/signup`, formData);
+    return response;
+  },
+
   // 로그인 api
   login: async (formData) => {
-    const response = await api.post(`${ENDPOINT}/login`, formData)
+    const response = await api.post(`${ENDPOINT}/login`, formData);
     return response;
   },
 
@@ -13,7 +19,7 @@ const authApi = {
   verify: async () => {
     const response = await api.get(`${ENDPOINT}/verify`);
     return response;
-  }
-}
+  },
+};
 
 export default authApi;
