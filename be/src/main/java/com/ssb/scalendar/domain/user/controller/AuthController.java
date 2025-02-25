@@ -3,7 +3,6 @@ package com.ssb.scalendar.domain.user.controller;
 import com.ssb.scalendar.domain.user.dto.request.LoginRequestDto;
 import com.ssb.scalendar.domain.user.dto.request.SignupRequestDto;
 import com.ssb.scalendar.domain.user.dto.response.LoginResponseDto;
-import com.ssb.scalendar.domain.user.repository.UserRepository;
 import com.ssb.scalendar.domain.user.service.AuthService;
 import com.ssb.scalendar.global.response.ApiResponse;
 import jakarta.validation.Valid;
@@ -16,7 +15,6 @@ import org.springframework.web.bind.annotation.*;
 @RequiredArgsConstructor
 public class AuthController {
     private final AuthService authService;
-    private final UserRepository userRepository;
 
     @PostMapping("/signup")
     public ResponseEntity<ApiResponse<Void>> signup(

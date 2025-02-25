@@ -17,9 +17,9 @@ import java.util.Date;
 @Component
 public class JwtTokenProvider {
 
-    // 2. 만료기간을 위한 기간 지정
-    private final long tokenValidityInMilliseconds = 1000L * 60 * 60 * 72; // 24시간
-    // 1. application.properties에 있는 변수 가져오기
+
+    private final long tokenValidityInMilliseconds = 1000L * 60 * 60 * 72;
+
     @Value("${jwt.secret}")
     private String secretKey;
 
@@ -41,13 +41,9 @@ public class JwtTokenProvider {
         Date validity = new Date(now.getTime() + tokenValidityInMilliseconds);
 
         return Jwts.builder()
-                // 페이로드 넣기
                 .setClaims(claims)
-                // 만든시간 넣기
                 .setIssuedAt(now)
-                // 만료시간 넣기
                 .setExpiration(validity)
-                // 서명 넣기
                 .signWith(Keys.hmacShaKeyFor(secretKey.getBytes()), SignatureAlgorithm.HS256)
                 .compact();
     }
