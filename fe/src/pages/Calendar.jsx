@@ -8,6 +8,11 @@ import interactionPlugin from '@fullcalendar/interaction';
 
 export default function Calendar() {
   const navigate = useNavigate();
+  const [category, setCategory] = useState('schedule');
+
+  const linkStyle =
+    'px-3 py-2 mr-2 rounded-lg text-gray-500 hover:bg-primary hover:text-white border';
+  const activeLinkStyle = 'text-primary';
 
   useEffect(() => {
     const token = localStorage.getItem('token');
@@ -30,8 +35,8 @@ export default function Calendar() {
   ]);
 
   // TODO: 일정, 할일, 일기 카테고리 설정에 따라 각 상세 페이지로 향하는 기능 추가 예정
-  const handleClick = (e) => {
-    navigate(`/day/${e.dateStr}`);
+  const handleDayCellClick = (e) => {
+    navigate(`/day/${e.dateStr}/${category}`);
   };
 
   // showNonCurrentDates: 이번 달 날짜만 활성화
@@ -41,11 +46,39 @@ export default function Calendar() {
   // headerToolbar: 달력 상단에 쓸 제목과 버튼 위치 지정
   return (
     <>
+      <section className="pt-4 flex justify-between">
+        <nav className="flex">
+          <div
+            className={`${linkStyle} ${category === 'schedule' ? activeLinkStyle : ''}`}
+            onClick={() => {
+              setCategory(() => 'schedule');
+            }}
+          >
+            일정
+          </div>
+          <div
+            className={`${linkStyle} ${category === 'task' ? activeLinkStyle : ''}`}
+            onClick={() => {
+              setCategory(() => 'task');
+            }}
+          >
+            할일
+          </div>
+          <div
+            className={`${linkStyle} ${category === 'diary' ? activeLinkStyle : ''}`}
+            onClick={() => {
+              setCategory(() => 'diary');
+            }}
+          >
+            일기
+          </div>
+        </nav>
+      </section>
       <FullCalendar
         plugins={[dayGridPlugin, interactionPlugin]}
         initialView="dayGridMonth"
         events={tempEventList}
-        dateClick={handleClick}
+        dateClick={handleDayCellClick}
         showNonCurrentDates={false}
         firstDay={1}
         dayCellClassNames={(arg) => {
