@@ -59,6 +59,8 @@ services:
     volumes:
       - /etc/letsencrypt/live/54.180.148.8.sslip.io/privkey.pem:/etc/letsencrypt/live/54.180.148.8.sslip.io/privkey.pem
       - /etc/letsencrypt/live/54.180.148.8.sslip.io/fullchain.pem:/etc/letsencrypt/live/54.180.148.8.sslip.io/fullchain.pem
+    env_file:
+      - .env
     depends_on:
       - db
       - be
