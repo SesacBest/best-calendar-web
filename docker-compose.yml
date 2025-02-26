@@ -1,0 +1,51 @@
+services:
+  db:
+    container_name: db-container
+    image: mysql:8.0
+    volumes:
+      - db-volume:/var/lib/mysql
+    networks:
+      - db-network
+    env_file:
+      - .env
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost"]
+      interval: 10s
+      timeout: 5s
+      retries: 3
+      start_period: 30s
+  be:
+    container_name: be-container
+    build:
+      context: ./be
+      dockerfile: Dockerfile
+    image: rkdrudgns/be-image:latest
+    networks:
+      - db-network
+      - be-network
+    env_file:
+      - .env
+    depends_on:
+      db:
+        condition: service_healthy
+  fe:
+    container_name: fe-container
+    build:
+      context: ./fe
+      dockerfile: Dockerfile
+    image: rkdrudgns/fe-image:latest
+    ports:
+      - "80:80"
+      - "443:443"
+    networks:
+      - be-network
+    depends_on:
+      - db
+      - be
+
+volumes:
+  db-volume:
+
+networks:
+  db-network:
+  be-network:
