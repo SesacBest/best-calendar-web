@@ -20,15 +20,15 @@ RUN npm run build
 # Run Stage
 FROM nginx
 
-COPY nginx.conf /etc/nginx/conf.d/default.conf
 
 # Build Stage에서 빌드 결과물(정적 파일) 복사
 COPY --from=build /app/dist /usr/share/nginx/html
 
+COPY nginx.conf /etc/nginx/conf.d/nginx.conf
 COPY ./templates /etc/nginx/templates
 
 # 포트 명시
 # 문서화 목적
-EXPOSE 80
+EXPOSE 80 443
 
 CMD ["nginx", "-g", "daemon off;"] 
