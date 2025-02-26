@@ -1,4 +1,4 @@
-import { React, useState } from 'react';
+import { React, useState, useEffect } from 'react';
 
 import { useNavigate } from 'react-router-dom';
 
@@ -9,7 +9,12 @@ import interactionPlugin from '@fullcalendar/interaction';
 export default function Calendar() {
   const navigate = useNavigate();
 
-  // TODO: 로그인되지 않았을 경우 메인 화면으로 이동하는 기능 필요
+  useEffect(() => {
+    const token = localStorage.getItem('token');
+    if (!token) {
+      navigate('/');
+    }
+  }, []);
 
   // TODO: 임시적인 일정 목록이므로, 실제 DB 연동 이후 수정 예정
   const [tempEventList, setTempEventList] = useState([
