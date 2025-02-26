@@ -4,6 +4,7 @@ import com.ssb.scalendar.global.security.handler.CustomAccessDeniedHandler;
 import com.ssb.scalendar.global.security.handler.JwtAuthenticationEntryPoint;
 import com.ssb.scalendar.global.security.jwt.JwtAuthenticationFilter;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -29,6 +30,9 @@ public class SecurityConfig {
     private final JwtAuthenticationFilter jwtAuthenticationFilter;
     private final CustomAccessDeniedHandler accessDeniedHandler;
     private final JwtAuthenticationEntryPoint jwtAuthenticationEntryPoint;
+
+    @Value("${origin}")
+    private String origin;
 
     @Bean
     public PasswordEncoder passwordEncoder() {
@@ -59,7 +63,7 @@ public class SecurityConfig {
     @Bean
     public CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration configuration = new CorsConfiguration();
-        configuration.addAllowedOrigin(${origin});
+        configuration.addAllowedOrigin(origin);
         configuration.addAllowedMethod("*");
         configuration.addAllowedHeader("*");
         configuration.setAllowCredentials(true);
@@ -76,7 +80,7 @@ public class SecurityConfig {
         DaoAuthenticationProvider authProvider = new DaoAuthenticationProvider();
         authProvider.setUserDetailsService(userDetailsService);
         authProvider.setPasswordEncoder(passwordEncoder);
-        
+
         return new ProviderManager(authProvider);
     }
 }
