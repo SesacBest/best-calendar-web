@@ -56,6 +56,9 @@ services:
       - "443:443"
     networks:
       - be-network
+    volumes:
+      - /etc/letsencrypt/live/54.180.148.8.sslip.io/privkey.pem:/etc/letsencrypt/live/54.180.148.8.sslip.io/privkey.pem
+      - /etc/letsencrypt/live/54.180.148.8.sslip.io/fullchain.pem:/etc/letsencrypt/live/54.180.148.8.sslip.io/fullchain.pem
     depends_on:
       - db
       - be
