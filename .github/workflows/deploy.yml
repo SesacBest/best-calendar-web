@@ -33,6 +33,7 @@ jobs:
           echo "MYSQL_ROOT_PASSWORD=${{ secrets.MYSQL_ROOT_PASSWORD }}" >> .env
           echo "SECRET_KEY=${{ secrets.SECRET_KEY }}" >> .env
           echo "DOMAIN=${{ secrets.DOMAIN }}" >> .env
+          echo "ORIGIN=${{ secrets.ORIGIN }}" >> .env
 
 
 
