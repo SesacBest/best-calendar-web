@@ -13,15 +13,28 @@ export default function Signup() {
 
   const [error, setError] = useState('');
 
-  // const [isNicknameValid, setIsNicknameValid] = useState(false);
-  // const [nicknameTouched, setNicknameTouched] = useState(false);
+  /**
+   * nickname
+   * 
+   * isValid - 닉네임 유효성, 
+   * isTouched (+ onBlur) - 입력란에서 벗어나 다른 곳에 포커스가 옮겨가면 오류 메시지가 나타나도록 설정 
+   */
 
-  // const [isPasswordValid, setIsPasswordValid] = useState(false);
-  // const [passwordTouched, setPasswordTouched] = useState(false);
-  // // 비밀번호 확인
-  // const [isPasswordEqual, setIsPasswordEqual] = useState(false);
-  // //비밀번호 확인
-  // const [verifiedPassword, setVerifiedPassword] = useState('');
+  /**
+   * password
+   * 
+   * isValid - 비밀번호 유효성
+   * isTouched (+ onFocus) - 입력란에 포커스가 됐을 때 오류 미시지가 나타나도록 설정
+   * isEqual - 입력된 두 비밀번호가 같은지 확인
+   * verifiedValue - 비밀번호 확인 입력란에 입력된 비밀번호 
+   */
+
+  /**
+   * email
+   * 
+   * isClicked - 중복확인 버튼이 클릭되면 값 변경
+   * status - 중복확인이 된 후 사용가능하면 'OK'값이 저장됨 
+   */
 
   const [validation, setValidation] = useState({
     nickname: { isValid: false, isTouched: false },
@@ -33,21 +46,25 @@ export default function Signup() {
   const nicknameRegex = /^[가-힣a-zA-Z0-9]{2,15}$/;
 
   const isButtonEnabled =
-    formData.username.trim() !== '' && validation.nickname.isValid && validation.password.isValid;
+    formData.username.trim() !== '' &&
+    validation.nickname.isValid &&
+    validation.password.isValid &&
+    validation.password.isEqual &&
+    validation.email.status === 'OK';
 
   const enabledClasses =
     'border border-blue bg-primary text-white hover:bg-secondary w-full h-10 rounded-lg mt-10';
   const disabledClasses =
     'border border-gray-300 bg-gray-200 text-gray-500 w-full h-10 rounded-lg mt-10 cursor-not-allowed';
 
-  const validPassword = 'text-green-500 px-2 focus:outline-none';
+  const validPassword = 'text-primary px-2 focus:outline-none';
   const noValidPassword = 'text-red-600 px-2 focus:outline-none';
 
   const availableEmail = (
-    <p className="text-green-500 text-[10px] mt-1 mb-6 ">사용가능한 이메일입니다.</p>
+    <p className="text-primary text-[15px] mt-1 mb-6 ">사용가능한 이메일입니다.</p>
   );
   const noAvailableEmail = (
-    <p className="text-red-600 text-[10px] mt-1 mb-6">이미 사용 중인 이메일입니다.</p>
+    <p className="text-red-600 text-[15px] mt-1 mb-6">이미 사용 중인 이메일입니다.</p>
   );
 
   const handleFormInput = (e) => {
@@ -57,6 +74,13 @@ export default function Signup() {
       ...prev,
       [name]: value,
     }));
+
+    if (name === 'username') {
+      setValidation((prev) => ({
+        ...prev,
+        email: { isClicked: false, status: '' },
+      }));
+    }
   };
 
   const handleNicknameChange = (e) => {
@@ -66,7 +90,6 @@ export default function Signup() {
       ...prev,
       nickname: value,
     }));
-    // setIsNicknameValid(nicknameRegex.test(value));
     setValidation((prev) => ({
       ...prev,
       nickname: { ...prev.nickname, isValid: nicknameRegex.test(value) },
@@ -80,7 +103,6 @@ export default function Signup() {
       ...prev,
       password: value,
     }));
-    // setIsPasswordValid(passwordRegex.test(value));
     setValidation((prev) => ({
       ...prev,
       password: { ...prev.password, isValid: passwordRegex.test(value) },
@@ -89,12 +111,10 @@ export default function Signup() {
 
   const handleVerifyPassword = (e) => {
     const { value } = e.target;
-    // setVerifiedPassword(value);
     setValidation((prev) => ({
       ...prev,
       password: { ...prev.password, verifiedValue: value, isEqual: value === formData.password },
     }));
-    // setIsPasswordEqual(value === formData.password);
   };
 
   const handleSubmit = async (e) => {
@@ -163,8 +183,17 @@ export default function Signup() {
             </button>
           </section>
           <hr className=" mt-0.5" />
-          {validation.email.isClicked ? (validation.email.status === 'OK' ? availableEmail : noAvailableEmail) : <p className="text-green-500 text-[10px] mt-1 mb-6 invisible ">사용가능한 이메일입니다.</p>}
-          {/* {validation.email.isAvailable && (validation.email.status === 'OK' ? availableEmail : noAvailableEmail)} */}
+          {validation.email.isClicked ? (
+            validation.email.status === 'OK' ? (
+              availableEmail
+            ) : (
+              noAvailableEmail
+            )
+          ) : (
+            <p className="text-primary text-[15px] mt-1 mb-6 invisible ">
+              사용가능한 이메일입니다.
+            </p>
+          )}
           <input
             type="text"
             name="nickname"
@@ -181,14 +210,14 @@ export default function Signup() {
             required
           />
           <hr className="mt-0.5" />
-          {(!validation.nickname.isValid && validation.nickname.isTouched) ? (
-            <p className="text-red-600 text-[10px] mb-2">
+          {!validation.nickname.isValid && validation.nickname.isTouched ? (
+            <p className="text-red-600 text-[15px] mb-2">
               닉네임은 한글, 영문, 숫자를 사용할 수 있고, 2자 이상 15자 이하여야 합니다.
-            </p> 
+            </p>
           ) : (
-            <p className="text-red-600 text-[10px] mb-2 invisible">
+            <p className="text-red-600 text-[15px] mb-2 invisible">
               닉네임은 한글, 영문, 숫자를 사용할 수 있고, 2자 이상 15자 이하여야 합니다.
-            </p> 
+            </p>
           )}
           <input
             type="password"
@@ -206,15 +235,15 @@ export default function Signup() {
             required
           />
           <hr className="mt-0.5" />
-          {(!validation.password.isValid && validation.password.isTouched) ? (
-            <p className="text-red-600 text-[10px] mb-2">
+          {!validation.password.isValid && validation.password.isTouched ? (
+            <p className="text-red-600 text-[15px] mb-2">
               비밀번호는 8자 이상, 영문, 숫자, 특수문자(#, ?, !)가 각각 1자 이상 포함되어야 합니다.
             </p>
           ) : (
-          <p className="text-red-600 text-[10px] mb-2 invisible">
-            비밀번호는 8자 이상, 영문, 숫자, 특수문자(#, ?, !)가 각각 1자 이상 포함되어야 합니다.
-          </p>
-        )}
+            <p className="text-red-600 text-[15px] mb-2 invisible">
+              비밀번호는 8자 이상, 영문, 숫자, 특수문자(#, ?, !)가 각각 1자 이상 포함되어야 합니다.
+            </p>
+          )}
           <input
             type="password"
             name="verifyPassword"
