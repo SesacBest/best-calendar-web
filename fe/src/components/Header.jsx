@@ -9,12 +9,16 @@ export default function Header() {
 
   const token = localStorage.getItem('token');
   console.log(token);
-  
+
   let hidden = !!token;
 
-  
+  const handleOnScalendarClick = (e) => {
+    e.preventDefault();
+    navigate(hidden ? '/calendar' : '/');
+  };
 
-  const handleOnLogoutClick = () => {
+  const handleOnLogoutClick = (e) => {
+    e.preventDefault();
     dispatch(logout());
     navigate('/');
   };
@@ -22,9 +26,9 @@ export default function Header() {
   return (
     <>
       <section className="flex justify-between text-xl">
-        <Link to="/">S-Calendar</Link>
+        <Link onClick={handleOnScalendarClick}>S-Calendar</Link>
         <nav className="flex gap-8">
-          <Link to="/signup">회원가입</Link>
+          <Link to="/signup" hidden={hidden}>회원가입</Link>
           <Link to="/login" hidden={hidden}>
             로그인
           </Link>
