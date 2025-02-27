@@ -57,8 +57,8 @@ export default function Signup() {
   const disabledClasses =
     'border border-gray-300 bg-gray-200 text-gray-500 w-full h-10 rounded-lg mt-10 cursor-not-allowed';
 
-  const validPassword = 'text-primary px-2 focus:outline-none';
-  const noValidPassword = 'text-red-600 px-2 focus:outline-none';
+  const validPassword = 'text-primary px-2 w-100 focus:outline-none';
+  const noValidPassword = 'text-red-600 px-2 w-100 focus:outline-none';
 
   const availableEmail = (
     <p className="text-primary text-[15px] mt-1 mb-6 ">사용가능한 이메일입니다.</p>
@@ -163,19 +163,20 @@ export default function Signup() {
       <h2 className="text-[28px] font-semibold mb-10">쉽고 간편한 달력, 지금 시작해 보세요</h2>
       <section className="w-100">
         <form onSubmit={handleSubmit}>
-          <section className="flex justify-between px-2">
+          <section className="flex justify-between">
             <input
               type="email"
               name="username"
               placeholder="이메일"
-              className="w-70 focus:outline-none"
+              autoComplete="email"
+              className="w-80 px-2 focus:outline-none"
               value={formData.email}
               onChange={handleFormInput}
               required
             />
             <button
               type="button"
-              className="border border-gray-500 rounded px-1 py-0.5 hover:bg-primary hover:text-white"
+              className="border border-gray-500 rounded w-20 px-1 py-0.5 hover:bg-primary hover:text-white"
               onMouseDown={(e) => e.preventDefault()}
               onClick={checkEmailAvailability}
             >
@@ -198,6 +199,7 @@ export default function Signup() {
             type="text"
             name="nickname"
             placeholder="닉네임(2자 이상)"
+            autoComplete="username"
             value={formData.nickname}
             onChange={handleNicknameChange}
             onBlur={() =>
@@ -206,7 +208,7 @@ export default function Signup() {
                 nickname: { ...prev.nickname, isTouched: true },
               }))
             }
-            className="px-2 focus:outline-none"
+            className="px-2 w-100 focus:outline-none"
             required
           />
           <hr className="mt-0.5" />
@@ -223,6 +225,7 @@ export default function Signup() {
             type="password"
             name="password"
             placeholder="비밀번호"
+            autoComplete="current-password"
             value={formData.password}
             onChange={handlePasswordChange}
             onFocus={() =>
@@ -231,7 +234,7 @@ export default function Signup() {
                 password: { ...prev.password, isTouched: true },
               }))
             }
-            className="px-2 focus:outline-none"
+            className="px-2 w-100 focus:outline-none"
             required
           />
           <hr className="mt-0.5" />
@@ -248,6 +251,7 @@ export default function Signup() {
             type="password"
             name="verifyPassword"
             placeholder="비밀번호 확인"
+            autoComplete="new-password"
             onChange={handleVerifyPassword}
             value={validation.password.verifiedValue}
             onBlur={() =>
