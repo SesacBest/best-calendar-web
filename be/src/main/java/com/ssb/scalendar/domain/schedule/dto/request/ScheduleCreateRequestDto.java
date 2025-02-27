@@ -28,8 +28,8 @@ public class ScheduleCreateRequestDto {
 
     public Schedule toEntity(User user) {
         return Schedule.builder()
-                .selectedDate(this.getSelectedDate())
-                .scheduleTime(this.getScheduleTime())
+                .selectedDate(this.selectedDate)
+                .scheduleTime(this.scheduleTime)
                 .content(this.content)
                 .user(user)
                 .build();

@@ -13,7 +13,6 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 @RequestMapping("/calendar")
 @RequiredArgsConstructor
-@Validated
 public class ScheduleController {
     private final ScheduleService scheduleService;
     private final JwtTokenProvider jwtTokenProvider;
@@ -21,11 +20,10 @@ public class ScheduleController {
     @PostMapping("/schedules")
     public ResponseEntity<ApiResponse<Object>> createSchedule(
             @Valid @RequestBody ScheduleCreateRequestDto requestDto,
-            @RequestHeader("Authorization") String authorization
-            ) {
+            @RequestHeader("Authorization") String authorizationHeader) {
 
-        String jwt = authorization.replace("Bearer ", "");
-        Long userId = jwtTokenProvider.getUserId(jwt);
+        String token = authorizationHeader.replace("Bearer ", "");
+        Long userId = jwtTokenProvider.getUserId(token);
 
         scheduleService.createSchedule(requestDto, userId);
 
