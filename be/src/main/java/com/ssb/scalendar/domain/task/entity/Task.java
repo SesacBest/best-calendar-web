@@ -4,6 +4,7 @@ import com.ssb.scalendar.domain.user.entity.User;
 import com.ssb.scalendar.global.entity.BaseTimeEntity;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -28,5 +29,12 @@ public class Task extends BaseTimeEntity {
     @ManyToOne
     @JoinColumn(name = "user_id")
     private User user;
+
+    @Builder
+    public Task(LocalDate selectedDate, String content, User user) {
+        this.selectedDate = selectedDate;
+        this.content = content;
+        this.user = user;
+    }
 }
 
