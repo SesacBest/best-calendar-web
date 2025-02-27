@@ -22,3 +22,7 @@
   --color-primary: #2799c3;
   --color-secondary: #2182a7;
 }
+
+.test {
+  border: 1px solid black;
+}

@@ -8,6 +8,9 @@ import Day from '../pages/Day';
 import Schedule from '../components/day/Schedule';
 import Task from '../components/day/Task';
 import Diary from '../components/day/Diary';
+import ScheduleCreate from '../components/day/ScheduleCreate';
+import TaskCreate from '../components/day/TaskCreate';
+import DiaryCreate from '../components/day/DiaryCreate';
 
 const router = createBrowserRouter([
   {
@@ -27,12 +30,24 @@ const router = createBrowserRouter([
         element: <Day />,
         children: [
           {
+            path: 'schedule/create',
+            element: <ScheduleCreate />
+          },
+          {
             path: 'schedule',
             element: <Schedule />
           },
           {
+            path: 'task/create',
+            element: <TaskCreate />
+          },
+          {
             path: 'task',
             element: <Task />
+          },
+          {
+            path: 'diary/create',
+            element: <DiaryCreate />
           },
           {
             path: 'diary',
