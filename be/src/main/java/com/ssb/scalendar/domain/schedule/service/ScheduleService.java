@@ -39,7 +39,7 @@ public class ScheduleService {
     }
 
     public List<ScheduleResponseDto> readSchedulesByDate(LocalDate selectedDate, User user) {
-        return scheduleRepository.findAllByUserAndSelectedDate(user, selectedDate).stream()
+        return scheduleRepository.findAllByUserAndSelectedDateOrderByScheduleTimeAsc(user, selectedDate).stream()
                 .map(ScheduleResponseDto::from)
                 .toList();
     }

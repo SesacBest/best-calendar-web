@@ -11,8 +11,6 @@ import java.util.List;
 
 public interface ScheduleRepository extends JpaRepository<Schedule, Long> {
 
-    List<Schedule> findAllByUserAndSelectedDateBetween(User user, LocalDate startDate, LocalDate endDate);
-
     @Query("SELECT s.selectedDate as day, COUNT(s) as count FROM Schedule s " +
             "WHERE s.user = :user AND s.selectedDate BETWEEN :startDate AND :endDate " +
             "GROUP BY s.selectedDate " +
@@ -22,5 +20,5 @@ public interface ScheduleRepository extends JpaRepository<Schedule, Long> {
             @Param("startDate") LocalDate startDate,
             @Param("endDate") LocalDate endDate);
 
-    List<Schedule> findAllByUserAndSelectedDate(User user, LocalDate selectedDate);
+    List<Schedule> findAllByUserAndSelectedDateOrderByScheduleTimeAsc(User user, LocalDate selectedDate);
 }

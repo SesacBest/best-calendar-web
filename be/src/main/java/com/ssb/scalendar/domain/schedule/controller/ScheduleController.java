@@ -3,8 +3,6 @@ package com.ssb.scalendar.domain.schedule.controller;
 import com.ssb.scalendar.domain.schedule.dto.request.ScheduleCreateRequestDto;
 import com.ssb.scalendar.domain.schedule.dto.response.MonthlyScheduleResponseDto;
 import com.ssb.scalendar.domain.schedule.dto.response.ScheduleResponseDto;
-import com.ssb.scalendar.domain.schedule.entity.Schedule;
-import com.ssb.scalendar.domain.schedule.repository.DailyCount;
 import com.ssb.scalendar.domain.schedule.service.ScheduleService;
 import com.ssb.scalendar.domain.user.entity.User;
 import com.ssb.scalendar.global.response.ApiResponse;
@@ -13,9 +11,6 @@ import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
-import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.core.userdetails.UserDetailsService;
-import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDate;
