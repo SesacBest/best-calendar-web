@@ -6,13 +6,16 @@ import FullCalendar from '@fullcalendar/react';
 import dayGridPlugin from '@fullcalendar/daygrid';
 import interactionPlugin from '@fullcalendar/interaction';
 
-import mockApi from '../api/mockApi';
+import calendarApi from '../api/calendarApi';
 
 export default function Calendar() {
   const navigate = useNavigate();
-  const [category, setCategory] = useState('schedule');
 
   const [eventList, setEventList] = useState([]);
+
+  const [categoryState, setCategoryState] = useState('schedule');
+  const [yearState, setYearState] = useState(0);
+  const [monthState, setMonthState] = useState(0);
 
   useEffect(() => {
     const token = localStorage.getItem('token');
@@ -25,44 +28,73 @@ export default function Calendar() {
     'px-3 py-2 mr-2 rounded-lg text-gray-500 hover:bg-primary hover:text-white border';
   const activeLinkStyle = 'text-primary';
 
+  const buttonAttributiesList = [
+    { categoryForUrl: 'schedule', buttonName: '일정', categoryForApi: 'schedules' },
+    { categoryForUrl: 'task', buttonName: '할일', categoryForApi: 'tasks' },
+    { categoryForUrl: 'diary', buttonName: '일기', categoryForApi: 'diaries' },
+  ];
+
+  const buttonGroup = buttonAttributiesList.map((buttonAttribute, index) => {
+    return (
+      <div
+        key={index}
+        className={`${linkStyle} ${categoryState === buttonAttribute.categoryForUrl ? activeLinkStyle : ''}`}
+        onClick={() => {
+          setCategoryState(() => buttonAttribute.categoryForUrl);
+          loadList(yearState, monthState, buttonAttribute.categoryForUrl);
+        }}
+      >
+        {buttonAttribute.buttonName}
+      </div>
+    );
+  });
+
   const handleDayCellClick = (e) => {
-    navigate(`/day/${e.dateStr}/${category}`);
+    navigate(`/day/${e.dateStr}/${categoryState}`);
   };
 
-  // showNonCurrentDates: 이번 달 날짜만 활성화
+  const loadList = async (year, month, categoryState) => {
+    setEventList(() => []);
+
+    let categoryForApi;
+    buttonAttributiesList.forEach((buttonAttribute) => {
+      if (buttonAttribute.categoryForUrl === categoryState) {
+        categoryForApi = buttonAttribute.categoryForApi;
+      }
+    });
+
+    try {
+      const response = await calendarApi.getMonthly(
+        categoryForApi,
+        `${year}-${month.toString().padStart(2, '0')}`,
+      );
+
+      const addDataArray = [];
+      const colorArray = ['#AAFFAA', '#55FF55', '#00FF00', '#00BB00', '#007700', '#003300'];
+      response.data.data.forEach((data) => {
+        addDataArray.push({
+          date: data.day,
+          display: 'background',
+          backgroundColor: colorArray[Math.min(data.count / 3, 5)],
+        });
+      });
+
+      setEventList(() => addDataArray);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  // showNonCurrentDates: 이번 달이 아닌 날짜를 활성화할지 결정
   // firstDay: 0이면 일요일, 1이면 월요일 시작
-  // dayCellClassNames: 각 날짜가 가진 속성에 따라 className 추가(Tailwind CSS 적용 가능)
+  // dayCellClassNames: 각 날짜가 가진 속성('오늘', '과거', '주말' 여부 등)에 따라 className 추가(Tailwind CSS 적용 가능)
+  // datesSet: 월 변경 시 함수 실행
   // titleFormat: 달력 상단에 쓸 제목 설정
   // headerToolbar: 달력 상단에 쓸 제목과 버튼 위치 지정
   return (
     <>
       <section className="pt-4 flex justify-between">
-        <nav className="flex">
-          <div
-            className={`${linkStyle} ${category === 'schedule' ? activeLinkStyle : ''}`}
-            onClick={() => {
-              setCategory(() => 'schedule');
-            }}
-          >
-            일정
-          </div>
-          <div
-            className={`${linkStyle} ${category === 'task' ? activeLinkStyle : ''}`}
-            onClick={() => {
-              setCategory(() => 'task');
-            }}
-          >
-            할일
-          </div>
-          <div
-            className={`${linkStyle} ${category === 'diary' ? activeLinkStyle : ''}`}
-            onClick={() => {
-              setCategory(() => 'diary');
-            }}
-          >
-            일기
-          </div>
-        </nav>
+        <nav className="flex">{buttonGroup}</nav>
       </section>
       <FullCalendar
         plugins={[dayGridPlugin, interactionPlugin]}
@@ -81,44 +113,10 @@ export default function Calendar() {
 
           return str;
         }}
-        datesSet={async (dateInfo) => {
-          setEventList(() => []);
-
-          const year = dateInfo.start.getFullYear();
-          const month = dateInfo.start.getMonth() + 1;
-
-          try {
-            const response = await mockApi.getMonthlySchedules(
-              `${year}-${month.toString().padStart(2, '0')}`,
-            );
-
-            const addDataArray = [];
-            response.data.forEach((data) => {
-              const addDataObject = { date: data.day, display: 'background' };
-              let color;
-              if (data.count < 3) {
-                color = '#AAFFAA';
-              } else if (data.count < 6) {
-                color = '#55FF55';
-              } else if (data.count < 9) {
-                color = '#00FF00';
-              } else if (data.count < 12) {
-                color = '#00BB00';
-              } else if (data.count < 15) {
-                color = '#007700';
-              } else {
-                color = '#003300';
-              }
-
-              addDataObject.backgroundColor = color;
-
-              addDataArray.push(addDataObject);
-            });
-
-            setEventList(() => addDataArray);
-          } catch (error) {
-            console.log(error);
-          }
+        datesSet={(dateInfo) => {
+          setYearState(() => dateInfo.start.getFullYear());
+          setMonthState(() => dateInfo.start.getMonth() + 1);
+          loadList(dateInfo.start.getFullYear(), dateInfo.start.getMonth() + 1, categoryState);
         }}
         titleFormat={(info) => `${info.date.year}년  ${info.date.month + 1}월`}
         headerToolbar={{
