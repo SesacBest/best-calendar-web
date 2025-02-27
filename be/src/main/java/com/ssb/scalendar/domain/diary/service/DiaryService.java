@@ -15,7 +15,7 @@ public class DiaryService {
     private final DiaryRepository diaryRepository;
 
     @Transactional
-    public DiaryResponseDto createDiary(DiaryCreateRequestDto requestDto) {
+    public DiaryResponseDto createDiary(DiaryCreateRequestDto requestDto, Long userId) {
         Diary diary = diaryRepository.save(requestDto.toEntity());
 
         return DiaryResponseDto.from(diary);
