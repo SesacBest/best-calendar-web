@@ -2,13 +2,17 @@ package com.ssb.scalendar.domain.diary.controller;
 
 import com.ssb.scalendar.domain.diary.dto.request.DiaryCreateRequestDto;
 import com.ssb.scalendar.domain.diary.service.DiaryService;
+import com.ssb.scalendar.domain.user.entity.User;
 import com.ssb.scalendar.global.response.ApiResponse;
 import com.ssb.scalendar.global.security.jwt.JwtTokenProvider;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
+
+import java.time.LocalDate;
 
 @RestController
 @RequestMapping("/calendar")
@@ -21,16 +25,8 @@ public class DiaryController {
     @PostMapping("/diaries")
     public ResponseEntity<ApiResponse<Object>> createDiary
             (@Valid @RequestBody DiaryCreateRequestDto requestDto,
-             @RequestHeader("Authorization") String authorizationHeader) {
-
-        // Bearer 제거
-        String token = authorizationHeader.replace("Bearer ", "");
-
-        // 토큰에서 유저 정보 꺼내기
-        Long userId = jwtTokenProvider.getUserId(token);
-
-        diaryService.createDiary(requestDto, userId);
-
+             @AuthenticationPrincipal User user) {
+        diaryService.createDiary(user, requestDto);
         return ResponseEntity
                 .status(HttpStatus.CREATED)
                 .body(
@@ -41,5 +37,22 @@ public class DiaryController {
                         )
                 );
     }
+
+    // 일기 조회(By date)
+    @GetMapping("/diaries")
+    public ResponseEntity<ApiResponse<Object>> readDiariesByDate
+    (@RequestParam("date") LocalDate selectedDate,
+     @AuthenticationPrincipal User user) {
+        return ResponseEntity
+                .ok(
+                        ApiResponse.ok(
+                                "일기 조회에 성공했습니다.",
+                                "OK",
+                                selectedDate,
+                                diaryService.readDiariesByDate(user, selectedDate)
+                        )
+                );
+    }
+
 
 }
