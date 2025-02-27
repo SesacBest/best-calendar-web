@@ -9,16 +9,10 @@ export default function Header() {
 
   const token = localStorage.getItem('token');
   console.log(token);
-  let isLoginHidden;
-  let isLogoutHidden;
+  
+  let hidden = !!token;
 
-  if (token === null) {
-    isLoginHidden = false;
-    isLogoutHidden = true;
-  } else {
-    isLoginHidden = true;
-    isLogoutHidden = false;
-  }
+  
 
   const handleOnLogoutClick = () => {
     dispatch(logout());
@@ -31,10 +25,10 @@ export default function Header() {
         <div>S-Calendar</div>
         <nav className="flex gap-8">
           <Link to="/signup">회원가입</Link>
-          <Link to="/login" hidden={isLoginHidden}>
+          <Link to="/login" hidden={hidden}>
             로그인
           </Link>
-          <Link onClick={handleOnLogoutClick} hidden={isLogoutHidden}>
+          <Link onClick={handleOnLogoutClick} hidden={!hidden}>
             로그아웃
           </Link>
         </nav>
