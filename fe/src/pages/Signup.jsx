@@ -124,7 +124,7 @@ export default function Signup() {
     try {
       await authApi.signup(formData);
       alert('회원가입 성공');
-      navigate('/calendar');
+      navigate('/login');
     } catch (err) {
       setError(err.message);
     }
@@ -211,12 +211,12 @@ export default function Signup() {
           />
           <hr className="mt-0.5" />
           {!validation.nickname.isValid && validation.nickname.isTouched ? (
-            <p className="text-red-600 text-[15px] mb-2">
-              닉네임은 한글, 영문, 숫자를 사용할 수 있고, 2자 이상 15자 이하여야 합니다.
+            <p className="text-red-600 text-[15px] mb-7 text-right">
+              특수문자 제외, 2자 이상 15자 이하여야 합니다.
             </p>
           ) : (
-            <p className="text-red-600 text-[15px] mb-2 invisible">
-              닉네임은 한글, 영문, 숫자를 사용할 수 있고, 2자 이상 15자 이하여야 합니다.
+            <p className="text-red-600 text-[15px] mb-7 text-right invisible">
+              특수문자 제외, 2자 이상 15자 이하여야 합니다.
             </p>
           )}
           <input
@@ -236,12 +236,12 @@ export default function Signup() {
           />
           <hr className="mt-0.5" />
           {!validation.password.isValid && validation.password.isTouched ? (
-            <p className="text-red-600 text-[15px] mb-2">
-              비밀번호는 8자 이상, 영문, 숫자, 특수문자(#, ?, !)가 각각 1자 이상 포함되어야 합니다.
+            <p className="text-red-600 text-[15px] mb-2 text-right">
+              8자 이상, 영문, 숫자, 특수문자(#, ?, !)가<br /> 각각 1자 이상 포함되어야 합니다.
             </p>
           ) : (
-            <p className="text-red-600 text-[15px] mb-2 invisible">
-              비밀번호는 8자 이상, 영문, 숫자, 특수문자(#, ?, !)가 각각 1자 이상 포함되어야 합니다.
+            <p className="text-red-600 text-[15px] mb-2 text-right invisible">
+              8자 이상, 영문, 숫자, 특수문자(#, ?, !)가<br /> 각각 1자 이상 포함되어야 합니다.
             </p>
           )}
           <input
