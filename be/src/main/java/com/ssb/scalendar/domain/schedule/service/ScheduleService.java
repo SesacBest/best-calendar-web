@@ -2,10 +2,10 @@ package com.ssb.scalendar.domain.schedule.service;
 
 import com.ssb.scalendar.domain.schedule.dto.request.ScheduleCreateRequestDto;
 import com.ssb.scalendar.domain.schedule.dto.response.MonthlyScheduleResponseDto;
+import com.ssb.scalendar.domain.schedule.dto.response.ScheduleResponseDto;
 import com.ssb.scalendar.domain.schedule.repository.ScheduleRepository;
 import com.ssb.scalendar.domain.user.entity.User;
 import com.ssb.scalendar.domain.user.repository.UserRepository;
-import com.ssb.scalendar.global.exception.ResourceNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -33,6 +33,12 @@ public class ScheduleService {
 
         return scheduleRepository.countSchedulesByUserAndSelectedDateBetween(user, startDate, endDate).stream()
                 .map(MonthlyScheduleResponseDto::from)
+                .toList();
+    }
+
+    public List<ScheduleResponseDto> readSchedulesByDate(LocalDate selectedDate, User user) {
+        return scheduleRepository.findAllByUserAndSelectedDate(user, selectedDate).stream()
+                .map(ScheduleResponseDto::from)
                 .toList();
     }
 }

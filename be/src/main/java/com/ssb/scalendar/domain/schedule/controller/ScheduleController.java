@@ -2,6 +2,7 @@ package com.ssb.scalendar.domain.schedule.controller;
 
 import com.ssb.scalendar.domain.schedule.dto.request.ScheduleCreateRequestDto;
 import com.ssb.scalendar.domain.schedule.dto.response.MonthlyScheduleResponseDto;
+import com.ssb.scalendar.domain.schedule.dto.response.ScheduleResponseDto;
 import com.ssb.scalendar.domain.schedule.entity.Schedule;
 import com.ssb.scalendar.domain.schedule.repository.DailyCount;
 import com.ssb.scalendar.domain.schedule.service.ScheduleService;
@@ -17,6 +18,7 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDate;
 import java.time.YearMonth;
 import java.util.List;
 
@@ -46,6 +48,16 @@ public class ScheduleController {
         
         return ResponseEntity.ok(ApiResponse.ok(
                 "일정 조회에 성공했습니다.", "OK", scheduleService.readSchedulesByMonth(month, user)
+        ));
+    }
+    
+    @GetMapping("/schedules")
+    public ResponseEntity<ApiResponse<List<ScheduleResponseDto>>> readSchedulesByDate(
+            @RequestParam("date") LocalDate date,
+            @AuthenticationPrincipal User user) {
+        
+        return ResponseEntity.ok(ApiResponse.ok(
+                "일정 조회에 성공했습니다.", "OK", scheduleService.readSchedulesByDate(date, user)
         ));
     }
 }

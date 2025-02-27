@@ -21,4 +21,6 @@ public interface ScheduleRepository extends JpaRepository<Schedule, Long> {
             @Param("user") User user,
             @Param("startDate") LocalDate startDate,
             @Param("endDate") LocalDate endDate);
+
+    List<Schedule> findAllByUserAndSelectedDate(User user, LocalDate selectedDate);
 }
