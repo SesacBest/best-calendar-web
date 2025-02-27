@@ -8,7 +8,7 @@ export default function Header() {
   const dispatch = useDispatch();
 
   const token = localStorage.getItem('token');
-  console.log(token);
+  // console.log(token);
 
   let hidden = !!token;
 

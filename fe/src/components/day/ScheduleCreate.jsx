@@ -27,7 +27,7 @@ export default function ScheduleCreate() {
     setIsLoading(true);
 
     try {
-      const response = await scheduleApi.schedulecreate(formData);
+      const response = await scheduleApi.schedulecreate(formData);      
 
       navigate(`/day/${date}/schedule`);
     } catch (error) {
@@ -49,6 +49,7 @@ export default function ScheduleCreate() {
         name="content"
         value={formData.content}
         onChange={handleChange}
+        required
       />
       <input
         type="time"

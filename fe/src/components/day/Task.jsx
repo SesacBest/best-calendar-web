@@ -1,7 +1,8 @@
 import React from 'react'
+import Empty from '../Empty'
 
 export default function Task() {
   return (
-    <div>Task</div>
+    <Empty></Empty>
   )
 }

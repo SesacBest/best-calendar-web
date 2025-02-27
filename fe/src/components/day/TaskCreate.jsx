@@ -27,6 +27,8 @@ export default function TaskCreate() {
     
     try {
       const response = await taskApi.taskcreate(formData);
+      // console.log(response);
+      
 
       navigate(`/day/${date}/task`);
     } catch (error) {
@@ -48,6 +50,7 @@ export default function TaskCreate() {
         name="content"
         value={formData.content}
         onChange={handleChange}
+        required
       />
       <button>{isLoading ? '생성중...' : '생성'}</button>
     </form>
