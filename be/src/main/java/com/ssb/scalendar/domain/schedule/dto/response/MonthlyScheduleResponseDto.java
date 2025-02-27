@@ -1,6 +1,6 @@
 package com.ssb.scalendar.domain.schedule.dto.response;
 
-import com.ssb.scalendar.domain.schedule.repository.DailyCount;
+import com.ssb.scalendar.domain.common.projection.DailyCount;
 import lombok.Builder;
 import lombok.Getter;
 

@@ -1,4 +1,4 @@
-package com.ssb.scalendar.domain.schedule.repository;
+package com.ssb.scalendar.domain.common.projection;
 
 import java.time.LocalDate;
 

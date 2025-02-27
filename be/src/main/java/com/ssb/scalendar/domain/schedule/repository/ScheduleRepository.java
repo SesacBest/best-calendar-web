@@ -1,5 +1,6 @@
 package com.ssb.scalendar.domain.schedule.repository;
 
+import com.ssb.scalendar.domain.common.projection.DailyCount;
 import com.ssb.scalendar.domain.schedule.entity.Schedule;
 import com.ssb.scalendar.domain.user.entity.User;
 import org.springframework.data.jpa.repository.JpaRepository;
