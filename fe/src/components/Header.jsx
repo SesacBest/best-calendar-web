@@ -22,7 +22,7 @@ export default function Header() {
   return (
     <>
       <section className="flex justify-between text-xl">
-        <div>S-Calendar</div>
+        <Link to="/">S-Calendar</Link>
         <nav className="flex gap-8">
           <Link to="/signup">회원가입</Link>
           <Link to="/login" hidden={hidden}>
