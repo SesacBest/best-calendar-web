@@ -1,10 +1,10 @@
 package com.ssb.scalendar.domain.diary.controller;
 
 import com.ssb.scalendar.domain.diary.dto.request.DiaryCreateRequestDto;
-import com.ssb.scalendar.domain.diary.dto.response.DiaryResponseDto;
 import com.ssb.scalendar.domain.diary.service.DiaryService;
 import com.ssb.scalendar.global.response.ApiResponse;
 import com.ssb.scalendar.global.security.jwt.JwtTokenProvider;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -19,17 +19,17 @@ public class DiaryController {
     private final JwtTokenProvider jwtTokenProvider;
 
     @PostMapping("/diaries")
-    public ResponseEntity<ApiResponse<DiaryResponseDto>> createDiary
-            (@RequestBody DiaryCreateRequestDto requestDto,
+    public ResponseEntity<ApiResponse<Object>> createDiary
+            (@Valid @RequestBody DiaryCreateRequestDto requestDto,
              @RequestHeader("Authorization") String authorizationHeader) {
 
         // Bearer 제거
         String token = authorizationHeader.replace("Bearer ", "");
-//        System.out.println(token);
 
         // 토큰에서 유저 정보 꺼내기
         Long userId = jwtTokenProvider.getUserId(token);
-//        String username = jwtTokenProvider.getUsername(token);
+
+        diaryService.createDiary(requestDto, userId);
 
         return ResponseEntity
                 .status(HttpStatus.CREATED)
@@ -37,7 +37,7 @@ public class DiaryController {
                         ApiResponse.ok(
                                 "일기가 작성되었습니다.",
                                 "CREATED",
-                                diaryService.createDiary(requestDto, userId)
+                                null
                         )
                 );
     }

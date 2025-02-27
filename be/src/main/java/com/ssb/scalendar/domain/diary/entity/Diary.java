@@ -29,8 +29,9 @@ public class Diary extends BaseTimeEntity {
     private User user;
 
     @Builder
-    public Diary(LocalDate selectedDate, String content) {
+    public Diary(LocalDate selectedDate, String content, User user) {
         this.selectedDate = selectedDate;
         this.content = content;
+        this.user = user;
     }
 }

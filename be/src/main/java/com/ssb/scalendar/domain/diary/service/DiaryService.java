@@ -1,9 +1,10 @@
 package com.ssb.scalendar.domain.diary.service;
 
 import com.ssb.scalendar.domain.diary.dto.request.DiaryCreateRequestDto;
-import com.ssb.scalendar.domain.diary.dto.response.DiaryResponseDto;
-import com.ssb.scalendar.domain.diary.entity.Diary;
 import com.ssb.scalendar.domain.diary.repository.DiaryRepository;
+import com.ssb.scalendar.domain.user.entity.User;
+import com.ssb.scalendar.domain.user.repository.UserRepository;
+import com.ssb.scalendar.global.exception.ResourceNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -13,12 +14,13 @@ import org.springframework.transaction.annotation.Transactional;
 @RequiredArgsConstructor
 public class DiaryService {
     private final DiaryRepository diaryRepository;
+    private final UserRepository userRepository;
 
     @Transactional
-    public DiaryResponseDto createDiary(DiaryCreateRequestDto requestDto, Long userId) {
-        Diary diary = diaryRepository.save(requestDto.toEntity());
+    public void createDiary(DiaryCreateRequestDto requestDto, Long userId) {
 
-        return DiaryResponseDto.from(diary);
+        User user = userRepository.findById(userId).orElseThrow(() -> new ResourceNotFoundException());
+        diaryRepository.save(requestDto.toEntity(user));
     }
 
 }
