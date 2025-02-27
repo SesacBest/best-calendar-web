@@ -86,7 +86,6 @@ export default function Calendar() {
 
           const year = dateInfo.start.getFullYear();
           const month = dateInfo.start.getMonth() + 1;
-          console.log(`${year}-${month.toString().padStart(2, '0')}`);
 
           try {
             const response = await mockApi.getMonthlySchedules(
@@ -98,15 +97,17 @@ export default function Calendar() {
               const addDataObject = { date: data.day, display: 'background' };
               let color;
               if (data.count < 3) {
-                color = '#00DD00';
+                color = '#AAFFAA';
               } else if (data.count < 6) {
-                color = '#00BB00';
+                color = '#55FF55';
               } else if (data.count < 9) {
-                color = '#009900';
+                color = '#00FF00';
               } else if (data.count < 12) {
+                color = '#00BB00';
+              } else if (data.count < 15) {
                 color = '#007700';
               } else {
-                color = '#005500';
+                color = '#003300';
               }
 
               addDataObject.backgroundColor = color;
@@ -115,8 +116,8 @@ export default function Calendar() {
             });
 
             setEventList(() => addDataArray);
-          } catch (e) {
-            console.log(e);
+          } catch (error) {
+            console.log(error);
           }
         }}
         titleFormat={(info) => `${info.date.year}년  ${info.date.month + 1}월`}
