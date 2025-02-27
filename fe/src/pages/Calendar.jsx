@@ -56,12 +56,17 @@ export default function Calendar() {
   const loadList = async (year, month, categoryState) => {
     setEventList(() => []);
 
-    let categoryForApi;
+    let categoryForApi = '';
     buttonAttributiesList.forEach((buttonAttribute) => {
       if (buttonAttribute.categoryForUrl === categoryState) {
         categoryForApi = buttonAttribute.categoryForApi;
       }
     });
+
+    if (categoryForApi === '') {
+      console.log('카테고리 선택에서 오류가 발생했습니다.');
+      return;
+    }
 
     try {
       const response = await calendarApi.getMonthly(
@@ -69,14 +74,13 @@ export default function Calendar() {
         `${year}-${month.toString().padStart(2, '0')}`,
       );
 
-      const addDataArray = [];
       const colorArray = ['#AAFFAA', '#55FF55', '#00FF00', '#00BB00', '#007700', '#003300'];
-      response.data.data.forEach((data) => {
-        addDataArray.push({
-          date: data.day,
+      const addDataArray = response.data.data.map((element) => {
+        return {
+          date: element.day,
           display: 'background',
-          backgroundColor: colorArray[Math.min(data.count / 3, 5)],
-        });
+          backgroundColor: colorArray[Math.min(element.count / 3, 5)],
+        };
       });
 
       setEventList(() => addDataArray);
