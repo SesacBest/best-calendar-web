@@ -60,4 +60,16 @@ public class ScheduleController {
                 "일정 조회에 성공했습니다.", "OK", scheduleService.readSchedulesByDate(date, user)
         ));
     }
+
+    @DeleteMapping("/schedules/{id}")
+    public ResponseEntity<ApiResponse<Object>> deleteSchedule(
+            @PathVariable Long id,
+            @AuthenticationPrincipal User user) {
+
+        scheduleService.deleteSchedule(id, user);
+
+        return ResponseEntity.ok(ApiResponse.ok(
+                "일정이 삭제되었습니다.", "OK", null
+        ));
+    }
 }
