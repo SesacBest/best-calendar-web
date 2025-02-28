@@ -1,9 +1,11 @@
 package com.ssb.scalendar.domain.diary.entity;
 
+import com.ssb.scalendar.domain.diary.dto.request.DiaryUpdateRequestDto;
 import com.ssb.scalendar.domain.user.entity.User;
 import com.ssb.scalendar.global.entity.BaseTimeEntity;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -26,4 +28,17 @@ public class Diary extends BaseTimeEntity {
     @ManyToOne
     @JoinColumn(name = "user_id")
     private User user;
+
+    @Builder
+    public Diary(LocalDate selectedDate, String content, User user) {
+        this.selectedDate = selectedDate;
+        this.content = content;
+        this.user = user;
+    }
+
+    public Diary update(DiaryUpdateRequestDto requestDto) {
+        this.selectedDate = requestDto.getSelectedDate();
+        this.content = requestDto.getContent();
+        return this;
+    }
 }

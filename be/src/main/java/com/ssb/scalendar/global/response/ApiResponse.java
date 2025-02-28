@@ -42,4 +42,5 @@ public class ApiResponse<T> {
     public static <T> ApiResponse<T> error(String message, String code, Map<String, String> errors) {
         return new ApiResponse<>(message, code, null, errors);
     }
+
 }
