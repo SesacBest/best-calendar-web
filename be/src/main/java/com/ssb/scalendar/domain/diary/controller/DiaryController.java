@@ -74,7 +74,6 @@ public class DiaryController {
                         ApiResponse.ok(
                                 "일기 조회에 성공했습니다.",
                                 "OK",
-                                selectedDate,
                                 diaryService.readDiariesByDate(user, selectedDate)
                         )
                 );
