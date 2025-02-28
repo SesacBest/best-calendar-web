@@ -79,6 +79,7 @@ public class DiaryController {
                 );
     }
 
+    
     @DeleteMapping("/diaries/{id}")
     public ResponseEntity<ApiResponse<Object>> deleteDiary(
             @PathVariable Long id,

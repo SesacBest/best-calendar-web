@@ -25,7 +25,8 @@ public interface DiaryRepository extends JpaRepository<Diary, Long> {
             "WHERE FUNCTION('YEAR', d.selectedDate) = :year " +
             "AND FUNCTION('MONTH', d.selectedDate) = :month " +
             "AND d.user = :user " +
-            "GROUP BY d.selectedDate")
+            "GROUP BY d.selectedDate " +
+            "ORDER BY d.selectedDate ")
     List<Object[]> countDiariesPerDay(@Param("user") User user, @Param("year") int year, @Param("month") int month);
 
     // 일별 조회
