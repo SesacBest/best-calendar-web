@@ -1,4 +1,4 @@
-import { React, useState, useEffect } from 'react';
+import { React, useState, useEffect, useRef } from 'react';
 
 import { useNavigate } from 'react-router-dom';
 
@@ -11,6 +11,8 @@ import calendarApi from '../api/calendarApi';
 
 export default function Calendar() {
   const navigate = useNavigate();
+
+  const calendarRef = useRef(null);
 
   const [eventList, setEventList] = useState([]);
 
@@ -35,7 +37,7 @@ export default function Calendar() {
     { categoryForUrl: 'diary', buttonName: '일기', categoryForApi: 'diaries' },
   ];
 
-  const buttonGroup = buttonAttributiesList.map((buttonAttribute, index) => {
+  const categoryButtonGroup = buttonAttributiesList.map((buttonAttribute, index) => {
     return (
       <div
         key={index}
@@ -49,6 +51,42 @@ export default function Calendar() {
       </div>
     );
   });
+
+  const moveToCurrentMonth = () => {
+    calendarRef.current.getApi().gotoDate(new Date());
+  };
+
+  const moveToPrevMonth = () => {
+    const targetYear = yearState - (monthState === 1);
+    const targetMonth = ((monthState + 10) % 12) + 1;
+    setYearState(targetYear);
+    setMonthState(targetMonth);
+    calendarRef.current
+      .getApi()
+      .gotoDate(`${targetYear}-${targetMonth.toString().padStart(2, '0')}-01`);
+  };
+
+  const moveToNextMonth = () => {
+    const targetYear = yearState + (monthState === 12);
+    const targetMonth = (monthState % 12) + 1;
+    setYearState(targetYear);
+    setMonthState(targetMonth);
+    calendarRef.current
+      .getApi()
+      .gotoDate(`${targetYear}-${targetMonth.toString().padStart(2, '0')}-01`);
+  };
+
+  const calendarButtonGroup = [
+    <div key={0} className={`${linkStyle}`} onClick={moveToPrevMonth}>
+      지난 달
+    </div>,
+    <div key={1} className={`${linkStyle}`} onClick={moveToCurrentMonth}>
+      이번 달
+    </div>,
+    <div key={2} className={`${linkStyle}`} onClick={moveToNextMonth}>
+      다음 달
+    </div>,
+  ];
 
   const handleDayCellClick = (e) => {
     navigate(`/day/${e.dateStr}/${categoryState}`);
@@ -94,14 +132,18 @@ export default function Calendar() {
   // firstDay: 0이면 일요일, 1이면 월요일 시작
   // dayCellClassNames: 각 날짜가 가진 속성('오늘', '과거', '주말' 여부 등)에 따라 className 추가(Tailwind CSS 적용 가능)
   // datesSet: 월 변경 시 함수 실행
-  // titleFormat: 달력 상단에 쓸 제목 설정
   // headerToolbar: 달력 상단에 쓸 제목과 버튼 위치 지정
   return (
     <>
       <section className="pt-4 flex justify-between">
-        <nav className="flex">{buttonGroup}</nav>
+        <nav className="flex">{categoryButtonGroup}</nav>
+        <h2 className="text-3xl">
+          {yearState}년 {monthState}월
+        </h2>
+        <nav className="flex">{calendarButtonGroup}</nav>
       </section>
       <FullCalendar
+        ref={calendarRef}
         plugins={[dayGridPlugin, interactionPlugin]}
         initialView="dayGridMonth"
         events={eventList}
@@ -129,8 +171,8 @@ export default function Calendar() {
         }}
         headerToolbar={{
           left: '',
-          center: 'title',
-          right: 'today prev,next',
+          center: '',
+          right: '',
         }}
       />
     </>
