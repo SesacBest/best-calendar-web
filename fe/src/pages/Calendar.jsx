@@ -20,6 +20,16 @@ export default function Calendar() {
   const [yearState, setYearState] = useState(0);
   const [monthState, setMonthState] = useState(0);
 
+  const [dataColorIndex, setDataColorIndex] = useState(0);
+
+  const colorsArray = [
+    ['bg-green-100', 'bg-green-200', 'bg-green-300', 'bg-green-400', 'bg-green-500'],
+    ['bg-red-100', 'bg-red-200', 'bg-red-300', 'bg-red-400', 'bg-red-500'],
+    ['bg-blue-100', 'bg-blue-200', 'bg-blue-300', 'bg-blue-400', 'bg-blue-500'],
+    ['bg-orange-100', 'bg-orange-200', 'bg-orange-300', 'bg-orange-400', 'bg-orange-500'],
+    ['bg-yellow-100', 'bg-yellow-200', 'bg-yellow-300', 'bg-yellow-400', 'bg-yellow-500'],
+  ];
+
   useEffect(() => {
     const token = localStorage.getItem('token');
     if (!token) {
@@ -85,6 +95,10 @@ export default function Calendar() {
     document.documentElement.style.setProperty('--fc-today-bg-color', '#27c399');
   };
 
+  const test3 = () => {
+    setDataColorIndex(() => (dataColorIndex + 1) % colorsArray.length);
+  };
+
   // TODO: 색상 관련 임시 함수 버튼이 있으므로 개발 진척에 따라 삭제 예정
   const calendarButtonGroup = [
     <div key={0} className={`${linkStyle}`} onClick={moveToPrevMonth}>
@@ -101,6 +115,9 @@ export default function Calendar() {
     </div>,
     <div key={4} className={`${linkStyle}`} onClick={test2}>
       색상2
+    </div>,
+    <div key={5} className={`${linkStyle}`} onClick={test3}>
+      색상3
     </div>,
   ];
 
@@ -129,12 +146,11 @@ export default function Calendar() {
         `${year}-${month.toString().padStart(2, '0')}`,
       );
 
-      const colorArray = ['#AAFFAA', '#55FF55', '#00FF00', '#00BB00', '#007700', '#003300'];
       const addDataArray = response.data.data.map((element) => {
         return {
           date: element.day,
           display: 'background',
-          backgroundColor: colorArray[Math.min(element.count / 3, 5)],
+          count: element.count,
         };
       });
 
@@ -167,12 +183,23 @@ export default function Calendar() {
         showNonCurrentDates={false}
         firstDay={1}
         locale={koLocale}
+        eventBackgroundColor="#FFFFFF"
         dayCellClassNames={(arg) => {
           let str = '';
           if (arg.dow === 0) {
             str += 'text-red-500 ';
           } else if (arg.dow === 6) {
             str += 'text-blue-500 ';
+          }
+
+          const date = `${arg.date.getFullYear()}-${(arg.date.getMonth() + 1).toString().padStart(2, '0')}-${arg.date.getDate().toString().padStart(2, '0')}`;
+
+          for (let i = 0; i < eventList.length; i++) {
+            if (date === eventList[i].date) {
+              str +=
+                colorsArray[dataColorIndex][Math.min(Number.parseInt(eventList[i].count / 3), 4)];
+              break;
+            }
           }
 
           return str;
