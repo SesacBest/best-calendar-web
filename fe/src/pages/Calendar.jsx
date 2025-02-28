@@ -76,6 +76,16 @@ export default function Calendar() {
       .gotoDate(`${targetYear}-${targetMonth.toString().padStart(2, '0')}-01`);
   };
 
+  // TODO: 색상 관련 임시 함수이므로 개발 진척에 따라 삭제 예정
+  const test1 = () => {
+    document.documentElement.style.setProperty('--fc-today-bg-color', '#2799c3');
+  };
+
+  const test2 = () => {
+    document.documentElement.style.setProperty('--fc-today-bg-color', '#27c399');
+  };
+
+  // TODO: 색상 관련 임시 함수 버튼이 있으므로 개발 진척에 따라 삭제 예정
   const calendarButtonGroup = [
     <div key={0} className={`${linkStyle}`} onClick={moveToPrevMonth}>
       지난 달
@@ -85,6 +95,12 @@ export default function Calendar() {
     </div>,
     <div key={2} className={`${linkStyle}`} onClick={moveToNextMonth}>
       다음 달
+    </div>,
+    <div key={3} className={`${linkStyle}`} onClick={test1}>
+      색상1
+    </div>,
+    <div key={4} className={`${linkStyle}`} onClick={test2}>
+      색상2
     </div>,
   ];
 

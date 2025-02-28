@@ -1,8 +1,8 @@
 @import 'tailwindcss';
-@import "tailwindcss/preflight.css" layer(base);
+@import 'tailwindcss/preflight.css' layer(base);
 
 :root {
-  font-family: "Inter", "42dot Sans", serif;
+  font-family: 'Inter', '42dot Sans', serif;
   font-optical-sizing: auto;
   font-style: normal;
   line-height: 1.5;
@@ -16,6 +16,8 @@
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+
+  --fc-today-bg-color: #2799c3;
 }
 
 @theme {
