@@ -2,6 +2,7 @@ package com.ssb.scalendar.domain.diary.service;
 
 import com.ssb.scalendar.domain.diary.dto.request.DiaryCreateRequestDto;
 import com.ssb.scalendar.domain.diary.dto.response.DiaryResponseDto;
+import com.ssb.scalendar.domain.diary.entity.Diary;
 import com.ssb.scalendar.domain.diary.repository.DiaryRepository;
 import com.ssb.scalendar.domain.user.entity.User;
 import com.ssb.scalendar.domain.user.repository.UserRepository;
@@ -48,6 +49,14 @@ public class DiaryService {
     public Optional<DiaryResponseDto> readDiariesByDate(User user, LocalDate selectedDate) {
         return diaryRepository.findByUserAndSelectedDate(user, selectedDate)
                 .map(DiaryResponseDto::from);
+    }
+
+
+    public void deleteDiary(User user, Long id) {
+        Diary diary = diaryRepository.findById(id)
+                .orElseThrow(() -> new IllegalArgumentException("id가 없습니다."));
+
+        diaryRepository.delete(diary);
     }
 
 
