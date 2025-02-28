@@ -1,6 +1,7 @@
 package com.ssb.scalendar.domain.diary.service;
 
 import com.ssb.scalendar.domain.diary.dto.request.DiaryCreateRequestDto;
+import com.ssb.scalendar.domain.diary.dto.request.DiaryUpdateRequestDto;
 import com.ssb.scalendar.domain.diary.dto.response.DiaryResponseDto;
 import com.ssb.scalendar.domain.diary.entity.Diary;
 import com.ssb.scalendar.domain.diary.repository.DiaryRepository;
@@ -51,6 +52,13 @@ public class DiaryService {
                 .map(DiaryResponseDto::from);
     }
 
+
+    public DiaryResponseDto updateDiary(User user, Long id, DiaryUpdateRequestDto requestDto) {
+        Diary diary = diaryRepository.findById(id).orElseThrow(() -> new IllegalArgumentException());
+        diary.update(requestDto);
+
+        return DiaryResponseDto.from(diary);
+    }
 
     public void deleteDiary(User user, Long id) {
         Diary diary = diaryRepository.findById(id)

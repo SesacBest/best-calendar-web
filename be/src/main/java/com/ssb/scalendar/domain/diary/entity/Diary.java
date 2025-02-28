@@ -1,5 +1,6 @@
 package com.ssb.scalendar.domain.diary.entity;
 
+import com.ssb.scalendar.domain.diary.dto.request.DiaryUpdateRequestDto;
 import com.ssb.scalendar.domain.user.entity.User;
 import com.ssb.scalendar.global.entity.BaseTimeEntity;
 import jakarta.persistence.*;
@@ -33,5 +34,11 @@ public class Diary extends BaseTimeEntity {
         this.selectedDate = selectedDate;
         this.content = content;
         this.user = user;
+    }
+
+    public Diary update(DiaryUpdateRequestDto requestDto) {
+        this.selectedDate = requestDto.getSelectedDate();
+        this.content = requestDto.getContent();
+        return this;
     }
 }

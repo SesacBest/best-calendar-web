@@ -1,6 +1,7 @@
 package com.ssb.scalendar.domain.diary.controller;
 
 import com.ssb.scalendar.domain.diary.dto.request.DiaryCreateRequestDto;
+import com.ssb.scalendar.domain.diary.dto.request.DiaryUpdateRequestDto;
 import com.ssb.scalendar.domain.diary.repository.DiaryRepository;
 import com.ssb.scalendar.domain.diary.service.DiaryService;
 import com.ssb.scalendar.domain.user.entity.User;
@@ -79,7 +80,25 @@ public class DiaryController {
                 );
     }
 
-    
+
+    @PutMapping("/diaries/{id}")
+    public ResponseEntity<ApiResponse<Object>> updateDiary(
+            @PathVariable Long id,
+            @AuthenticationPrincipal User user,
+            @RequestBody DiaryUpdateRequestDto requestDto
+    ) {
+        diaryService.updateDiary(user, id, requestDto);
+        return ResponseEntity
+                .ok(
+                        ApiResponse.ok(
+                                "일기가 수정되었습니다.",
+                                "OK",
+                                null
+                        )
+                );
+    }
+
+
     @DeleteMapping("/diaries/{id}")
     public ResponseEntity<ApiResponse<Object>> deleteDiary(
             @PathVariable Long id,
