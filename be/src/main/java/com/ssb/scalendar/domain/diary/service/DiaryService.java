@@ -10,7 +10,11 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDate;
+import java.time.YearMonth;
+import java.util.List;
+import java.util.Map;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 @Transactional(readOnly = true)
@@ -22,6 +26,21 @@ public class DiaryService {
     @Transactional
     public void createDiary(User user, DiaryCreateRequestDto requestDto) {
         diaryRepository.save(requestDto.toEntity(user));
+    }
+
+
+    // 일기 조회(By month)
+    public List<Map<String, Object>> readDiariesByMonth(User user, YearMonth selectedDate) {
+
+        int year = selectedDate.getYear();
+        int month = selectedDate.getMonthValue();
+
+        List<Object[]> results = diaryRepository.countDiariesPerDay(user, year, month);
+
+        return results.stream()
+                .map(result -> Map.<String, Object>of("day", result[0], "count", result[1]))
+                .collect(Collectors.toList());
+
     }
 
 

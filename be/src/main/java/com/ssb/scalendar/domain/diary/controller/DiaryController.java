@@ -1,6 +1,7 @@
 package com.ssb.scalendar.domain.diary.controller;
 
 import com.ssb.scalendar.domain.diary.dto.request.DiaryCreateRequestDto;
+import com.ssb.scalendar.domain.diary.repository.DiaryRepository;
 import com.ssb.scalendar.domain.diary.service.DiaryService;
 import com.ssb.scalendar.domain.user.entity.User;
 import com.ssb.scalendar.global.response.ApiResponse;
@@ -13,6 +14,9 @@ import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDate;
+import java.time.YearMonth;
+import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequestMapping("/calendar")
@@ -21,6 +25,8 @@ public class DiaryController {
 
     private final DiaryService diaryService;
     private final JwtTokenProvider jwtTokenProvider;
+    private final DiaryRepository diaryRepository;
+
 
     @PostMapping("/diaries")
     public ResponseEntity<ApiResponse<Object>> createDiary
@@ -37,6 +43,25 @@ public class DiaryController {
                         )
                 );
     }
+
+
+    // 일기 조회(By month)
+    @GetMapping("/monthly-diaries")
+    public ResponseEntity<ApiResponse<List<Map<String, Object>>>> readDiariesByMonth(
+            @RequestParam("month") YearMonth selectedDate,
+            @AuthenticationPrincipal User user) {
+
+        return ResponseEntity
+                .ok(
+                        ApiResponse.ok(
+                                "일기 조회에 성공했습니다.",
+                                "OK",
+                                diaryService.readDiariesByMonth(user, selectedDate)
+
+                        )
+                );
+    }
+
 
     // 일기 조회(By date)
     @GetMapping("/diaries")
