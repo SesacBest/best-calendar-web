@@ -5,6 +5,7 @@ import { useNavigate } from 'react-router-dom';
 import FullCalendar from '@fullcalendar/react';
 import dayGridPlugin from '@fullcalendar/daygrid';
 import interactionPlugin from '@fullcalendar/interaction';
+import koLocale from '@fullcalendar/core/locales/ko';
 
 import calendarApi from '../api/calendarApi';
 
@@ -107,6 +108,7 @@ export default function Calendar() {
         dateClick={handleDayCellClick}
         showNonCurrentDates={false}
         firstDay={1}
+        locale={koLocale}
         dayCellClassNames={(arg) => {
           let str = '';
           if (arg.dow === 0) {
@@ -117,12 +119,14 @@ export default function Calendar() {
 
           return str;
         }}
+        dayCellContent={(arg) => ({
+          html: `${arg.date.getDate()}`,
+        })}
         datesSet={(dateInfo) => {
           setYearState(() => dateInfo.start.getFullYear());
           setMonthState(() => dateInfo.start.getMonth() + 1);
           loadList(dateInfo.start.getFullYear(), dateInfo.start.getMonth() + 1, categoryState);
         }}
-        titleFormat={(info) => `${info.date.year}년  ${info.date.month + 1}월`}
         headerToolbar={{
           left: '',
           center: 'title',
