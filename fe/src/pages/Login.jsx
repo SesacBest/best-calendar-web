@@ -14,6 +14,8 @@ export default function Login() {
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
+  const [isFormValid, setIsFormValid] = useState(false);
+
   const handleFormInput = async (e) => {
     const { name, value } = e.target;
 
@@ -21,6 +23,13 @@ export default function Login() {
       ...prev,
       [name]: value,
     }));
+
+    // 이메일, 비밀번호 입력되었는지 확인
+    if (formData.username && formData.password) {
+      setIsFormValid(true); // 로그인 버튼 활성화
+    } else {
+      setIsFormValid(false); // 로그인 버튼 비활성화
+    }
   };
 
   const handleSubmit = async (e) => {
@@ -35,9 +44,11 @@ export default function Login() {
       const { token } = data.data;
       console.log(token);
       dispatch(login(token));
+      alert('로그인 성공');
       navigate('/calendar');
     } catch (err) {
-      console.log(err.response.data.message);
+      // console.log(err.response.data)
+      // console.log(err.response.data.message);
       setError(err.response.data.message);
     } finally {
       setIsLoading(false);
@@ -49,8 +60,8 @@ export default function Login() {
   };
 
   const toSignup = () => {
-    navigate('/signup')
-  }
+    navigate('/signup');
+  };
 
   return (
     <div className="flex flex-col items-center gap-15 mt-30">
@@ -58,7 +69,7 @@ export default function Login() {
         S-Calendar
       </h1>
       <section className="w-100">
-        <form onSubmit={handleSubmit}>
+        <form onSubmit={handleSubmit} noValidate>
           <input
             className="w-80 px-2 focus:outline-none"
             type="email"
@@ -85,16 +96,19 @@ export default function Login() {
           />
           <hr className="mt-0.5 mb-10" />
 
-          <p className="text-red-600 text-[15px] mb-8">
-            {error && <div>{error}</div>}
-          </p>
+          <p className="text-red-600 text-[15px] mb-8">{error && <div>{error}</div>}</p>
 
           <button
-            className="w-full py-2 px-4 bg-primary text-white rounded-md text-base cursor-pointer
-                hover:bg-secondary focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary mb-1"
+            className={`w-full py-2 px-4 ${isFormValid ? 'bg-primary' : 'bg-gray-200'}
+            ${isFormValid ? 'text-white' : 'text-gray-200'} text-gray-500 rounded-md text-base
+            ${isFormValid ? 'hover:bg-secondary' : ''} focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary mb-1
+            ${isFormValid ? 'cursor-pointer' : 'cursor-not-allowed'}`}
             type="submit"
+            // 두 값이 모두 채워지면 disabled={false}, 하나라도 비워있으면 disabled={true}
+            // disabled={isFormValid ? true : false}
+            disabled={!isFormValid}
           >
-            {isLoading ? '처리중...' : '로그인'}
+            {isLoading ? '처리 중' : '로그인'}
           </button>
         </form>
         <button
