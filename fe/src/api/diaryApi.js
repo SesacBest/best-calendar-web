@@ -1,0 +1,30 @@
+import api from './axios';
+const ENDPOINT = '/calendar/diaries';
+
+const diaryApi = {
+  // 일기 생성 api
+  getSchedules: async (date) => {
+    const response = await api.get(`${ENDPOINT}?date=${date}`);
+    return response;
+  },
+
+  // 일기 조회 api
+  createSchedule: async (data) => {
+    const response = await api.post(`${ENDPOINT}`, data);
+    return response;
+  },
+
+  // 일기 수정 api
+  updateSchedule: async (id, data) => {
+    const response = await api.put(`${ENDPOINT}/${id}`, data);
+    return response;
+  },
+
+  // 일기 삭제 api
+  deleteSchedule: async (id) => {
+    const response = await api.delete(`${ENDPOINT}/${id}`);
+    return response;
+  },
+};
+
+export default diaryApi;
