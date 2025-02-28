@@ -15,25 +15,25 @@ export default function Signup() {
 
   /**
    * nickname
-   * 
-   * isValid - 닉네임 유효성, 
-   * isTouched (+ onBlur) - 입력란에서 벗어나 다른 곳에 포커스가 옮겨가면 오류 메시지가 나타나도록 설정 
+   *
+   * isValid - 닉네임 유효성,
+   * isTouched (+ onBlur) - 입력란에서 벗어나 다른 곳에 포커스가 옮겨가면 오류 메시지가 나타나도록 설정
    */
 
   /**
    * password
-   * 
+   *
    * isValid - 비밀번호 유효성
    * isTouched (+ onFocus) - 입력란에 포커스가 됐을 때 오류 미시지가 나타나도록 설정
    * isEqual - 입력된 두 비밀번호가 같은지 확인
-   * verifiedValue - 비밀번호 확인 입력란에 입력된 비밀번호 
+   * verifiedValue - 비밀번호 확인 입력란에 입력된 비밀번호
    */
 
   /**
    * email
-   * 
+   *
    * isClicked - 중복확인 버튼이 클릭되면 값 변경
-   * status - 중복확인이 된 후 사용가능하면 'OK'값이 저장됨 
+   * status - 중복확인이 된 후 사용가능하면 'OK'값이 저장됨
    */
 
   const [validation, setValidation] = useState({
@@ -240,11 +240,13 @@ export default function Signup() {
           <hr className="mt-0.5" />
           {!validation.password.isValid && validation.password.isTouched ? (
             <p className="text-red-600 text-[15px] mb-2 text-right">
-              8자 이상, 영문, 숫자, 특수문자(#, ?, !)가<br /> 각각 1자 이상 포함되어야 합니다.
+              8자 이상, 영문, 숫자, 특수문자(#, ?, !)가
+              <br /> 각각 1자 이상 포함되어야 합니다.
             </p>
           ) : (
             <p className="text-red-600 text-[15px] mb-2 text-right invisible">
-              8자 이상, 영문, 숫자, 특수문자(#, ?, !)가<br /> 각각 1자 이상 포함되어야 합니다.
+              8자 이상, 영문, 숫자, 특수문자(#, ?, !)가
+              <br /> 각각 1자 이상 포함되어야 합니다.
             </p>
           )}
           <input
