@@ -1,5 +1,6 @@
 package com.ssb.scalendar.domain.task.entity;
 
+import com.ssb.scalendar.domain.task.dto.request.CheckTaskRequestDto;
 import com.ssb.scalendar.domain.user.entity.User;
 import com.ssb.scalendar.global.entity.BaseTimeEntity;
 import jakarta.persistence.*;
@@ -35,6 +36,12 @@ public class Task extends BaseTimeEntity {
         this.selectedDate = selectedDate;
         this.content = content;
         this.user = user;
+    }
+
+    public Task update(CheckTaskRequestDto updateDto) {
+        this.isCompleted = updateDto.getIsCompleted();
+
+        return this;
     }
 }
 
