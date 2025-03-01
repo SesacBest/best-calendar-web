@@ -1,4 +1,5 @@
 import React from 'react';
+import kakaoLoginImgL from '../images/kakao_login_large_wide.png';
 
 export default function SocialLogin() {
   const REST_API_KEY = import.meta.env.VITE_KAKAO_REST_API_KEY;
@@ -11,5 +12,15 @@ export default function SocialLogin() {
     window.location.href = KAKAO_AUTH_URL;
   };
 
-  return <button onClick={kakaoLogin}>카카오 로그인</button>;
+  return (
+    <div>
+      <img
+        // className='w-full'
+        src={kakaoLoginImgL}
+        alt="카카오 로그인"
+        onClick={kakaoLogin}
+        style={{ cursor: 'pointer' }}
+      />
+    </div>
+  );
 }

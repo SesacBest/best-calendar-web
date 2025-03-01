@@ -50,8 +50,8 @@ export default function Login() {
   };
 
   const toSignup = () => {
-    navigate('/signup')
-  }
+    navigate('/signup');
+  };
 
   return (
     <div className="flex flex-col items-center gap-15 mt-30">
@@ -86,12 +86,10 @@ export default function Login() {
           />
           <hr className="mt-0.5 mb-10" />
 
-          <p className="text-red-600 text-[15px] mb-8">
-            {error && <div>{error}</div>}
-          </p>
+          <p className="text-red-600 text-[15px] mb-8">{error && <div>{error}</div>}</p>
 
           <button
-            className="w-full py-2 px-4 bg-primary text-white rounded-md text-base cursor-pointer
+            className="w-full py-2 px-4 bg-primary text-white rounded-md text-base cursor-pointer mb-3
                 hover:bg-secondary focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary mb-1"
             type="submit"
           >
