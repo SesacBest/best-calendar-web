@@ -3,6 +3,7 @@ import authApi from '../api/authApi';
 import { Link, useNavigate } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import { login } from '../store/slices/authSlice';
+import SocialLogin from '../components/SocialLogin';
 
 export default function Login() {
   const [formData, setFormData] = useState({
@@ -97,6 +98,7 @@ export default function Login() {
             {isLoading ? '처리중...' : '로그인'}
           </button>
         </form>
+        <SocialLogin></SocialLogin>
         <button
           className="w-full mt-2 py-2 px-4 bg-white text-gray-600 rounded-md text-base cursor-pointer mb-10"
           onClick={toSignup}
