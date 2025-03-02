@@ -1,27 +1,20 @@
-import React, { useEffect } from 'react'
-import DayHeader from '../components/DayHeader'
-import { Outlet, useLocation, useNavigate } from 'react-router-dom'
+import React, { useEffect } from 'react';
+import { Outlet, useLocation, useNavigate, useParams } from 'react-router-dom';
+import DayHeader from '../components/DayHeader';
 
 export default function Day() {
   const navigate = useNavigate();
   const location = useLocation();
+  const { date } = useParams();
 
-  // date가 정확히 입력되지 않은 경우, 캘린더 페이지로 리다이렉트
   useEffect(() => {
-    const dateMatch = location.pathname.match(/\d{4}-\d{2}-\d{2}/);
-
-    if (!dateMatch) {
+    // date가 존재하지 않거나 형식에 맞지 않으면 리다이렉트
+    const dateFormatRegex = /^\d{4}-(0[1-9]|1[0-2])-(0[1-9]|[12]\d|3[01])$/;
+    if (!date || !dateFormatRegex.test(date)) {
       navigate('/calendar');
       return;
     }
-
-    const date = dateMatch[0];
-    const dateFormatRegex = /^\d{4}-(0[1-9]|1[0-2])-(0[1-9]|[12]\d|3[01])$/;
-
-    if (!dateFormatRegex.test(date)) {
-      navigate('/calendar');
-    }
-  }, [location.pathname, navigate]);
+  }, [date, navigate]);
 
   return (
     <>
