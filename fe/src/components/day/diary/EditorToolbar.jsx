@@ -54,15 +54,6 @@ function EditorToolbar({ editor, onButtonClick }) {
         </button>
         <button
           onClick={(e) =>
-            onButtonClick(e, () => editor.chain().focus().toggleItalic().run())
-          }
-          className={`${editorStyles.menuButton} ${editor.isActive("italic") ? editorStyles.activeButton : ""}`}
-          type="button"
-        >
-          기울임
-        </button>
-        <button
-          onClick={(e) =>
             onButtonClick(e, () => editor.chain().focus().toggleUnderline().run())
           }
           className={`${editorStyles.menuButton} ${editor.isActive("underline") ? editorStyles.activeButton : ""}`}
@@ -95,7 +86,7 @@ function EditorToolbar({ editor, onButtonClick }) {
           onClick={(e) =>
             onButtonClick(e, () => editor.chain().focus().toggleBulletList().run())
           }
-          className={`${editorStyles.menuButton} ${editor.isActive("bulletList") ? "is-active" : ""}`}
+          className={`${editorStyles.menuButton} ${editor.isActive("bulletList") ? editorStyles.activeButton : ""}`}
           type="button"
         >
           목록
@@ -106,7 +97,7 @@ function EditorToolbar({ editor, onButtonClick }) {
               editor.chain().focus().toggleOrderedList().run()
             )
           }
-          className={`${editorStyles.menuButton} ${editor.isActive("orderedList") ? "is-active" : ""}`}
+          className={`${editorStyles.menuButton} ${editor.isActive("orderedList") ? editorStyles.activeButton : ""}`}
           type="button"
         >
           번호
@@ -117,7 +108,7 @@ function EditorToolbar({ editor, onButtonClick }) {
               editor.chain().focus().toggleBlockquote().run()
             )
           }
-          className={`${editorStyles.menuButton} ${editor.isActive("blockquote") ? "is-active" : ""}`}
+          className={`${editorStyles.menuButton} ${editor.isActive("blockquote") ? editorStyles.activeButton : ""}`}
           type="button"
         >
           인용
