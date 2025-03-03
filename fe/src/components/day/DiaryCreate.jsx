@@ -20,9 +20,13 @@ export default function DiaryCreate() {
       console.error("메모 생성 실패: ", error);
     }
   }
+  
+  const diaryDiv = "flex items-center flex-col gap-10 mx-20 my-5 text-center";
+  const titleStyle = "text-4xl font-semibold min-w-max";
+  
   return (
-    <div className="flex items-center flex-col gap-10 mx-20 my-5 text-center">
-      <h1 className="text-4xl font-semibold min-w-max">일기를 작성해 보세요.</h1>
+    <div className={diaryDiv}>
+      <h1 className={titleStyle}>일기를 작성해 보세요.</h1>
       <DiaryForm
         content={content}
         onContentChange={setContent}
