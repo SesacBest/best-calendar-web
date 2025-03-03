@@ -7,7 +7,7 @@ export default function SocialLogin() {
 
   const KAKAO_AUTH_URL = `https://kauth.kakao.com/oauth/authorize?client_id=${REST_API_KEY}&redirect_uri=${REDIRECT_URI}&response_type=code`;
 
-  const kakaoLogin = (e) => {
+  const handleKakaoLogin = (e) => {
     e.preventDefault();
     window.location.href = KAKAO_AUTH_URL;
   };
@@ -18,9 +18,10 @@ export default function SocialLogin() {
         // className='w-full'
         src={kakaoLoginImgL}
         alt="카카오 로그인"
-        onClick={kakaoLogin}
+        onClick={handleKakaoLogin}
         style={{ cursor: 'pointer' }}
       />
+      
     </div>
   );
 }

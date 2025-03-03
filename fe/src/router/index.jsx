@@ -11,6 +11,7 @@ import Diary from '../components/day/Diary';
 import ScheduleCreate from '../components/day/ScheduleCreate';
 import TaskCreate from '../components/day/TaskCreate';
 import DiaryCreate from '../components/day/DiaryCreate';
+import KakaoRedirect from '../pages/KakaoRedirect';
 
 const router = createBrowserRouter([
   {
@@ -65,6 +66,10 @@ const router = createBrowserRouter([
     path: '/login',
     element: <Login />,
   },
+  {
+    path: '/login/oauth/callback/kakao',
+    element: <KakaoRedirect />
+  }
   
 ]);
 
