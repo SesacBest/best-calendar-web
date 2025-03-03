@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import { editorStyles } from './diary/styles/editorStyles'
-import { useParams } from 'react-router-dom'
+import { useNavigate, useParams } from 'react-router-dom'
 import diaryApi from '../../api/diaryApi';
 import { EditorContent, useEditor } from '@tiptap/react';
 import StarterKit from '@tiptap/starter-kit';
@@ -8,6 +8,7 @@ import TextAlign from '@tiptap/extension-text-align';
 import Empty from '../Empty';
 
 export default function Diary() {
+  const navigate = useNavigate();
   const { date } = useParams();
   const [diary, setDiary] = useState();
   const [isLoading, setIsLoading] = useState(true);
@@ -27,15 +28,22 @@ export default function Diary() {
   const fetchDiary = async () => {
     try {
       const response = await diaryApi.getDiary(date);
-      console.log(response.data.data);
-      setDiary(response.data.data);
-      if (response.data.data) {
-        editor?.commands.setContent(response.data.data.content);
+      setDiary(response.data);
+      if (response.data) {
+        editor?.commands.setContent(response.data.content);
       }
     } catch (error) {
-      console.error("일기 조회 실패: ", error);
     } finally {
       setIsLoading(false);
+    }
+  };
+
+  const deleteDiary = async () => {
+    try {
+      const id = diary?.id;
+      await diaryApi.deleteDiary(id);
+      navigate(0);
+    } catch (error) {
     }
   };
 
@@ -57,7 +65,12 @@ export default function Diary() {
             <EditorContent editor={editor} />
           </div>
           <div className={editorStyles.ButtonDiv}>
-            <button className={`${editorStyles.ButtonStyle} text-gray-500`}>삭제</button>
+            <button
+              className={`${editorStyles.ButtonStyle} text-gray-500`}
+              onClick={deleteDiary}
+            >
+              삭제
+            </button>
             <button className={`${editorStyles.ButtonStyle} text-primary`}>수정</button>
           </div>
         </div>
