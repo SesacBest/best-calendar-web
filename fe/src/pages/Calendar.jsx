@@ -93,7 +93,7 @@ export default function Calendar() {
   }, []);
 
   const linkStyle =
-    'px-3 py-2 mr-2 rounded-lg text-gray-500 hover:bg-primary hover:text-white border';
+    'px-3 py-2 mr-2 rounded-lg text-gray-500 hover:bg-primary hover:text-white border cursor-pointer';
   const activeLinkStyle = 'text-primary';
 
   const buttonAttributiesList = [

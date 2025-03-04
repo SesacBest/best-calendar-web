@@ -28,3 +28,9 @@
 .test {
   border: 1px solid black;
 }
+
+.fc-day-today {
+  border-width: 6px !important;
+  border-style: solid !important;
+  border-color: black !important;
+}
