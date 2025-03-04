@@ -46,7 +46,7 @@ export default function TaskCreate() {
     <form onSubmit={handleSubmit} className='w-120 flex flex-col items-center'>
       <div>
         <input
-          className="w-120 px-2 focus:outline-none mt-5"
+          className="w-120 px-2 focus:outline-none mt-5 text-xl"
           type="text"
           id="content"
           name="content"
