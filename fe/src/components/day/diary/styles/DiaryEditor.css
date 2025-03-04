@@ -45,3 +45,8 @@
   font-size: 1.25em;
   margin: 0.5em 0;
 }
+
+.ProseMirror mark {
+  background-color:  #d4eaf7;
+  margin: 0.5em 0;
+}

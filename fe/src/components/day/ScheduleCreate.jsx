@@ -41,25 +41,35 @@ export default function ScheduleCreate() {
   // }, [isLoading]);
 
   return (
-    <form action="" onSubmit={handleSubmit}>
-      <input
-        type="text"
-        className="test"
-        id="content"
-        name="content"
-        value={formData.content}
-        onChange={handleChange}
-        required
-      />
-      <input
-        type="time"
-        className="w-40 border border-gray-300 rounded px-2 py-1 bg-black text-white"
-        id="scheduleTime"
-        name="scheduleTime"
-        value={formData.scheduleTime}
-        onChange={handleChange}
-      />
-      <button>{isLoading ? '생성중' : '생성'}</button>
-    </form>
+    <div className="flex flex-col items-center gap-15 mt-30">
+      <h1 className="text-4xl font-semibold min-w-max">
+        일정을 만들어 보세요.
+      </h1>
+      <form onSubmit={handleSubmit} className='w-130 flex flex-col items-center'>
+        <div>
+          <input
+            className="w-120 px-2 focus:outline-none mt-5"
+            type="text"
+            id="content"
+            name="content"
+            placeholder="일정 내용"
+            value={formData.content}
+            onChange={handleChange}
+            required
+          />
+          <hr className="mt-0.5" />
+        </div>
+        <input
+            type="time"
+            className="time-input border-2 rounded-xl text-7xl w-130 h-50 pl-23 mt-20"
+            id="scheduleTime"
+            name="scheduleTime"
+            value={formData.scheduleTime}
+            onChange={handleChange}
+            onFocus={(e) => e.target.showPicker()}
+          />
+        <button className='px-3 py-2 w-15 mt-15 rounded-lg border-black text-primary hover:bg-secondary hover:text-white border self-end'>{isLoading ? '생성중' : '생성'}</button>
+      </form>
+    </div>
   );
 }
