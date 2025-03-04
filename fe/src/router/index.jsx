@@ -13,13 +13,16 @@ import TaskCreate from '../components/day/TaskCreate';
 import DiaryCreate from '../components/day/DiaryCreate';
 import KakaoRedirect from '../pages/KakaoRedirect';
 import AuthProvider from '../AuthProvider';
+import HistoryContainer from '../HistoryContainer';
 
 const router = createBrowserRouter([
   {
     path: '/',
     element: (
       <AuthProvider>
-        <RootLayout />
+        <HistoryContainer>
+          <RootLayout />
+        </HistoryContainer>
       </AuthProvider>
     ),
     children: [

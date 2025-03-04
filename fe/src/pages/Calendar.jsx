@@ -9,10 +9,12 @@ import koLocale from '@fullcalendar/core/locales/ko';
 
 import calendarApi from '../api/calendarApi';
 
+import { useMyHistory } from '../MyHistoryProvider';
+
 export default function Calendar() {
   const navigate = useNavigate();
-
   const calendarRef = useRef(null);
+  const { myHistory } = useMyHistory();
 
   const [eventList, setEventList] = useState([]);
 
@@ -34,6 +36,47 @@ export default function Calendar() {
     const token = localStorage.getItem('token');
     if (!token) {
       navigate('/');
+    }
+
+    if (myHistory.length > 0) {
+      const previousUrlSplitArray = myHistory[myHistory.length - 1].split('/');
+
+      if (previousUrlSplitArray[1] === 'day') {
+        if (['schedule', 'task', 'diary'].includes(previousUrlSplitArray[3])) {
+          setCategoryState(previousUrlSplitArray[3]);
+        }
+
+        const dateUrlSplitArray = previousUrlSplitArray[2].split('-');
+        if (dateUrlSplitArray.length === 3) {
+          const dateNumberArray = dateUrlSplitArray.map((dateNumber) => {
+            return Number.parseInt(dateNumber);
+          });
+
+          const isValidDate = true;
+          for (const dateNumber of dateNumberArray) {
+            if (!dateNumber) {
+              isValidDate = false;
+              break;
+            }
+          }
+
+          if (isValidDate) {
+            const year = dateNumberArray[0];
+            const month = dateNumberArray[1];
+            const day = dateNumberArray[2];
+            if (month >= 1 && month <= 12) {
+              const endOfMonthDay =
+                month === 2
+                  ? 28 + (!(year % 400) || (!(year % 4) && year % 100))
+                  : 31 - [2, 4, 6, 9, 11].includes(month);
+
+              if (day >= 1 && day <= endOfMonthDay) {
+                calendarRef.current.getApi().gotoDate(previousUrlSplitArray[2]);
+              }
+            }
+          }
+        }
+      }
     }
   }, []);
 
