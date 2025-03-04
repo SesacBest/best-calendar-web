@@ -2,6 +2,8 @@ import { React, useState, useEffect, useRef } from 'react';
 
 import { useNavigate } from 'react-router-dom';
 
+import { createPortal } from 'react-dom';
+
 import FullCalendar from '@fullcalendar/react';
 import dayGridPlugin from '@fullcalendar/daygrid';
 import interactionPlugin from '@fullcalendar/interaction';
@@ -22,15 +24,26 @@ export default function Calendar() {
   const [yearState, setYearState] = useState(0);
   const [monthState, setMonthState] = useState(0);
 
-  const [dataColorIndex, setDataColorIndex] = useState(0);
+  const [calendarOption, setCalendarOption] = useState({
+    todayColorIndex: 0,
+    dataColorIndex: 0,
+    sundayColorIndex: 0,
+    saturdayColorIndex: 1,
+    firstDayOfWeek: 0,
+  });
 
-  const colorsArray = [
+  const [showModal, setShowModal] = useState(false);
+
+  const dataColorsArray = [
     ['bg-green-100', 'bg-green-200', 'bg-green-300', 'bg-green-400', 'bg-green-500'],
     ['bg-red-100', 'bg-red-200', 'bg-red-300', 'bg-red-400', 'bg-red-500'],
     ['bg-blue-100', 'bg-blue-200', 'bg-blue-300', 'bg-blue-400', 'bg-blue-500'],
     ['bg-orange-100', 'bg-orange-200', 'bg-orange-300', 'bg-orange-400', 'bg-orange-500'],
     ['bg-yellow-100', 'bg-yellow-200', 'bg-yellow-300', 'bg-yellow-400', 'bg-yellow-500'],
   ];
+
+  const todayColorsArray = ['#2799c3', '#27c399'];
+  const holidayColorsArray = ['text-red-500', 'text-blue-500', 'text-green-500'];
 
   useEffect(() => {
     const token = localStorage.getItem('token');
@@ -141,20 +154,10 @@ export default function Calendar() {
       .gotoDate(`${targetYear}-${targetMonth.toString().padStart(2, '0')}-01`);
   };
 
-  // TODO: 색상 관련 임시 함수이므로 개발 진척에 따라 삭제 예정
-  const test1 = () => {
-    document.documentElement.style.setProperty('--fc-today-bg-color', '#2799c3');
+  const openModal = () => {
+    setShowModal(() => true);
   };
 
-  const test2 = () => {
-    document.documentElement.style.setProperty('--fc-today-bg-color', '#27c399');
-  };
-
-  const test3 = () => {
-    setDataColorIndex(() => (dataColorIndex + 1) % colorsArray.length);
-  };
-
-  // TODO: 색상 관련 임시 함수 버튼이 있으므로 개발 진척에 따라 삭제 예정
   const calendarButtonGroup = [
     <div key={0} className={`${linkStyle}`} onClick={moveToPrevMonth}>
       지난 달
@@ -165,14 +168,8 @@ export default function Calendar() {
     <div key={2} className={`${linkStyle}`} onClick={moveToNextMonth}>
       다음 달
     </div>,
-    <div key={3} className={`${linkStyle}`} onClick={test1}>
-      색상1
-    </div>,
-    <div key={4} className={`${linkStyle}`} onClick={test2}>
-      색상2
-    </div>,
-    <div key={5} className={`${linkStyle}`} onClick={test3}>
-      색상3
+    <div key={3} className={`${linkStyle}`} onClick={openModal}>
+      설정
     </div>,
   ];
 
@@ -222,6 +219,18 @@ export default function Calendar() {
   // headerToolbar: 달력 상단에 쓸 제목과 버튼 위치 지정
   return (
     <>
+      {showModal &&
+        createPortal(
+          <ModalContent
+            onClose={() => setShowModal(false)}
+            calendarOption={calendarOption}
+            setCalendarOption={setCalendarOption}
+            dataColorsArray={dataColorsArray}
+            todayColorsArray={todayColorsArray}
+            holidayColorsArray={holidayColorsArray}
+          />,
+          document.body,
+        )}
       <section className="pt-4 flex justify-between">
         <nav className="flex">{categoryButtonGroup}</nav>
         <h2 className="text-3xl">
@@ -236,23 +245,24 @@ export default function Calendar() {
         events={eventList}
         dateClick={handleDayCellClick}
         showNonCurrentDates={false}
-        firstDay={1}
+        firstDay={calendarOption.firstDayOfWeek}
         locale={koLocale}
         eventBackgroundColor="#FFFFFF"
         dayCellClassNames={(arg) => {
           let str = '';
           if (arg.dow === 0) {
-            str += 'text-red-500 ';
+            str += `${holidayColorsArray[calendarOption.sundayColorIndex]} `;
           } else if (arg.dow === 6) {
-            str += 'text-blue-500 ';
+            str += `${holidayColorsArray[calendarOption.saturdayColorIndex]} `;
           }
 
           const date = `${arg.date.getFullYear()}-${(arg.date.getMonth() + 1).toString().padStart(2, '0')}-${arg.date.getDate().toString().padStart(2, '0')}`;
-
           for (let i = 0; i < eventList.length; i++) {
             if (date === eventList[i].date) {
               str +=
-                colorsArray[dataColorIndex][Math.min(Number.parseInt(eventList[i].count / 3), 4)];
+                dataColorsArray[calendarOption.dataColorIndex][
+                  Math.min(Number.parseInt(eventList[i].count / 3), 4)
+                ];
               break;
             }
           }
@@ -276,5 +286,122 @@ export default function Calendar() {
         }}
       />
     </>
+  );
+}
+
+function ModalContent({
+  onClose,
+  calendarOption,
+  setCalendarOption,
+  dataColorsArray,
+  todayColorsArray,
+  holidayColorsArray,
+}) {
+  const changeTodayColor = () => {
+    const nextIndex = (calendarOption.todayColorIndex + 1) % todayColorsArray.length;
+    document.documentElement.style.setProperty('--fc-today-bg-color', todayColorsArray[nextIndex]);
+    setCalendarOption((prev) => ({
+      ...prev,
+      todayColorIndex: nextIndex,
+    }));
+  };
+
+  const changeOption = (key, value) => {
+    setCalendarOption((prev) => ({
+      ...prev,
+      [key]: value,
+    }));
+  };
+
+  return (
+    <div className="w-full h-full bg-black/75 absolute top-0 left-0 z-3 flex" onClick={onClose}>
+      <div
+        className="w-150 h-100 bg-white mx-auto my-auto p-5 flex flex-col justify-center items-center"
+        onClick={(e) => {
+          e.stopPropagation();
+        }}
+      >
+        <form
+          onSubmit={(e) => {
+            e.preventDefault();
+            e.stopPropagation();
+          }}
+        >
+          <div>
+            <label htmlFor="todayColor">오늘 강조 색상</label>
+            <input
+              type="button"
+              name="todayColor"
+              className="cursor-pointer"
+              value="변경"
+              onClick={() => changeTodayColor()}
+            />
+          </div>
+          <div>
+            <label htmlFor="dataColor">일정 색상</label>
+            <input
+              type="button"
+              name="dataColor"
+              className="cursor-pointer"
+              value="변경"
+              onClick={() =>
+                changeOption(
+                  'dataColorIndex',
+                  (calendarOption.dataColorIndex + 1) % dataColorsArray.length,
+                )
+              }
+            />
+          </div>
+          <div>
+            <label htmlFor="sundayColor">일요일 색상</label>
+            <input
+              type="button"
+              name="sundayColor"
+              className="cursor-pointer"
+              value="변경"
+              onClick={() =>
+                changeOption(
+                  'sundayColorIndex',
+                  (calendarOption.sundayColorIndex + 1) % holidayColorsArray.length,
+                )
+              }
+            />
+          </div>
+          <div>
+            <label htmlFor="saturdayColor">토요일 색상</label>
+            <input
+              type="button"
+              name="saturdayColor"
+              className="cursor-pointer"
+              value="변경"
+              onClick={() =>
+                changeOption(
+                  'saturdayColorIndex',
+                  (calendarOption.saturdayColorIndex + 1) % holidayColorsArray.length,
+                )
+              }
+            />
+          </div>
+          <div>
+            <label htmlFor="firstDayOfWeek">주 시작 요일</label>
+            <input
+              type="button"
+              name="firstDayOfWeek"
+              value="일요일"
+              onClick={() => changeOption('firstDayOfWeek', 0)}
+            />
+            <input
+              type="button"
+              name="firstDayOfWeek"
+              value="월요일"
+              onClick={() => changeOption('firstDayOfWeek', 1)}
+            />
+          </div>
+          <button className="cursor-pointer" onClick={onClose}>
+            확인
+          </button>
+        </form>
+      </div>
+    </div>
   );
 }
