@@ -1,11 +1,16 @@
 import React, { useEffect, useState } from 'react'
 import { editorStyles } from './diary/styles/editorStyles'
-import { useNavigate, useParams } from 'react-router-dom'
+import { Link, useNavigate, useParams } from 'react-router-dom'
 import diaryApi from '../../api/diaryApi';
 import { EditorContent, useEditor } from '@tiptap/react';
 import StarterKit from '@tiptap/starter-kit';
-import TextAlign from '@tiptap/extension-text-align';
+import { Markdown } from 'tiptap-markdown';
+import Underline from "@tiptap/extension-underline";
+import TextAlign from "@tiptap/extension-text-align";
+import Highlight from "@tiptap/extension-highlight";
 import Empty from '../Empty';
+
+import "./diary/styles/DiaryEditor.css";
 
 export default function Diary() {
   const navigate = useNavigate();
@@ -16,10 +21,13 @@ export default function Diary() {
   const editor = useEditor({
     extensions: [
       StarterKit,
+      Markdown,
+      Underline,
       TextAlign.configure({
         types: ["heading", "paragraph"],
         defaultAlignment: "left",
-      })
+      }),
+      Highlight,
     ],
     editable: false,  // 읽기 전용
     content: diary?.content,
@@ -38,6 +46,10 @@ export default function Diary() {
     }
   };
 
+  useEffect(() => {
+    fetchDiary();
+  }, [date, editor]);
+
   const deleteDiary = async () => {
     try {
       const id = diary?.id;
@@ -45,11 +57,7 @@ export default function Diary() {
       navigate(0);
     } catch (error) {
     }
-  };
-
-  useEffect(() => {
-    fetchDiary();
-  }, [date, editor]);
+  };  
 
   const diaryDiv = "flex items-center flex-col gap-10 mx-20 my-5 text-center";
   const titleStyle = "text-4xl font-semibold min-w-max";
@@ -71,7 +79,12 @@ export default function Diary() {
             >
               삭제
             </button>
-            <button className={`${editorStyles.ButtonStyle} text-primary`}>수정</button>
+            <Link 
+              className={`${editorStyles.ButtonStyle} text-primary`}
+              to={'./create'}
+            >
+              수정
+            </Link>
           </div>
         </div>
       ) : (

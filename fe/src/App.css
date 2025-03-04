@@ -5,6 +5,21 @@
   padding-right: 20px;
 }
 
+.custom-hand-circle::after {
+  content: "";
+  position: absolute;
+  top: -0.5rem; /* 필요에 따라 위치 조절 */
+  left: -0.5rem;
+  width: calc(100% + 1rem); /* 텍스트보다 약간 크게 */
+  height: calc(100% + 1rem);
+  border: 4px groove #2799c3; /* 손글씨 느낌의 테두리 효과 (색상 및 두께 조절 가능) */
+  border-radius: 50%; /* 원형을 만들기 위한 속성 */
+  transform: rotate(-10deg); /* 기울기 */
+  opacity: 0.5;
+  z-index: -10;
+  pointer-events: none; /* 클릭 등 이벤트 방지 */
+}
+
 .time-input::-webkit-calendar-picker-indicator {
   display: none;
 }
