@@ -57,4 +57,12 @@ public class AuthController {
     @GetMapping("/verify")
     public void verify() {
     }
+
+
+    // 카카오 로그인
+//    @GetMapping("/kakao/callback")
+//    public ResponseEntity<?> kakaoLogin(@RequestParam String code) {
+//        return
+//    }
+
 }
