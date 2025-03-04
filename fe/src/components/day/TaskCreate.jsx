@@ -62,17 +62,3 @@ export default function TaskCreate() {
   </div>
   );
 }
-
-
-{/* <form action="" onSubmit={handleSubmit}>
-<input
-  type="text"
-  className="test"
-  id="content"
-  name="content"
-  value={formData.content}
-  onChange={handleChange}
-  required
-/>
-<button>{isLoading ? '생성중' : '생성'}</button>
-</form> */}

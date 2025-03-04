@@ -91,32 +91,3 @@ export default function Task() {
   );
 }
 
-// {/* <ul>
-//           {
-//             tasks.map((task) => {
-//               const {id, isCompleted, content} = task;
-
-//               return (
-//                 <li>
-//                   <input
-//                     type="checkbox"
-//                     id={id}
-//                     onClick={checkUpdate}
-//                     defaultChecked={isCompleted}
-//                     />
-//                   <div>{content}</div>
-//                   <button
-//                     id={id}
-//                     onClick={taskDelete}>
-//                     삭제
-//                   </button>
-//                 </li>
-//               )
-//             })
-//           }
-//           <button
-//             className='px-3 py-2 w-15 border rounded-lg text-white bg-primary mx-auto my-auto'
-//             // onClick={linkcreate}
-//             >추가</button>
-//           {/* <Link to={`./create`}>추가</Link> */}
-//           </ul> */}
