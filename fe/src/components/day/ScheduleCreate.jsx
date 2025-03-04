@@ -68,7 +68,7 @@ export default function ScheduleCreate() {
             onChange={handleChange}
             onFocus={(e) => e.target.showPicker()}
           />
-        <button className='px-3 py-2 w-15 mt-15 rounded-lg border-black text-blue-500 hover:bg-secondary hover:text-white border self-end'>{isLoading ? '생성중' : '생성'}</button>
+        <button className='px-3 py-2 w-15 mt-15 rounded-lg border-black text-primary hover:bg-secondary hover:text-white border self-end'>{isLoading ? '생성중' : '생성'}</button>
       </form>
     </div>
   );
