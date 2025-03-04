@@ -12,8 +12,6 @@ const scheduleApi = {
     return response;
   },
   scheduledelete: async (id) => {
-    console.log(id);
-    
     const response = await api.delete(`${ENDPOINT}/${id}`);
     return response;
   }

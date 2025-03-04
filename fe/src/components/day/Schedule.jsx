@@ -16,9 +16,6 @@ export default function Schedule() {
         const response = await scheduleApi.schedules(date);
         setSchedules(response.data.data);
       } catch (err) {}
-      // finally {
-      //   setLoading(false);
-      // }
     }
     fetchSchedules();
   }, []);

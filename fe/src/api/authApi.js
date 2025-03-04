@@ -25,6 +25,12 @@ const authApi = {
     const response = await api.get(`${ENDPOINT}/verify`);
     return response;
   },
+
+  // 카카오 로그인 api
+  kakaoLogin: async (code) => {
+    const response = await api.post(`${ENDPOINT}/kakao/callback`, { code })
+    return response;
+  }
 };
 
 export default authApi;
