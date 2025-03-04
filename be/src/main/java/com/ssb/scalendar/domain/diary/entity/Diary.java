@@ -23,6 +23,7 @@ public class Diary extends BaseTimeEntity {
     @Column(name = "selected_date")
     private LocalDate selectedDate;
 
+    @Column(length = 10000)
     private String content;
 
     @ManyToOne
