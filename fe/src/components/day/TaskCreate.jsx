@@ -57,7 +57,7 @@ export default function TaskCreate() {
         />
         <hr className="mt-0.5" />
       </div>
-      <button className='px-3 py-2 w-15 mt-25 rounded-lg border-black text-primary hover:bg-secondary hover:text-white border self-end'>{isLoading ? '생성중' : '생성'}</button>
+      <button className='px-3 py-2 w-15 mt-25 rounded-lg border-black text-primary hover:bg-primary hover:text-white border self-end'>{isLoading ? '생성중' : '생성'}</button>
     </form>
   </div>
   );

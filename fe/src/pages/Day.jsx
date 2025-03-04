@@ -16,20 +16,12 @@ export default function Day() {
     }
   }, [date, navigate]);
 
-  // <div className="flex flex-col h-full">
-  //     <DayHeader />
-  //     {/* 두 번째 Outlet에만 스크롤이 가능하도록 설정 */}
-  //     <div className="max-h-screen flex-1 overflow-y-auto">
-  //       <Outlet />
-  //     </div>
-  //   </div>
   return (
     <>
       <DayHeader />
-      <div className="h-150 overflow-y-auto">
+      {/* <div className="h-150 overflow-y-auto mb-40"> */}
         <Outlet />
-      </div>
+      {/* </div> */}
     </>
   );
 }
-12

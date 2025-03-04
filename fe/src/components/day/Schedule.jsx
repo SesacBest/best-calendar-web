@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import scheduleApi from '../../api/scheduleApi';
 import Empty from '../Empty'
 import { Link } from "react-router-dom";
@@ -9,6 +9,8 @@ export default function Schedule() {
   const { date } = useParams();
 
   const [schedules, setSchedules] = useState([]);
+
+  const navigate = useNavigate();
 
   useEffect(() => {
     async function fetchSchedules() {
@@ -29,28 +31,45 @@ export default function Schedule() {
     } catch (err) {}
   };
 
+  const linkcreate = async (e) => {
+    try {
+      navigate("./create");
+    } catch (err) {}
+  };
+
   return (
     schedules.length == 0 ? <Empty date={date}></Empty> :
-    <div>
-      <ul>
-        {schedules.map((schedule) => {
-          const { id, scheduleTime, content } = schedule;
+    <div className="flex flex-col items-center gap-15 mt-15">
+      <h1 className="text-4xl font-semibold min-w-max">
+        오늘 일정
+      </h1>
+      <div className="h-80 overflow-y-auto">
 
-          console.log(scheduleTime);
-          console.log(content);
-
-          return (
-            <li>
-              <div>{scheduleTime}</div>
-              <div>{content}</div>
-              <button id={id} onClick={scheduledelete}>
-                삭제
-              </button>
-            </li>
-          );
-        })}
-      </ul>
-      <Link to={`./create`}>추가</Link>
+        <ul className='mx-20'>
+          {schedules.map((schedule) => {
+            const { id, scheduleTime, content } = schedule;
+            
+            return (
+              <li className='flex gap-10 mt-10 mb-15'>
+                <div className='w-10 font-mono text-lg'>{scheduleTime}</div>
+                <div>
+                  <div className='text-xl'>{content}</div>
+                  <hr className="mt-0.5 w-100" />
+                </div>
+                <button 
+                  className='px-3 py-2 w-15 border rounded-lg border-black text-primary hover:bg-primary hover:text-white'
+                  id={id}
+                  onClick={scheduledelete}
+                  >삭제</button>
+              </li>
+            );
+          })}
+        </ul>
+      </div>
+      <button 
+        className='px-3 py-2 w-15 border rounded-lg text-white bg-primary mx-auto my-auto'
+        onClick={linkcreate}
+      >추가</button>
     </div>
   );
 }
