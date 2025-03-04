@@ -41,33 +41,35 @@ export default function ScheduleCreate() {
   // }, [isLoading]);
 
   return (
-    <form action="" onSubmit={handleSubmit} className='flex flex-col items-center mt-40 gap-35'>
-      <div className='flex flex-col gap-7'>
-        <label for="content" className='font-mono text-xl'>content</label>
+    <div className="flex flex-col items-center gap-15 mt-30">
+      <h1 className="text-4xl font-semibold min-w-max">
+        일정을 만들어 보세요.
+      </h1>
+      <form onSubmit={handleSubmit} className='w-130 flex flex-col items-center'>
+        <div>
+          <input
+            className="w-120 px-2 focus:outline-none mt-5"
+            type="text"
+            id="content"
+            name="content"
+            placeholder="일정 내용"
+            value={formData.content}
+            onChange={handleChange}
+            required
+          />
+          <hr className="mt-0.5" />
+        </div>
         <input
-        type="text"
-        className="w-230 p-2 border-b-4 rounded-lg shadow-sm focus:outline-none focus:border-violet-600 bg-gray-200 text-gray-700"
-        id="content"
-        name="content"
-        value={formData.content}
-        onChange={handleChange}
-        required
-        />
-      </div>
-      <div className='flex flex-col gap-7'>
-        <label for="schduleTime" className='font-mono text-xl'>scheduleTime</label>
-        <input
-        type="time"
-        // className="w-40 border border-gray-300 rounded px-2 py-1 bg-black text-white"
-        className='w-230 p-2 border-b-4 rounded-lg shadow-sm focus:outline-none focus:border-violet-600 bg-gray-200 text-gray-700'
-        id="scheduleTime"
-        name="scheduleTime"
-        value={formData.scheduleTime}
-        onChange={handleChange}
-        />
-        
-      </div>
-      <button className='px-3 py-2 rounded-lg text-gray-500 hover:bg-violet-600 hover:text-white border w-15 absolute right-45 bottom-5'>{isLoading ? '생성중' : '생성'}</button>
-    </form>
+            type="time"
+            className="time-input border-2 rounded-xl text-7xl w-130 h-50 pl-23 mt-20"
+            id="scheduleTime"
+            name="scheduleTime"
+            value={formData.scheduleTime}
+            onChange={handleChange}
+            onFocus={(e) => e.target.showPicker()}
+          />
+        <button className='px-3 py-2 w-15 mt-15 rounded-lg border-black text-blue-500 hover:bg-secondary hover:text-white border self-end'>{isLoading ? '생성중' : '생성'}</button>
+      </form>
+    </div>
   );
 }

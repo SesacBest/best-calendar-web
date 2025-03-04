@@ -4,3 +4,7 @@
   padding-left: 20px;
   padding-right: 20px;
 }
+
+.time-input::-webkit-calendar-picker-indicator {
+  display: none;
+}
