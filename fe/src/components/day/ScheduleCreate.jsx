@@ -59,7 +59,7 @@ export default function ScheduleCreate() {
         value={formData.scheduleTime}
         onChange={handleChange}
       />
-      <button>{isLoading ? '생성중...' : '생성'}</button>
+      <button>{isLoading ? '생성중' : '생성'}</button>
     </form>
   );
 }
