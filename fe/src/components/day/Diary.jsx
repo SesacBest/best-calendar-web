@@ -4,8 +4,13 @@ import { useNavigate, useParams } from 'react-router-dom'
 import diaryApi from '../../api/diaryApi';
 import { EditorContent, useEditor } from '@tiptap/react';
 import StarterKit from '@tiptap/starter-kit';
-import TextAlign from '@tiptap/extension-text-align';
+import { Markdown } from 'tiptap-markdown';
+import Underline from "@tiptap/extension-underline";
+import TextAlign from "@tiptap/extension-text-align";
+import Highlight from "@tiptap/extension-highlight";
 import Empty from '../Empty';
+
+import "./diary/styles/DiaryEditor.css";
 
 export default function Diary() {
   const navigate = useNavigate();
@@ -16,10 +21,13 @@ export default function Diary() {
   const editor = useEditor({
     extensions: [
       StarterKit,
+      Markdown,
+      Underline,
       TextAlign.configure({
         types: ["heading", "paragraph"],
         defaultAlignment: "left",
-      })
+      }),
+      Highlight,
     ],
     editable: false,  // 읽기 전용
     content: diary?.content,
