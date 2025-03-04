@@ -18,7 +18,7 @@ export default function Calendar() {
 
   const [eventList, setEventList] = useState([]);
 
-  const [categoryState, setCategoryState] = useState('schedule');
+  const [categoryState, setCategoryState] = useState('');
   const [yearState, setYearState] = useState(0);
   const [monthState, setMonthState] = useState(0);
 
@@ -38,21 +38,21 @@ export default function Calendar() {
       navigate('/');
     }
 
+    let nowDateObject = new Date();
+    let initialDate = `${nowDateObject.getFullYear()}-${(nowDateObject.getMonth() + 1).toString().padStart(2, '0')}-01`;
+    let initialCategory = 'schedule';
+
     if (myHistory.length > 0) {
       const previousUrlSplitArray = myHistory[myHistory.length - 1].split('/');
 
       if (previousUrlSplitArray[1] === 'day') {
-        if (['schedule', 'task', 'diary'].includes(previousUrlSplitArray[3])) {
-          setCategoryState(previousUrlSplitArray[3]);
-        }
-
         const dateUrlSplitArray = previousUrlSplitArray[2].split('-');
         if (dateUrlSplitArray.length === 3) {
           const dateNumberArray = dateUrlSplitArray.map((dateNumber) => {
             return Number.parseInt(dateNumber);
           });
 
-          const isValidDate = true;
+          let isValidDate = true;
           for (const dateNumber of dateNumberArray) {
             if (!dateNumber) {
               isValidDate = false;
@@ -68,16 +68,28 @@ export default function Calendar() {
               const endOfMonthDay =
                 month === 2
                   ? 28 + (!(year % 400) || (!(year % 4) && year % 100))
-                  : 31 - [2, 4, 6, 9, 11].includes(month);
+                  : 31 - [4, 6, 9, 11].includes(month);
 
               if (day >= 1 && day <= endOfMonthDay) {
-                calendarRef.current.getApi().gotoDate(previousUrlSplitArray[2]);
+                initialDate = previousUrlSplitArray[2];
               }
             }
           }
         }
+
+        initialCategory = ['schedule', 'task', 'diary'].includes(previousUrlSplitArray[3])
+          ? previousUrlSplitArray[3]
+          : 'schedule';
       }
     }
+
+    setCategoryState(initialCategory);
+    calendarRef.current.getApi().gotoDate(initialDate);
+    loadList(
+      Number.parseInt(initialDate.substring(0, 4)),
+      Number.parseInt(initialDate.substring(5, 7)),
+      initialCategory,
+    );
   }, []);
 
   const linkStyle =
@@ -253,7 +265,9 @@ export default function Calendar() {
         datesSet={(dateInfo) => {
           setYearState(() => dateInfo.start.getFullYear());
           setMonthState(() => dateInfo.start.getMonth() + 1);
-          loadList(dateInfo.start.getFullYear(), dateInfo.start.getMonth() + 1, categoryState);
+          if (categoryState !== '') {
+            loadList(dateInfo.start.getFullYear(), dateInfo.start.getMonth() + 1, categoryState);
+          }
         }}
         headerToolbar={{
           left: '',
