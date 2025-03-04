@@ -8,8 +8,5 @@ import java.time.LocalDate;
 @Getter
 @NoArgsConstructor
 public class DiaryUpdateRequestDto {
-
-    private LocalDate selectedDate;
     private String content;
-
 }
