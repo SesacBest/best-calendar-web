@@ -14,13 +14,13 @@ export default function Header() {
 
   const handleOnScalendarClick = (e) => {
     e.preventDefault();
-    navigate(hidden ? '/calendar' : '/');
+    navigate(hidden ? '/calendar' : '/', { replace: true });
   };
 
   const handleOnLogoutClick = (e) => {
     e.preventDefault();
     dispatch(logout());
-    navigate('/');
+    navigate('/', { replace: true });
   };
 
   return (
