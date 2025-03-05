@@ -23,7 +23,7 @@ public class TaskCreateRequestDto {
     private LocalDate selectedDate;
 
     @NotNull(message = "내용은 필수 입력값입니다.")
-    @Length(min = CONTENT_MIN_LENGTH, max = CONTENT_MAX_LENGTH)
+    @Length(min = CONTENT_MIN_LENGTH, max = CONTENT_MAX_LENGTH, message = "할 일은 23자 이하여야 합니다.")
     private String content;
 
     public Task toEntity(User user) {
