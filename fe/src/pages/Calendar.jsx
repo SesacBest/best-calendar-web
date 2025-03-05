@@ -42,7 +42,7 @@ export default function Calendar() {
     ['bg-yellow-100', 'bg-yellow-200', 'bg-yellow-300', 'bg-yellow-400', 'bg-yellow-500'],
   ];
 
-  const todayColorsArray = ['#2799c3', '#2182a7'];
+  const todayColorsArray = ['rgba(0, 0, 0, 0)', '#2799c3', '#2182a7'];
   const holidayColorsArray = ['text-red-500', 'text-blue-500', 'text-green-500'];
 
   useEffect(() => {
@@ -95,6 +95,8 @@ export default function Calendar() {
           : 'schedule';
       }
     }
+
+    document.documentElement.style.setProperty('--fc-today-bg-color', todayColorsArray[0]);
 
     setCategoryState(initialCategory);
     calendarRef.current.getApi().gotoDate(initialDate);
