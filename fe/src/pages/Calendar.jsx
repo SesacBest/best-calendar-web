@@ -234,11 +234,13 @@ export default function Calendar() {
           document.body,
         )}
       <section className="pt-4 flex justify-between">
-        <nav className="flex">{categoryButtonGroup}</nav>
-        <h2 className="text-3xl">
-          {yearState}년 {monthState}월
-        </h2>
-        <nav className="flex">{calendarButtonGroup}</nav>
+        <nav className="flex flex-1 justify-start">{categoryButtonGroup}</nav>
+        <nav className="flex flex-1 justify-center">
+          <h2 className="text-3xl">
+            {yearState}년 {monthState}월
+          </h2>
+        </nav>
+        <nav className="flex flex-1 justify-end">{calendarButtonGroup}</nav>
       </section>
       <FullCalendar
         ref={calendarRef}
