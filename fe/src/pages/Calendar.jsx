@@ -163,16 +163,10 @@ export default function Calendar() {
   };
 
   const calendarButtonGroup = [
-    <div key={0} className={`${linkStyle}`} onClick={moveToPrevMonth}>
-      지난 달
+    <div key={0} className={`${linkStyle}`} onClick={moveToCurrentMonth}>
+      오늘로
     </div>,
-    <div key={1} className={`${linkStyle}`} onClick={moveToCurrentMonth}>
-      이번 달
-    </div>,
-    <div key={2} className={`${linkStyle}`} onClick={moveToNextMonth}>
-      다음 달
-    </div>,
-    <div key={3} className={`${linkStyle}`} onClick={openModal}>
+    <div key={1} className={`${linkStyle}`} onClick={openModal}>
       설정
     </div>,
   ];
@@ -239,10 +233,48 @@ export default function Calendar() {
         <div className="w-9/10 flex flex-col justify-center item-center">
           <section className="pt-4 flex justify-between">
             <nav className="flex flex-1 justify-start">{categoryButtonGroup}</nav>
-            <nav className="flex flex-1 justify-center">
-              <h2 className="text-3xl">
-                {yearState}년 {monthState}월
-              </h2>
+            <nav className="flex flex-2 justify-center items-center">
+              <div className="flex flex-1 justify-end" onClick={moveToPrevMonth}>
+                <div className={linkStyle}>
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    strokeWidth={1.5}
+                    stroke="currentColor"
+                    className="size-6"
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      d="M15.75 19.5 8.25 12l7.5-7.5"
+                    />
+                  </svg>
+                </div>
+              </div>
+              <div className="mx-5 flex flex-3 justify-center">
+                <h2 className="text-3xl">
+                  {yearState}년 {monthState}월
+                </h2>
+              </div>
+              <div className="flex flex-1 justify-start" onClick={moveToNextMonth}>
+                <div className={linkStyle}>
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    strokeWidth={1.5}
+                    stroke="currentColor"
+                    className="size-6"
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      d="m8.25 4.5 7.5 7.5-7.5 7.5"
+                    />
+                  </svg>
+                </div>
+              </div>
             </nav>
             <nav className="flex flex-1 justify-end">{calendarButtonGroup}</nav>
           </section>
