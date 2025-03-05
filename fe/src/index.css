@@ -16,11 +16,18 @@
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+
+  --fc-today-bg-color: #ffffff;
+  --fc-bg-event-opacity: 0;
 }
 
 @theme {
   --color-primary: #2799c3;
   --color-secondary: #2182a7;
+}
+
+.fc table {
+  border-collapse: separate !important;
 }
 
 .fc-day-today {
@@ -50,7 +57,7 @@
   background: #f0f0f0; /* 트랙 색상 */
 }
 
-input[type="checkbox"]:checked::before {
+input[type='checkbox']:checked::before {
   content: '✔';
   color: white;
   font-size: 14px;

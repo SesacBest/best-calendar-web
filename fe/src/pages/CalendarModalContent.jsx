@@ -12,20 +12,6 @@ export default function CalendarModalContent({
     'border-yellow-300 text-yellow-300',
     'border-orange-300 text-orange-300',
   ];
-  const todayButtonColorsArray = [
-    'border-black text-black',
-    'border-primary text-primary',
-    'border-secondary text-secondary',
-  ];
-
-  const changeTodayColor = () => {
-    const nextIndex = (calendarOption.todayColorIndex + 1) % todayColorsArray.length;
-    document.documentElement.style.setProperty('--fc-today-bg-color', todayColorsArray[nextIndex]);
-    setCalendarOption((prev) => ({
-      ...prev,
-      todayColorIndex: nextIndex,
-    }));
-  };
 
   const changeOption = (key, value) => {
     setCalendarOption((prev) => ({
@@ -52,22 +38,6 @@ export default function CalendarModalContent({
           }}
         >
           <ul className="w-90 h-100 mx-auto my-auto flex flex-col justify-center items-center list-inside list-disc">
-            <li className="w-90 my-2 flex flex-row justify-between items-center">
-              <div className="flex">
-                <label className="text-xl" htmlFor="todayColor">
-                  오늘 강조 색상
-                </label>
-              </div>
-              <div className="flex">
-                <input
-                  type="button"
-                  name="todayColor"
-                  className={`${linkStyle} ${todayButtonColorsArray[calendarOption.todayColorIndex]}`}
-                  value="변경"
-                  onClick={() => changeTodayColor()}
-                />
-              </div>
-            </li>
             <li className="w-90 my-2 flex flex-row justify-between items-center">
               <div className="flex">
                 <label className="text-xl" htmlFor="dataColor">

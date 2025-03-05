@@ -27,7 +27,6 @@ export default function Calendar() {
   const [monthState, setMonthState] = useState(0);
 
   const [calendarOption, setCalendarOption] = useState({
-    todayColorIndex: 0,
     dataColorIndex: 0,
     firstDayOfWeek: 0,
   });
@@ -42,7 +41,43 @@ export default function Calendar() {
     ['bg-yellow-100', 'bg-yellow-200', 'bg-yellow-300', 'bg-yellow-400', 'bg-yellow-500'],
   ];
 
-  const todayColorsArray = ['rgba(0, 0, 0, 0)', '#2799c3', '#2182a7'];
+  const todayDataColorsArray = [
+    [
+      'oklch(0.962 0.044 156.743)',
+      'oklch(0.925 0.084 155.995)',
+      'oklch(0.871 0.15 154.449)',
+      'oklch(0.792 0.209 151.711)',
+      'oklch(0.723 0.219 149.579)',
+    ],
+    [
+      'oklch(0.936 0.032 17.717)',
+      'oklch(0.885 0.062 18.334)',
+      'oklch(0.808 0.114 19.571)',
+      'oklch(0.704 0.191 22.216)',
+      'oklch(0.637 0.237 25.331)',
+    ],
+    [
+      'oklch(0.932 0.032 255.585)',
+      'oklch(0.882 0.059 254.128)',
+      'oklch(0.809 0.105 251.813)',
+      'oklch(0.707 0.165 254.624)',
+      'oklch(0.623 0.214 259.815)',
+    ],
+    [
+      'oklch(0.954 0.038 75.164)',
+      'oklch(0.901 0.076 70.697)',
+      'oklch(0.837 0.128 66.29)',
+      'oklch(0.75 0.183 55.934)',
+      'oklch(0.705 0.213 47.604)',
+    ],
+    [
+      'oklch(0.973 0.071 103.193)',
+      'oklch(0.945 0.129 101.54)',
+      'oklch(0.905 0.182 98.111)',
+      'oklch(0.852 0.199 91.936)',
+      'oklch(0.795 0.184 86.047)',
+    ],
+  ];
 
   useEffect(() => {
     const token = localStorage.getItem('token');
@@ -95,7 +130,7 @@ export default function Calendar() {
       }
     }
 
-    document.documentElement.style.setProperty('--fc-today-bg-color', todayColorsArray[0]);
+    document.documentElement.style.setProperty('--fc-today-bg-color', '#ffffff');
 
     setCategoryState(initialCategory);
     calendarRef.current.getApi().gotoDate(initialDate);
@@ -221,7 +256,6 @@ export default function Calendar() {
             calendarOption={calendarOption}
             setCalendarOption={setCalendarOption}
             dataColorsArray={dataColorsArray}
-            todayColorsArray={todayColorsArray}
           />,
           document.body,
         )}
@@ -285,7 +319,7 @@ export default function Calendar() {
               showNonCurrentDates={false}
               firstDay={calendarOption.firstDayOfWeek}
               locale={koLocale}
-              eventBackgroundColor="#FFFFFF"
+              eventBackgroundColor="rgba(0, 0, 0, 0)"
               dayCellClassNames={(arg) => {
                 let str = '';
                 if (arg.dow === 0) {
@@ -297,10 +331,14 @@ export default function Calendar() {
                 const date = `${arg.date.getFullYear()}-${(arg.date.getMonth() + 1).toString().padStart(2, '0')}-${arg.date.getDate().toString().padStart(2, '0')}`;
                 for (let i = 0; i < eventList.length; i++) {
                   if (date === eventList[i].date) {
-                    str +=
-                      dataColorsArray[calendarOption.dataColorIndex][
-                        Math.min(Number.parseInt(eventList[i].count / 3), 4)
-                      ];
+                    const intensityIndex = Math.min(Number.parseInt(eventList[i].count / 3), 4);
+                    str += dataColorsArray[calendarOption.dataColorIndex][intensityIndex];
+                    if (arg.isToday) {
+                      document.documentElement.style.setProperty(
+                        '--fc-today-bg-color',
+                        todayDataColorsArray[calendarOption.dataColorIndex][intensityIndex],
+                      );
+                    }
                     break;
                   }
                 }
