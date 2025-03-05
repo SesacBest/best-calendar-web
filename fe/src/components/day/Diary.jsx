@@ -59,7 +59,7 @@ export default function Diary() {
     }
   };  
 
-  const diaryDiv = "flex items-center flex-col gap-10 mx-20 my-5 text-center";
+  const diaryDiv = "flex items-center flex-col gap-15 mt-15";
   const titleStyle = "text-4xl font-semibold min-w-max";
 
   return (
@@ -68,27 +68,27 @@ export default function Diary() {
       {isLoading ? (
         <p>로딩 중</p>
       ) : diary ? (
-        <div className='w-full max-w-xl'>
-          <div className={`${editorStyles.DiaryForm} ${editorStyles.editorDiv}`}>
+        <>
+          <div className={`${editorStyles.DiaryForm} ${editorStyles.editorDiv} h-80`}>
             <EditorContent editor={editor} />
           </div>
           <div className={editorStyles.ButtonDiv}>
             <button
-              className={`${editorStyles.ButtonStyle} text-gray-500`}
+              className={`${editorStyles.ButtonStyle} border-black text-primary`}
               onClick={deleteDiary}
             >
               삭제
             </button>
             <Link 
-              className={`${editorStyles.ButtonStyle} text-primary`}
+              className={`${editorStyles.ButtonStyle} text-white bg-primary`}
               to={'./create'}
             >
               수정
             </Link>
           </div>
-        </div>
+        </>
       ) : (
-        <Empty date={date} />
+        <Empty>일기</Empty>
       )}
     </div>
   )

@@ -11,7 +11,7 @@ function DiaryForm ({ content, onContentChange, onSubmit }) {
           <DiaryEditor content={content} onUpdate={onContentChange} />
         </div>
         <div className={editorStyles.ButtonDiv}>
-          <button type="submit" className={`${editorStyles.ButtonStyle} text-gray-500`}>
+          <button type="submit" className={`${editorStyles.ButtonStyle} border-black text-primary`}>
             저장
           </button>
         </div>

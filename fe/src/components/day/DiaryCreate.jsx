@@ -50,7 +50,7 @@ export default function DiaryCreate() {
     setContent(newContent);
   }
 
-  const diaryDiv = "flex items-center flex-col gap-10 mx-20 my-5 text-center";
+  const diaryDiv = "flex items-center flex-col gap-15 mt-15";
   const titleStyle = "text-4xl font-semibold min-w-max";
   
   if (isLoading) {
