@@ -1,16 +1,16 @@
-import React, { useEffect, useState } from 'react'
-import { editorStyles } from './diary/styles/editorStyles'
-import { Link, useNavigate, useParams } from 'react-router-dom'
+import React, { useEffect, useState } from 'react';
+import { editorStyles } from './diary/styles/editorStyles';
+import { Link, useNavigate, useParams } from 'react-router-dom';
 import diaryApi from '../../api/diaryApi';
 import { EditorContent, useEditor } from '@tiptap/react';
 import StarterKit from '@tiptap/starter-kit';
 import { Markdown } from 'tiptap-markdown';
-import Underline from "@tiptap/extension-underline";
-import TextAlign from "@tiptap/extension-text-align";
-import Highlight from "@tiptap/extension-highlight";
+import Underline from '@tiptap/extension-underline';
+import TextAlign from '@tiptap/extension-text-align';
+import Highlight from '@tiptap/extension-highlight';
 import Empty from '../Empty';
 
-import "./diary/styles/DiaryEditor.css";
+import './diary/styles/DiaryEditor.css';
 
 export default function Diary() {
   const navigate = useNavigate();
@@ -24,12 +24,12 @@ export default function Diary() {
       Markdown,
       Underline,
       TextAlign.configure({
-        types: ["heading", "paragraph"],
-        defaultAlignment: "left",
+        types: ['heading', 'paragraph'],
+        defaultAlignment: 'left',
       }),
       Highlight,
     ],
-    editable: false,  // 읽기 전용
+    editable: false, // 읽기 전용
     content: diary?.content,
   });
 
@@ -55,11 +55,10 @@ export default function Diary() {
       const id = diary?.id;
       await diaryApi.deleteDiary(id);
       navigate(0);
-    } catch (error) {
-    }
-  };  
+    } catch (error) {}
+  };
 
-  const diaryDiv = "flex items-center flex-col gap-10 mx-20 my-5 text-center";
+  const diaryDiv = "flex items-center flex-col gap-15 mt-15";
   const titleStyle = "text-4xl font-semibold min-w-max";
 
   return (
@@ -68,28 +67,28 @@ export default function Diary() {
       {isLoading ? (
         <p>로딩 중</p>
       ) : diary ? (
-        <div className='w-full max-w-xl'>
-          <div className={`${editorStyles.DiaryForm} ${editorStyles.editorDiv}`}>
+        <>
+          <div className={`${editorStyles.DiaryForm} ${editorStyles.editorDiv} h-80`}>
             <EditorContent editor={editor} />
           </div>
           <div className={editorStyles.ButtonDiv}>
             <button
-              className={`${editorStyles.ButtonStyle} text-gray-500`}
+              className={`${editorStyles.ButtonStyle} border-black text-primary`}
               onClick={deleteDiary}
             >
               삭제
             </button>
             <Link 
-              className={`${editorStyles.ButtonStyle} text-primary`}
+              className={`${editorStyles.ButtonStyle} text-white bg-primary`}
               to={'./create'}
             >
               수정
             </Link>
           </div>
-        </div>
+        </>
       ) : (
-        <Empty date={date} />
+        <Empty>일기</Empty>
       )}
     </div>
-  )
+  );
 }

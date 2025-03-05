@@ -41,54 +41,55 @@ export default function Task() {
 
   const taskcreate = async (e) => {
     try {
-      navigate("./create");
+      navigate('./create');
     } catch (err) {}
   };
 
-  return tasks.length == 0 ? (
-    <Empty date={date}></Empty>
-  ) : (
+  return (
     <div className="flex flex-col items-center gap-15 mt-15">
       <h1 className="text-4xl font-semibold min-w-max">오늘 할 일</h1>
+      {tasks.length == 0 ? (
+        <Empty>할일</Empty>
+      ) : (
+        <>
+          <div className="h-80 overflow-y-auto">
+            <ul className="mx-20">
+              {tasks.map((task) => {
+                const { id, isCompleted, content } = task;
 
-      <div className="h-80 overflow-y-auto">
-        <ul className="mx-20">
-          {tasks.map((task) => {
-            const { id, isCompleted, content } = task;
-
-            return (
-              <li className="flex gap-10 mt-10 mb-15">
-                <input
-                  type="checkbox"
-                  id={id}
-                  onClick={checkUpdate}
-                  defaultChecked={isCompleted}
-                  className="appearance-none w-7 h-7 border-2 rounded-md border-gray-500 bg-white checked:bg-primary checked:text-white checked:content-['✔'] flex items-center justify-center text-center"
-
-                />
-                <div>
-                  <div className="text-xl">{content}</div>
-                  <hr className="mt-0.5 w-100" />
-                </div>
-                <button
-                  className="px-3 py-2 w-15 border rounded-lg border-black text-primary hover:bg-primary hover:text-white"
-                  id={id}
-                  onClick={taskDelete}
-                >
-                  삭제
-                </button>
-              </li>
-            );
-          })}
-        </ul>
-      </div>
-      <button
-        className="px-3 py-2 w-15 border rounded-lg text-white bg-primary mx-auto my-auto"
-        onClick={taskcreate}
-      >
-        추가
-      </button>
+                return (
+                  <li className="flex gap-10 mt-10 mb-15">
+                    <input
+                      type="checkbox"
+                      id={id}
+                      onClick={checkUpdate}
+                      defaultChecked={isCompleted}
+                      className="appearance-none w-7 h-7 border-2 rounded-md border-gray-500 bg-white checked:bg-primary checked:text-white checked:content-['✔'] flex items-center justify-center text-center"
+                    />
+                    <div>
+                      <div className="text-xl">{content}</div>
+                      <hr className="mt-0.5 w-100" />
+                    </div>
+                    <button
+                      className="px-3 py-2 w-15 border rounded-lg border-black text-primary hover:bg-primary hover:text-white"
+                      id={id}
+                      onClick={taskDelete}
+                    >
+                      삭제
+                    </button>
+                  </li>
+                );
+              })}
+            </ul>
+          </div>
+          <button
+            className="px-3 py-2 w-15 border rounded-lg text-white bg-primary mx-auto my-auto"
+            onClick={taskcreate}
+          >
+            추가
+          </button>
+        </>
+      )}
     </div>
   );
 }
-
