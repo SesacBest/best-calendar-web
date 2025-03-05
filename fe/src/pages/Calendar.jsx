@@ -249,7 +249,7 @@ export default function Calendar() {
           <div className="w-full">
             <FullCalendar
               ref={calendarRef}
-              aspectRatio={1.45}
+              aspectRatio={1.55}
               plugins={[dayGridPlugin, interactionPlugin]}
               initialView="dayGridMonth"
               events={eventList}
