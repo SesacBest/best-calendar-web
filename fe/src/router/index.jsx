@@ -1,4 +1,4 @@
-import { createBrowserRouter } from 'react-router-dom';
+import { createBrowserRouter, Navigate } from 'react-router-dom';
 import RootLayout from '../RootLayout';
 import Home from '../pages/Home';
 import Signup from '../pages/Signup';
@@ -60,8 +60,12 @@ const router = createBrowserRouter([
           },
           {
             path: 'diary',
-            element: <Diary />,
+            element: <Diary />
           },
+          {
+            path: '*',
+            element: <Navigate to="/calendar" />
+          }
         ],
       },
     ],

@@ -53,6 +53,7 @@ public class DiaryService {
     }
 
 
+    @Transactional
     public DiaryResponseDto updateDiary(User user, Long id, DiaryUpdateRequestDto requestDto) {
         Diary diary = diaryRepository.findById(id).orElseThrow(() -> new IllegalArgumentException());
         diary.update(requestDto);
@@ -60,6 +61,7 @@ public class DiaryService {
         return DiaryResponseDto.from(diary);
     }
 
+    @Transactional
     public void deleteDiary(User user, Long id) {
         Diary diary = diaryRepository.findById(id)
                 .orElseThrow(() -> new IllegalArgumentException("id가 없습니다."));

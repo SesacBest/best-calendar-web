@@ -23,6 +23,7 @@ public class Diary extends BaseTimeEntity {
     @Column(name = "selected_date")
     private LocalDate selectedDate;
 
+    @Column(length = 10000)
     private String content;
 
     @ManyToOne
@@ -37,7 +38,6 @@ public class Diary extends BaseTimeEntity {
     }
 
     public Diary update(DiaryUpdateRequestDto requestDto) {
-        this.selectedDate = requestDto.getSelectedDate();
         this.content = requestDto.getContent();
         return this;
     }

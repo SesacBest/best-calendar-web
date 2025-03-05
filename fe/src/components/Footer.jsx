@@ -2,6 +2,14 @@ import React from 'react';
 
 export default function Footer() {
   return (
-    <p className="text-center mt-100 mb-30">ⓒ 2025. best-calendar-web. All Rights Reserved.</p>
+    <section className="flex flex-col">
+      <a
+        href="https://github.com/SesacBest/best-calendar-web"
+        className="text-center text-[18px] mt-10 mb-10"
+        target="_blank"
+      >
+        ⓒ 2025. best-calendar-web. All Rights Reserved. ✩ GitHub
+      </a>
+    </section>
   );
 }

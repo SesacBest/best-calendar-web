@@ -25,10 +25,6 @@
   --color-secondary: #2182a7;
 }
 
-.test {
-  border: 1px solid black;
-}
-
 .fc-day-today {
   border-width: 6px !important;
   border-style: solid !important;
