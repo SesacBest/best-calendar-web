@@ -25,6 +25,7 @@ export default function Calendar() {
   const [categoryState, setCategoryState] = useState('');
   const [yearState, setYearState] = useState(0);
   const [monthState, setMonthState] = useState(0);
+  const [intensityIndex, setIntensityIndex] = useState(-1);
 
   const [calendarOption, setCalendarOption] = useState({
     dataColorIndex: 0,
@@ -130,8 +131,6 @@ export default function Calendar() {
       }
     }
 
-    document.documentElement.style.setProperty('--fc-today-bg-color', '#ffffff');
-
     setCategoryState(initialCategory);
     calendarRef.current.getApi().gotoDate(initialDate);
     loadList(
@@ -209,6 +208,8 @@ export default function Calendar() {
 
   const loadList = async (year, month, categoryState) => {
     setEventList(() => []);
+    document.documentElement.style.setProperty('--fc-today-bg-color', '#ffffff');
+    setIntensityIndex(-1);
 
     let categoryForApi = '';
     buttonAttributiesList.forEach((buttonAttribute) => {
@@ -256,6 +257,8 @@ export default function Calendar() {
             calendarOption={calendarOption}
             setCalendarOption={setCalendarOption}
             dataColorsArray={dataColorsArray}
+            todayDataColorsArray={todayDataColorsArray}
+            intensityIndex={intensityIndex}
           />,
           document.body,
         )}
@@ -331,14 +334,17 @@ export default function Calendar() {
                 const date = `${arg.date.getFullYear()}-${(arg.date.getMonth() + 1).toString().padStart(2, '0')}-${arg.date.getDate().toString().padStart(2, '0')}`;
                 for (let i = 0; i < eventList.length; i++) {
                   if (date === eventList[i].date) {
-                    const intensityIndex = Math.min(Number.parseInt(eventList[i].count / 3), 4);
-                    str += dataColorsArray[calendarOption.dataColorIndex][intensityIndex];
+                    const newIntensityIndex = Math.min(Number.parseInt(eventList[i].count / 3), 4);
+                    str += dataColorsArray[calendarOption.dataColorIndex][newIntensityIndex];
+
                     if (arg.isToday) {
                       document.documentElement.style.setProperty(
                         '--fc-today-bg-color',
-                        todayDataColorsArray[calendarOption.dataColorIndex][intensityIndex],
+                        todayDataColorsArray[calendarOption.dataColorIndex][newIntensityIndex],
                       );
                     }
+
+                    setIntensityIndex(() => newIntensityIndex);
                     break;
                   }
                 }

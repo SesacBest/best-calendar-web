@@ -3,7 +3,8 @@ export default function CalendarModalContent({
   calendarOption,
   setCalendarOption,
   dataColorsArray,
-  todayColorsArray,
+  todayDataColorsArray,
+  intensityIndex,
 }) {
   const dataButtonColorsArray = [
     'border-green-300 text-green-300',
@@ -12,6 +13,20 @@ export default function CalendarModalContent({
     'border-yellow-300 text-yellow-300',
     'border-orange-300 text-orange-300',
   ];
+
+  const dataColorChangeOption = (value) => {
+    setCalendarOption((prev) => ({
+      ...prev,
+      dataColorIndex: value,
+    }));
+
+    if (intensityIndex >= 0) {
+      document.documentElement.style.setProperty(
+        '--fc-today-bg-color',
+        todayDataColorsArray[value][intensityIndex],
+      );
+    }
+  };
 
   const changeOption = (key, value) => {
     setCalendarOption((prev) => ({
@@ -51,8 +66,7 @@ export default function CalendarModalContent({
                   className={`${linkStyle} ${dataButtonColorsArray[calendarOption.dataColorIndex]}`}
                   value="변경"
                   onClick={() =>
-                    changeOption(
-                      'dataColorIndex',
+                    dataColorChangeOption(
                       (calendarOption.dataColorIndex + 1) % dataColorsArray.length,
                     )
                   }
