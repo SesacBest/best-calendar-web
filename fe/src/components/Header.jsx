@@ -25,7 +25,7 @@ export default function Header() {
 
   return (
     <>
-      <section className="flex justify-between text-xl">
+      <section className="flex justify-between text-xl my-7">
         <Link onClick={handleOnScalendarClick}>S-Calendar</Link>
         <nav className="flex gap-8">
           <Link to="/signup" hidden={hidden}>회원가입</Link>
