@@ -86,6 +86,16 @@ export default function Calendar() {
       navigate('/');
     }
 
+    const savedCalendarOption = localStorage.getItem('calendarOption');
+    if (!savedCalendarOption) {
+      setCalendarOption(() => ({
+        dataColorIndex: 0,
+        firstDayOfWeek: 0,
+      }));
+    } else {
+      setCalendarOption(() => JSON.parse(savedCalendarOption));
+    }
+
     let nowDateObject = new Date();
     let initialDate = `${nowDateObject.getFullYear()}-${(nowDateObject.getMonth() + 1).toString().padStart(2, '0')}-01`;
     let initialCategory = 'schedule';

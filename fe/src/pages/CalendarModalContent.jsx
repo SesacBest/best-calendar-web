@@ -15,10 +15,13 @@ export default function CalendarModalContent({
   ];
 
   const dataColorChangeOption = (value) => {
-    setCalendarOption((prev) => ({
-      ...prev,
+    const newCalendarOption = {
+      ...calendarOption,
       dataColorIndex: value,
-    }));
+    };
+
+    setCalendarOption(() => newCalendarOption);
+    localStorage.setItem('calendarOption', JSON.stringify(newCalendarOption));
 
     if (intensityIndex >= 0) {
       document.documentElement.style.setProperty(
@@ -29,10 +32,13 @@ export default function CalendarModalContent({
   };
 
   const changeOption = (key, value) => {
-    setCalendarOption((prev) => ({
-      ...prev,
+    const newCalendarOption = {
+      ...calendarOption,
       [key]: value,
-    }));
+    };
+
+    setCalendarOption(() => newCalendarOption);
+    localStorage.setItem('calendarOption', JSON.stringify(newCalendarOption));
   };
 
   const linkStyle =
