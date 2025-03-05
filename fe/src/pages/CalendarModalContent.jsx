@@ -51,14 +51,14 @@ export default function CalendarModalContent({
           e.stopPropagation();
         }}
       >
-        <div className="w-70 h-100 mx-auto my-auto flex flex-col justify-center items-center">
-          <form
-            onSubmit={(e) => {
-              e.preventDefault();
-              e.stopPropagation();
-            }}
-          >
-            <div className="w-70 my-5 flex flex-row justify-between items-center">
+        <form
+          onSubmit={(e) => {
+            e.preventDefault();
+            e.stopPropagation();
+          }}
+        >
+          <ul className="w-90 h-100 mx-auto my-auto flex flex-col justify-center items-center list-inside list-disc">
+            <li className="w-90 my-2 flex flex-row justify-between items-center">
               <div className="flex">
                 <label className="text-xl" htmlFor="todayColor">
                   오늘 강조 색상
@@ -73,8 +73,8 @@ export default function CalendarModalContent({
                   onClick={() => changeTodayColor()}
                 />
               </div>
-            </div>
-            <div className="w-70 my-5 flex flex-row justify-between items-center">
+            </li>
+            <li className="w-90 my-2 flex flex-row justify-between items-center">
               <div className="flex">
                 <label className="text-xl" htmlFor="dataColor">
                   일정 색상
@@ -94,8 +94,8 @@ export default function CalendarModalContent({
                   }
                 />
               </div>
-            </div>
-            <div className="w-70 my-5 flex flex-row justify-between items-center">
+            </li>
+            <li className="w-90 my-2 flex flex-row justify-between items-center">
               <div className="flex">
                 <label className="text-xl" htmlFor="sundayColor">
                   일요일 색상
@@ -115,8 +115,8 @@ export default function CalendarModalContent({
                   }
                 />
               </div>
-            </div>
-            <div className="w-70 my-5 flex flex-row justify-between items-center">
+            </li>
+            <li className="w-90 my-2 flex flex-row justify-between items-center">
               <div className="flex">
                 <label className="text-xl" htmlFor="saturdayColor">
                   토요일 색상
@@ -136,8 +136,8 @@ export default function CalendarModalContent({
                   }
                 />
               </div>
-            </div>
-            <div className="w-70 my-5 flex flex-row justify-between items-center">
+            </li>
+            <li className="w-90 my-2 flex flex-row justify-between items-center">
               <div className="flex">
                 <label className="text-xl" htmlFor="firstDayOfWeek">
                   주 시작 요일
@@ -159,17 +159,17 @@ export default function CalendarModalContent({
                   onClick={() => changeOption('firstDayOfWeek', 1)}
                 />
               </div>
-            </div>
-            <div className="w-70 my-5 flex flex-row justify-center items-center">
+            </li>
+            <li className="w-90 my-2 flex flex-row justify-center items-center">
               <button
-                className="px-3 py-2 mr-2 rounded-lg bg-primary text-white border cursor-pointer"
+                className="px-4 py-2 mr-2 rounded-lg bg-primary text-white text-xl border cursor-pointer"
                 onClick={onClose}
               >
                 확인
               </button>
-            </div>
-          </form>
-        </div>
+            </li>
+          </ul>
+        </form>
       </div>
     </div>
   );

@@ -235,62 +235,73 @@ export default function Calendar() {
           />,
           document.body,
         )}
-      <section className="pt-4 flex justify-between">
-        <nav className="flex flex-1 justify-start">{categoryButtonGroup}</nav>
-        <nav className="flex flex-1 justify-center">
-          <h2 className="text-3xl">
-            {yearState}년 {monthState}월
-          </h2>
-        </nav>
-        <nav className="flex flex-1 justify-end">{calendarButtonGroup}</nav>
-      </section>
-      <FullCalendar
-        ref={calendarRef}
-        plugins={[dayGridPlugin, interactionPlugin]}
-        initialView="dayGridMonth"
-        events={eventList}
-        dateClick={handleDayCellClick}
-        showNonCurrentDates={false}
-        firstDay={calendarOption.firstDayOfWeek}
-        locale={koLocale}
-        eventBackgroundColor="#FFFFFF"
-        dayCellClassNames={(arg) => {
-          let str = '';
-          if (arg.dow === 0) {
-            str += `${holidayColorsArray[calendarOption.sundayColorIndex]} `;
-          } else if (arg.dow === 6) {
-            str += `${holidayColorsArray[calendarOption.saturdayColorIndex]} `;
-          }
+      <div className="w-full flex justify-center">
+        <div className="w-9/10 flex flex-col justify-center item-center">
+          <section className="pt-4 flex justify-between">
+            <nav className="flex flex-1 justify-start">{categoryButtonGroup}</nav>
+            <nav className="flex flex-1 justify-center">
+              <h2 className="text-3xl">
+                {yearState}년 {monthState}월
+              </h2>
+            </nav>
+            <nav className="flex flex-1 justify-end">{calendarButtonGroup}</nav>
+          </section>
+          <div className="w-full">
+            <FullCalendar
+              ref={calendarRef}
+              aspectRatio={1.45}
+              plugins={[dayGridPlugin, interactionPlugin]}
+              initialView="dayGridMonth"
+              events={eventList}
+              dateClick={handleDayCellClick}
+              showNonCurrentDates={false}
+              firstDay={calendarOption.firstDayOfWeek}
+              locale={koLocale}
+              eventBackgroundColor="#FFFFFF"
+              dayCellClassNames={(arg) => {
+                let str = '';
+                if (arg.dow === 0) {
+                  str += `${holidayColorsArray[calendarOption.sundayColorIndex]} `;
+                } else if (arg.dow === 6) {
+                  str += `${holidayColorsArray[calendarOption.saturdayColorIndex]} `;
+                }
 
-          const date = `${arg.date.getFullYear()}-${(arg.date.getMonth() + 1).toString().padStart(2, '0')}-${arg.date.getDate().toString().padStart(2, '0')}`;
-          for (let i = 0; i < eventList.length; i++) {
-            if (date === eventList[i].date) {
-              str +=
-                dataColorsArray[calendarOption.dataColorIndex][
-                  Math.min(Number.parseInt(eventList[i].count / 3), 4)
-                ];
-              break;
-            }
-          }
+                const date = `${arg.date.getFullYear()}-${(arg.date.getMonth() + 1).toString().padStart(2, '0')}-${arg.date.getDate().toString().padStart(2, '0')}`;
+                for (let i = 0; i < eventList.length; i++) {
+                  if (date === eventList[i].date) {
+                    str +=
+                      dataColorsArray[calendarOption.dataColorIndex][
+                        Math.min(Number.parseInt(eventList[i].count / 3), 4)
+                      ];
+                    break;
+                  }
+                }
 
-          return str;
-        }}
-        dayCellContent={(arg) => ({
-          html: `${arg.date.getDate()}`,
-        })}
-        datesSet={(dateInfo) => {
-          setYearState(() => dateInfo.start.getFullYear());
-          setMonthState(() => dateInfo.start.getMonth() + 1);
-          if (categoryState !== '') {
-            loadList(dateInfo.start.getFullYear(), dateInfo.start.getMonth() + 1, categoryState);
-          }
-        }}
-        headerToolbar={{
-          left: '',
-          center: '',
-          right: '',
-        }}
-      />
+                return str;
+              }}
+              dayCellContent={(arg) => ({
+                html: `${arg.date.getDate()}`,
+              })}
+              datesSet={(dateInfo) => {
+                setYearState(() => dateInfo.start.getFullYear());
+                setMonthState(() => dateInfo.start.getMonth() + 1);
+                if (categoryState !== '') {
+                  loadList(
+                    dateInfo.start.getFullYear(),
+                    dateInfo.start.getMonth() + 1,
+                    categoryState,
+                  );
+                }
+              }}
+              headerToolbar={{
+                left: '',
+                center: '',
+                right: '',
+              }}
+            />
+          </div>
+        </div>
+      </div>
     </>
   );
 }
