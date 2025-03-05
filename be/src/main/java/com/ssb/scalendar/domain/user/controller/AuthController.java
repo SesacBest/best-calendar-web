@@ -59,10 +59,4 @@ public class AuthController {
     }
 
 
-    // 카카오 로그인
-//    @GetMapping("/kakao/callback")
-//    public ResponseEntity<?> kakaoLogin(@RequestParam String code) {
-//        return
-//    }
-
 }

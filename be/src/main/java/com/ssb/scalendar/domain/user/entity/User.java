@@ -26,7 +26,7 @@ public class User extends BaseTimeEntity implements UserDetails {
     private Long id;
 
     @Column(unique = true)
-    private String username;
+    private String username; // 이게 email임
 
     private String password;
 
@@ -35,15 +35,21 @@ public class User extends BaseTimeEntity implements UserDetails {
     @Enumerated(EnumType.STRING)
     private Role role;
 
+    // OAuth
+    private String provider;
+    private String providerId;
+
     @OneToMany(mappedBy = "user")
     private List<Schedule> schedules = new ArrayList<>();
 
     @Builder
-    public User(String username, String password, String nickname, Role role) {
+    public User(String username, String password, String nickname, Role role, String provider, String providerId) {
         this.username = username;
         this.password = password;
         this.nickname = nickname;
         this.role = role;
+        this.provider = provider;
+        this.providerId = providerId;
     }
 
     @Override

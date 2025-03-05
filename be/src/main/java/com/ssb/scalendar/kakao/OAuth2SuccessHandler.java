@@ -1,0 +1,35 @@
+package com.ssb.scalendar.kakao;
+
+import com.ssb.scalendar.domain.user.entity.User;
+import com.ssb.scalendar.global.security.jwt.JwtTokenProvider;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
+import lombok.RequiredArgsConstructor;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.web.authentication.SimpleUrlAuthenticationSuccessHandler;
+import org.springframework.stereotype.Component;
+
+import java.io.IOException;
+
+@Component
+@RequiredArgsConstructor
+public class OAuth2SuccessHandler extends SimpleUrlAuthenticationSuccessHandler {
+
+    private final JwtTokenProvider jwtTokenProvider;
+
+    @Override
+    public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response, Authentication authentication) throws IOException {
+        // authentication에서 principal을 가져옴
+        CustomOAuth2User oAuth2User = (CustomOAuth2User) authentication.getPrincipal();
+
+        // User 객체를 가져오기
+        User user = oAuth2User.getUser();
+
+        // JWT 생성
+        String token = jwtTokenProvider.createToken(authentication, user); // User 객체를 함께 전달
+
+        // JWT를 프론트엔드로 전달
+        response.addHeader("Authorization", "Bearer " + token);
+        getRedirectStrategy().sendRedirect(request, response, "http://localhost:5173/login-success?token=" + token);
+    }
+}
