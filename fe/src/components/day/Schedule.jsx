@@ -2,7 +2,6 @@ import React, { useEffect, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import scheduleApi from '../../api/scheduleApi';
 import Empty from '../Empty'
-import { Link } from "react-router-dom";
 
 export default function Schedule() {
 
@@ -31,7 +30,7 @@ export default function Schedule() {
     } catch (err) {}
   };
 
-  const linkcreate = async (e) => {
+  const schedulecreate = async (e) => {
     try {
       navigate("./create");
     } catch (err) {}
@@ -43,6 +42,7 @@ export default function Schedule() {
       <h1 className="text-4xl font-semibold min-w-max">
         오늘 일정
       </h1>
+
       <div className="h-80 overflow-y-auto">
 
         <ul className='mx-20'>
@@ -68,7 +68,7 @@ export default function Schedule() {
       </div>
       <button 
         className='px-3 py-2 w-15 border rounded-lg text-white bg-primary mx-auto my-auto'
-        onClick={linkcreate}
+        onClick={schedulecreate}
       >추가</button>
     </div>
   );
