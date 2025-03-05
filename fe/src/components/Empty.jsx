@@ -12,7 +12,7 @@ export default function Empty({ children }) {
 
   return (
     <div className="flex flex-col">
-      <h1 className="text-3xl font-mono mt-20 min-w-max">{children}을 추가해주세요</h1>
+      <h1 className="text-3xl font-sans mt-20 min-w-max">{children} 추가해 보세요.</h1>
       <button
         onClick={nowcreate}
         className="px-3 py-2 w-15 border rounded-lg text-white bg-primary mx-auto mt-30 mb-10"

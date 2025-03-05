@@ -14,6 +14,10 @@ export default function Day() {
       navigate('/calendar');
       return;
     }
+    const token = localStorage.getItem('token');
+    if (!token) {
+      navigate('/');
+    }
   }, [date, navigate]);
 
   return (

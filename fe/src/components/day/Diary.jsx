@@ -87,7 +87,7 @@ export default function Diary() {
           </div>
         </>
       ) : (
-        <Empty>일기</Empty>
+        <Empty>일기를</Empty>
       )}
     </div>
   );

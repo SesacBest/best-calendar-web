@@ -39,7 +39,7 @@ export default function Schedule() {
     <div className="flex flex-col items-center gap-15 mt-15">
       <h1 className="text-4xl font-semibold min-w-max">오늘 일정</h1>
       {schedules.length == 0 ? (
-        <Empty>일정</Empty>
+        <Empty>일정을</Empty>
       ) : (
         <>
           <div className="h-80 overflow-y-auto">
