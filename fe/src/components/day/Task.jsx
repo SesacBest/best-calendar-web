@@ -71,7 +71,7 @@ export default function Task() {
                       <hr className="mt-0.5 w-100" />
                     </div>
                     <button
-                      className="px-3 py-2 w-15 border rounded-lg border-black text-primary hover:bg-primary hover:text-white"
+                      className="px-3 py-2 w-15 border rounded-lg text-gray-500 hover:bg-primary hover:text-white"
                       id={id}
                       onClick={taskDelete}
                     >

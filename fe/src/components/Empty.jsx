@@ -11,14 +11,16 @@ export default function Empty({ children }) {
   };
 
   return (
-    <div className="flex flex-col">
-      <h1 className="text-3xl font-sans mt-20 min-w-max">{children} 추가해 보세요.</h1>
+    <>
+      <div className="h-80 flex items-center">
+        <h1 className="text-3xl font-sans mb-20 min-w-max">{children} 추가해 보세요.</h1>
+      </div>
       <button
         onClick={nowcreate}
-        className="px-3 py-2 w-15 border rounded-lg text-white bg-primary mx-auto mt-30 mb-10"
+        className="px-3 py-2 w-15 border rounded-lg text-white bg-primary mx-auto my-auto"
       >
         추가
       </button>
-    </div>
+    </>
   );
 }

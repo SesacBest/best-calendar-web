@@ -16,7 +16,6 @@ export default function Diary() {
   const navigate = useNavigate();
   const { date } = useParams();
   const [diary, setDiary] = useState();
-  const [isLoading, setIsLoading] = useState(true);
 
   const editor = useEditor({
     extensions: [
@@ -41,8 +40,6 @@ export default function Diary() {
         editor?.commands.setContent(response.data.content);
       }
     } catch (error) {
-    } finally {
-      setIsLoading(false);
     }
   };
 
@@ -64,16 +61,14 @@ export default function Diary() {
   return (
     <div className={diaryDiv}>
       <h1 className={titleStyle}>오늘 일기</h1>
-      {isLoading ? (
-        <p>로딩 중</p>
-      ) : diary ? (
+      {diary ? (
         <>
           <div className={`${editorStyles.DiaryForm} ${editorStyles.editorDiv} h-80`}>
             <EditorContent editor={editor} />
           </div>
           <div className={editorStyles.ButtonDiv}>
             <button
-              className={`${editorStyles.ButtonStyle} border-black text-primary`}
+              className={`${editorStyles.ButtonStyle} text-gray-500`}
               onClick={deleteDiary}
             >
               삭제

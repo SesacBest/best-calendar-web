@@ -6,7 +6,7 @@ export default function DayHeader() {
 
   const linkStyle =
     'px-3 py-2 mr-2 rounded-lg text-gray-500 hover:bg-primary hover:text-white border';
-  const activeLinkStyle = 'text-primary';
+  const activeLinkStyle = 'text-white bg-primary border-primary';
 
   return (
     <>
