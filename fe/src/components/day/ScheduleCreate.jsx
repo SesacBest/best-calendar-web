@@ -56,6 +56,7 @@ export default function ScheduleCreate() {
             value={formData.content}
             onChange={handleChange}
             required
+            maxlength="23"
           />
           <hr className="mt-0.5" />
         </div>

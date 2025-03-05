@@ -63,7 +63,8 @@ export default function Task() {
                   id={id}
                   onClick={checkUpdate}
                   defaultChecked={isCompleted}
-                  className="w-6 h-7 text-lg"
+                  className="appearance-none w-7 h-7 border-2 rounded-md border-gray-500 bg-white checked:bg-primary checked:text-white checked:content-['✔'] flex items-center justify-center text-center"
+
                 />
                 <div>
                   <div className="text-xl">{content}</div>
