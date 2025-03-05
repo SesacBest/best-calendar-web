@@ -2,15 +2,10 @@ import React from 'react';
 import kakaoLoginImgL from '../images/kakao_login_large_wide.png';
 
 export default function SocialLogin() {
-  // const REST_API_KEY = import.meta.env.VITE_KAKAO_REST_API_KEY;
-  // const REDIRECT_URI = import.meta.env.VITE_KAKAO_REDIRECT_URI;
+  // 백엔드에서 제공하는 OAuth2 로그인 URL로 이동 (백엔드를 통해 인증하는 방법)
+  const KAKAO_AUTH_URL = 'http://localhost:8080/api/oauth2/authorization/kakao';
 
-  // const KAKAO_AUTH_URL = `https://kauth.kakao.com/oauth/authorize?client_id=${REST_API_KEY}&redirect_uri=${REDIRECT_URI}&response_type=code`;
-
-  const KAKAO_AUTH_URL="http://localhost:8080/oauth2/authorization/kakao";
-
-  const handleKakaoLogin = (e) => {
-    e.preventDefault();
+  const handleKakaoLogin = () => {
     window.location.href = KAKAO_AUTH_URL;
   };
 
@@ -23,7 +18,6 @@ export default function SocialLogin() {
         onClick={handleKakaoLogin}
         style={{ cursor: 'pointer' }}
       />
-      
     </div>
   );
 }
