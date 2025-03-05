@@ -23,6 +23,7 @@ export default function CalendarModalContent({
     setCalendarOption(() => newCalendarOption);
     localStorage.setItem('calendarOption', JSON.stringify(newCalendarOption));
 
+    // 달력 library 특성 상, 오늘 일정에 대해서는 색상 표현을 별도로 구현
     if (intensityIndex >= 0) {
       document.documentElement.style.setProperty(
         '--fc-today-bg-color',

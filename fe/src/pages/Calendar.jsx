@@ -13,7 +13,9 @@ import calendarApi from '../api/calendarApi';
 
 import { useMyHistory } from '../MyHistoryProvider';
 
-import CalendarModalContent from './CalendarModalContent';
+import CalendarModalContent from './calendar/CalendarModalContent';
+import SvgChevronLeft from './calendar/SvgChevronLeft';
+import SvgChevronRight from './calendar/SvgChevronRight';
 
 export default function Calendar() {
   const navigate = useNavigate();
@@ -34,6 +36,7 @@ export default function Calendar() {
 
   const [showModal, setShowModal] = useState(false);
 
+  // 일정 색상 표현을 위한 배열
   const dataColorsArray = [
     ['bg-green-100', 'bg-green-200', 'bg-green-300', 'bg-green-400', 'bg-green-500'],
     ['bg-red-100', 'bg-red-200', 'bg-red-300', 'bg-red-400', 'bg-red-500'],
@@ -42,6 +45,7 @@ export default function Calendar() {
     ['bg-yellow-100', 'bg-yellow-200', 'bg-yellow-300', 'bg-yellow-400', 'bg-yellow-500'],
   ];
 
+  // Tailwind CSS를 직접 사용하기 어려운 CSS 변수를 위한 색상 배열
   const todayDataColorsArray = [
     [
       'oklch(0.962 0.044 156.743)',
@@ -81,11 +85,13 @@ export default function Calendar() {
   ];
 
   useEffect(() => {
+    // 비로그인 접근 제한
     const token = localStorage.getItem('token');
     if (!token) {
       navigate('/');
     }
 
+    // 달력 설정 불러오기
     const savedCalendarOption = localStorage.getItem('calendarOption');
     if (!savedCalendarOption) {
       setCalendarOption(() => ({
@@ -96,16 +102,20 @@ export default function Calendar() {
       setCalendarOption(() => JSON.parse(savedCalendarOption));
     }
 
+    // 무효치에 대응하는 날짜, 카테고리의 초기치
     let nowDateObject = new Date();
-    let initialDate = `${nowDateObject.getFullYear()}-${(nowDateObject.getMonth() + 1).toString().padStart(2, '0')}-01`;
+    let initialDate = parseDate(nowDateObject.getFullYear(), nowDateObject.getMonth() + 1, 1);
     let initialCategory = 'schedule';
 
+    // 이전 페이지 URL을 파싱하는 부분
     if (myHistory.length > 0) {
       const previousUrlSplitArray = myHistory[myHistory.length - 1].split('/');
 
       if (previousUrlSplitArray[1] === 'day') {
+        // URL에서 파싱한 날짜 검증
         const dateUrlSplitArray = previousUrlSplitArray[2].split('-');
         if (dateUrlSplitArray.length === 3) {
+          // 정수 검증
           const dateNumberArray = dateUrlSplitArray.map((dateNumber) => {
             return Number.parseInt(dateNumber);
           });
@@ -119,6 +129,7 @@ export default function Calendar() {
           }
 
           if (isValidDate) {
+            // 윤년을 고려한 유효 날짜 파악
             const year = dateNumberArray[0];
             const month = dateNumberArray[1];
             const day = dateNumberArray[2];
@@ -184,9 +195,7 @@ export default function Calendar() {
     const targetMonth = ((monthState + 10) % 12) + 1;
     setYearState(targetYear);
     setMonthState(targetMonth);
-    calendarRef.current
-      .getApi()
-      .gotoDate(`${targetYear}-${targetMonth.toString().padStart(2, '0')}-01`);
+    calendarRef.current.getApi().gotoDate(parseDate(targetYear, targetMonth, 1));
   };
 
   const moveToNextMonth = () => {
@@ -194,9 +203,7 @@ export default function Calendar() {
     const targetMonth = (monthState % 12) + 1;
     setYearState(targetYear);
     setMonthState(targetMonth);
-    calendarRef.current
-      .getApi()
-      .gotoDate(`${targetYear}-${targetMonth.toString().padStart(2, '0')}-01`);
+    calendarRef.current.getApi().gotoDate(parseDate(targetYear, targetMonth, 1));
   };
 
   const openModal = () => {
@@ -216,6 +223,7 @@ export default function Calendar() {
     navigate(`/day/${e.dateStr}/${categoryState}`);
   };
 
+  // DB에서 월별 일정 수를 읽어들이기
   const loadList = async (year, month, categoryState) => {
     setEventList(() => []);
     document.documentElement.style.setProperty('--fc-today-bg-color', '#ffffff');
@@ -260,7 +268,7 @@ export default function Calendar() {
   // headerToolbar: 달력 상단에 쓸 제목과 버튼 위치 지정
   return (
     <>
-      {showModal &&
+      {showModal /* modal 구현 부분 */ &&
         createPortal(
           <CalendarModalContent
             onClose={() => setShowModal(false)}
@@ -279,20 +287,7 @@ export default function Calendar() {
             <nav className="flex flex-2 justify-center items-center">
               <div className="flex flex-1 justify-end" onClick={moveToPrevMonth}>
                 <div className={linkStyle}>
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    fill="none"
-                    viewBox="0 0 24 24"
-                    strokeWidth={1.5}
-                    stroke="currentColor"
-                    className="size-6"
-                  >
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      d="M15.75 19.5 8.25 12l7.5-7.5"
-                    />
-                  </svg>
+                  <SvgChevronLeft />
                 </div>
               </div>
               <div className="mx-5 flex flex-3 justify-center">
@@ -302,20 +297,7 @@ export default function Calendar() {
               </div>
               <div className="flex flex-1 justify-start" onClick={moveToNextMonth}>
                 <div className={linkStyle}>
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    fill="none"
-                    viewBox="0 0 24 24"
-                    strokeWidth={1.5}
-                    stroke="currentColor"
-                    className="size-6"
-                  >
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      d="m8.25 4.5 7.5 7.5-7.5 7.5"
-                    />
-                  </svg>
+                  <SvgChevronRight />
                 </div>
               </div>
             </nav>
@@ -341,12 +323,18 @@ export default function Calendar() {
                   str += `text-blue-500 `;
                 }
 
-                const date = `${arg.date.getFullYear()}-${(arg.date.getMonth() + 1).toString().padStart(2, '0')}-${arg.date.getDate().toString().padStart(2, '0')}`;
+                const date = parseDate(
+                  arg.date.getFullYear(),
+                  arg.date.getMonth() + 1,
+                  arg.date.getDate(),
+                );
                 for (let i = 0; i < eventList.length; i++) {
                   if (date === eventList[i].date) {
+                    // 해당 날짜의 일정 수에 따른 색 농도 표현
                     const newIntensityIndex = Math.min(Number.parseInt(eventList[i].count / 3), 4);
                     str += dataColorsArray[calendarOption.dataColorIndex][newIntensityIndex];
 
+                    // 달력 library 특성 상, 오늘 일정에 대해서는 색상 표현을 별도로 구현
                     if (arg.isToday) {
                       document.documentElement.style.setProperty(
                         '--fc-today-bg-color',
@@ -362,9 +350,11 @@ export default function Calendar() {
                 return str;
               }}
               dayCellContent={(arg) => ({
+                // 한국어 사용 시, 일수가 기본적으로 "n일" 형태로 표현되므로 직접 숫자만 출력
                 html: `${arg.date.getDate()}`,
               })}
               datesSet={(dateInfo) => {
+                // 달이 바뀔 때마다 DB에 접근하도록 함
                 setYearState(() => dateInfo.start.getFullYear());
                 setMonthState(() => dateInfo.start.getMonth() + 1);
                 if (categoryState !== '') {
@@ -386,4 +376,8 @@ export default function Calendar() {
       </div>
     </>
   );
+}
+
+function parseDate(year, month, day) {
+  return `${year}-${month.toString().padStart(2, '0')}-${day.toString().padStart(2, '0')}`;
 }
