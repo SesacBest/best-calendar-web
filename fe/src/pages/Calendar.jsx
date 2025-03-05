@@ -42,7 +42,7 @@ export default function Calendar() {
     ['bg-yellow-100', 'bg-yellow-200', 'bg-yellow-300', 'bg-yellow-400', 'bg-yellow-500'],
   ];
 
-  const todayColorsArray = ['#2799c3', '#27c399'];
+  const todayColorsArray = ['#2799c3', '#2182a7'];
   const holidayColorsArray = ['text-red-500', 'text-blue-500', 'text-green-500'];
 
   useEffect(() => {
@@ -387,12 +387,14 @@ function ModalContent({
             <input
               type="button"
               name="firstDayOfWeek"
+              className="cursor-pointer"
               value="일요일"
               onClick={() => changeOption('firstDayOfWeek', 0)}
             />
             <input
               type="button"
               name="firstDayOfWeek"
+              className="cursor-pointer"
               value="월요일"
               onClick={() => changeOption('firstDayOfWeek', 1)}
             />
