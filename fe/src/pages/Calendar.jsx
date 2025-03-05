@@ -29,8 +29,6 @@ export default function Calendar() {
   const [calendarOption, setCalendarOption] = useState({
     todayColorIndex: 0,
     dataColorIndex: 0,
-    sundayColorIndex: 0,
-    saturdayColorIndex: 1,
     firstDayOfWeek: 0,
   });
 
@@ -45,7 +43,6 @@ export default function Calendar() {
   ];
 
   const todayColorsArray = ['rgba(0, 0, 0, 0)', '#2799c3', '#2182a7'];
-  const holidayColorsArray = ['text-red-500', 'text-blue-500', 'text-green-500'];
 
   useEffect(() => {
     const token = localStorage.getItem('token');
@@ -225,7 +222,6 @@ export default function Calendar() {
             setCalendarOption={setCalendarOption}
             dataColorsArray={dataColorsArray}
             todayColorsArray={todayColorsArray}
-            holidayColorsArray={holidayColorsArray}
           />,
           document.body,
         )}
@@ -293,9 +289,9 @@ export default function Calendar() {
               dayCellClassNames={(arg) => {
                 let str = '';
                 if (arg.dow === 0) {
-                  str += `${holidayColorsArray[calendarOption.sundayColorIndex]} `;
+                  str += `text-red-500 `;
                 } else if (arg.dow === 6) {
-                  str += `${holidayColorsArray[calendarOption.saturdayColorIndex]} `;
+                  str += `text-blue-500 `;
                 }
 
                 const date = `${arg.date.getFullYear()}-${(arg.date.getMonth() + 1).toString().padStart(2, '0')}-${arg.date.getDate().toString().padStart(2, '0')}`;

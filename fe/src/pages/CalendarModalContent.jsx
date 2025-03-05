@@ -4,7 +4,6 @@ export default function CalendarModalContent({
   setCalendarOption,
   dataColorsArray,
   todayColorsArray,
-  holidayColorsArray,
 }) {
   const dataButtonColorsArray = [
     'border-green-300 text-green-300',
@@ -17,11 +16,6 @@ export default function CalendarModalContent({
     'border-black text-black',
     'border-primary text-primary',
     'border-secondary text-secondary',
-  ];
-  const holidayButtonColorsArray = [
-    'border-red-300 text-red-300',
-    'border-blue-300 text-blue-300',
-    'border-green-300 text-green-300',
   ];
 
   const changeTodayColor = () => {
@@ -90,48 +84,6 @@ export default function CalendarModalContent({
                     changeOption(
                       'dataColorIndex',
                       (calendarOption.dataColorIndex + 1) % dataColorsArray.length,
-                    )
-                  }
-                />
-              </div>
-            </li>
-            <li className="w-90 my-2 flex flex-row justify-between items-center">
-              <div className="flex">
-                <label className="text-xl" htmlFor="sundayColor">
-                  일요일 색상
-                </label>
-              </div>
-              <div className="flex">
-                <input
-                  type="button"
-                  name="sundayColor"
-                  className={`${linkStyle} ${holidayButtonColorsArray[calendarOption.sundayColorIndex]}`}
-                  value="변경"
-                  onClick={() =>
-                    changeOption(
-                      'sundayColorIndex',
-                      (calendarOption.sundayColorIndex + 1) % holidayColorsArray.length,
-                    )
-                  }
-                />
-              </div>
-            </li>
-            <li className="w-90 my-2 flex flex-row justify-between items-center">
-              <div className="flex">
-                <label className="text-xl" htmlFor="saturdayColor">
-                  토요일 색상
-                </label>
-              </div>
-              <div className="flex">
-                <input
-                  type="button"
-                  name="saturdayColor"
-                  className={`${linkStyle} ${holidayButtonColorsArray[calendarOption.saturdayColorIndex]}`}
-                  value="변경"
-                  onClick={() =>
-                    changeOption(
-                      'saturdayColorIndex',
-                      (calendarOption.saturdayColorIndex + 1) % holidayColorsArray.length,
                     )
                   }
                 />
