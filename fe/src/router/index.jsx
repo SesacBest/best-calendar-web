@@ -82,6 +82,10 @@ const router = createBrowserRouter([
     path: '/login/oauth/callback/kakao',
     element: <KakaoRedirect />,
   },
+  {
+    path: '*',
+    element: <Navigate to="/calendar" />
+  }
 ]);
 
 export default router;

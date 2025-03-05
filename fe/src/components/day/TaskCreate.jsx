@@ -39,9 +39,9 @@ export default function TaskCreate() {
   // }, [isLoading]);
 
   return (
-    <div className="flex flex-col items-center gap-30 mt-30">
+    <div className="flex flex-col items-center gap-30 mt-15">
       <h1 className="text-4xl font-semibold min-w-max">할 일을 생성해 보세요.</h1>
-      <form onSubmit={handleSubmit} className="w-120 flex flex-col items-center">
+      <form onSubmit={handleSubmit} className="w-120 h-90 flex flex-col items-center">
         <div>
           <input
             className="w-120 px-2 focus:outline-none mt-5 text-xl"
@@ -56,7 +56,7 @@ export default function TaskCreate() {
           />
           <hr className="mt-0.5" />
         </div>
-        <button className="px-3 py-2 w-15 mt-25 rounded-lg border-black text-primary hover:bg-primary hover:text-white border self-end">
+        <button className="px-3 py-2 w-15 mt-30 rounded-lg text-white bg-primary border self-end">
           {isLoading ? '생성중' : '생성'}
         </button>
       </form>
