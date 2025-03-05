@@ -3,6 +3,7 @@ package com.ssb.scalendar.domain.schedule.dto.request;
 import com.ssb.scalendar.domain.schedule.entity.Schedule;
 import com.ssb.scalendar.domain.user.entity.User;
 import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Size;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -24,6 +25,7 @@ public class ScheduleCreateRequestDto {
     private LocalTime scheduleTime;
 
     @NotNull(message = "내용은 필수 입력값입니다.")
+    @Size(max = 23, message = "일정은 23자 이하여야 합니다.")
     private String content;
 
     public Schedule toEntity(User user) {
