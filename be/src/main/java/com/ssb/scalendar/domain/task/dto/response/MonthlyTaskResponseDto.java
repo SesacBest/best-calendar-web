@@ -9,12 +9,12 @@ import java.time.LocalDate;
 @Getter
 @Builder
 public class MonthlyTaskResponseDto {
-    private LocalDate date;
+    private LocalDate day;
     private Integer count;
 
     public static MonthlyTaskResponseDto from(DailyCount dailyCount) {
         return MonthlyTaskResponseDto.builder()
-                .date(dailyCount.getDay())
+                .day(dailyCount.getDay())
                 .count(dailyCount.getCount())
                 .build();
     }
