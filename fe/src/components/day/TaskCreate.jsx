@@ -24,7 +24,7 @@ export default function TaskCreate() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     setIsLoading(true);
-    
+
     try {
       await taskApi.taskcreate(formData);
       navigate(`/day/${date}/task`);
@@ -40,26 +40,26 @@ export default function TaskCreate() {
 
   return (
     <div className="flex flex-col items-center gap-30 mt-30">
-    <h1 className="text-4xl font-semibold min-w-max">
-      할 일을 생성해 보세요.
-    </h1>
-    <form onSubmit={handleSubmit} className='w-120 flex flex-col items-center'>
-      <div>
-        <input
-          className="w-120 px-2 focus:outline-none mt-5 text-xl"
-          type="text"
-          id="content"
-          name="content"
-          placeholder="할 일 내용"
-          value={formData.content}
-          onChange={handleChange}
-          required
-          maxlength="23"
-        />
-        <hr className="mt-0.5" />
-      </div>
-      <button className='px-3 py-2 w-15 mt-25 rounded-lg border-black text-primary hover:bg-primary hover:text-white border self-end'>{isLoading ? '생성중' : '생성'}</button>
-    </form>
-  </div>
+      <h1 className="text-4xl font-semibold min-w-max">할 일을 생성해 보세요.</h1>
+      <form onSubmit={handleSubmit} className="w-120 flex flex-col items-center">
+        <div>
+          <input
+            className="w-120 px-2 focus:outline-none mt-5 text-xl"
+            type="text"
+            id="content"
+            name="content"
+            placeholder="할 일 내용"
+            value={formData.content}
+            onChange={handleChange}
+            required
+            maxlength="23"
+          />
+          <hr className="mt-0.5" />
+        </div>
+        <button className="px-3 py-2 w-15 mt-25 rounded-lg border-black text-primary hover:bg-primary hover:text-white border self-end">
+          {isLoading ? '생성중' : '생성'}
+        </button>
+      </form>
+    </div>
   );
 }
