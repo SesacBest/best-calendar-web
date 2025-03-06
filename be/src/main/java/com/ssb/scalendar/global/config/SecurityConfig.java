@@ -53,10 +53,18 @@ public class SecurityConfig {
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers("/auth/verify").authenticated()
                         .requestMatchers("/auth/**", "/error", "/images/**").permitAll()
-                        .requestMatchers("/login/oauth2/**").permitAll() //OAuth2 요청 허용
+                        .requestMatchers("/oauth2/**", "/login/oauth2/code/**").permitAll() //OAuth2 요청 허용
+                        .requestMatchers("/login/oauth2/").permitAll() //OAuth2 요청 허용
                         .anyRequest().authenticated()
                 )
                 .oauth2Login(oauth2 -> oauth2
+                        .loginPage("/login")  // 추가
+                        .authorizationEndpoint(endpoint ->
+                                endpoint.baseUri("/oauth2/authorization") // 추가
+                        )
+                        .redirectionEndpoint(endpoint ->
+                                endpoint.baseUri("/login/oauth2/code/*") // 추가
+                        )
                         .userInfoEndpoint(userInfo -> userInfo.userService(customOAuth2UserService))
                         .successHandler(oAuth2SuccessHandler)
                 )

@@ -16,6 +16,8 @@ import java.util.Map;
 @RequiredArgsConstructor
 public class CustomOAuth2UserService extends DefaultOAuth2UserService {
 
+    // CustomOAuth2UserService : OAuth2 사용자 정보 처리 (사용자 인증 로직)
+
     private final UserRepository userRepository;
 
     @Override
