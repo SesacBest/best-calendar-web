@@ -16,8 +16,6 @@
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-
-  --fc-today-bg-color: #2799c3;
 }
 
 @theme {
@@ -25,6 +23,39 @@
   --color-secondary: #2182a7;
 }
 
-.test {
-  border: 1px solid black;
+.fc-day-today {
+  border-width: 6px !important;
+  border-style: solid !important;
+  border-color: #2799c3 !important;
+  cursor: pointer;
+}
+
+.fc-day-past,
+.fc-day-future {
+  cursor: pointer;
+}
+
+/* 웹킷 브라우저(Chrome, Edge, Safari)용 스크롤바 스타일 */
+::-webkit-scrollbar {
+  width: 8px; /* 세로 스크롤바 너비 */
+  height: 8px; /* 가로 스크롤바 높이 */
+}
+
+::-webkit-scrollbar-thumb {
+  background-color: gray; /* 스크롤바 색상 */
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-track {
+  background: #f0f0f0; /* 트랙 색상 */
+}
+
+input[type="checkbox"]:checked::before {
+  content: '✔';
+  color: white;
+  font-size: 14px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
 }

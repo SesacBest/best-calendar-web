@@ -12,11 +12,19 @@ import ScheduleCreate from '../components/day/ScheduleCreate';
 import TaskCreate from '../components/day/TaskCreate';
 import DiaryCreate from '../components/day/DiaryCreate';
 import KakaoRedirect from '../pages/KakaoRedirect';
+import AuthProvider from '../AuthProvider';
+import HistoryContainer from '../HistoryContainer';
 
 const router = createBrowserRouter([
   {
     path: '/',
-    element: <RootLayout />,
+    element: (
+      <AuthProvider>
+        <HistoryContainer>
+          <RootLayout />
+        </HistoryContainer>
+      </AuthProvider>
+    ),
     children: [
       {
         index: true,
@@ -32,23 +40,23 @@ const router = createBrowserRouter([
         children: [
           {
             path: 'schedule/create',
-            element: <ScheduleCreate />
+            element: <ScheduleCreate />,
           },
           {
             path: 'schedule',
-            element: <Schedule />
+            element: <Schedule />,
           },
           {
             path: 'task/create',
-            element: <TaskCreate />
+            element: <TaskCreate />,
           },
           {
             path: 'task',
-            element: <Task />
+            element: <Task />,
           },
           {
             path: 'diary/create',
-            element: <DiaryCreate />
+            element: <DiaryCreate />,
           },
           {
             path: 'diary',
@@ -73,8 +81,11 @@ const router = createBrowserRouter([
   {
     path: '/login-success',
     element: <KakaoRedirect />
+  },
+  {
+    path: '*',
+    element: <Navigate to="/calendar" />
   }
-  
 ]);
 
 export default router;

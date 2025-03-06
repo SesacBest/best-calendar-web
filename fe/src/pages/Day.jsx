@@ -14,12 +14,18 @@ export default function Day() {
       navigate('/calendar');
       return;
     }
+    const token = localStorage.getItem('token');
+    if (!token) {
+      navigate('/');
+    }
   }, [date, navigate]);
 
   return (
     <>
       <DayHeader />
-      <Outlet />
+      {/* <div className="h-150 overflow-y-auto mb-40"> */}
+        <Outlet />
+      {/* </div> */}
     </>
-  )
+  );
 }

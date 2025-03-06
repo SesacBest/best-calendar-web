@@ -2,6 +2,8 @@ import { React, useState, useEffect, useRef } from 'react';
 
 import { useNavigate } from 'react-router-dom';
 
+import { createPortal } from 'react-dom';
+
 import FullCalendar from '@fullcalendar/react';
 import dayGridPlugin from '@fullcalendar/daygrid';
 import interactionPlugin from '@fullcalendar/interaction';
@@ -9,20 +11,32 @@ import koLocale from '@fullcalendar/core/locales/ko';
 
 import calendarApi from '../api/calendarApi';
 
+import { useMyHistory } from '../MyHistoryProvider';
+
+import CalendarModalContent from './CalendarModalContent';
+
 export default function Calendar() {
   const navigate = useNavigate();
-
   const calendarRef = useRef(null);
+  const { myHistory } = useMyHistory();
 
   const [eventList, setEventList] = useState([]);
 
-  const [categoryState, setCategoryState] = useState('schedule');
+  const [categoryState, setCategoryState] = useState('');
   const [yearState, setYearState] = useState(0);
   const [monthState, setMonthState] = useState(0);
 
-  const [dataColorIndex, setDataColorIndex] = useState(0);
+  const [calendarOption, setCalendarOption] = useState({
+    todayColorIndex: 0,
+    dataColorIndex: 0,
+    sundayColorIndex: 0,
+    saturdayColorIndex: 1,
+    firstDayOfWeek: 0,
+  });
 
-  const colorsArray = [
+  const [showModal, setShowModal] = useState(false);
+
+  const dataColorsArray = [
     ['bg-green-100', 'bg-green-200', 'bg-green-300', 'bg-green-400', 'bg-green-500'],
     ['bg-red-100', 'bg-red-200', 'bg-red-300', 'bg-red-400', 'bg-red-500'],
     ['bg-blue-100', 'bg-blue-200', 'bg-blue-300', 'bg-blue-400', 'bg-blue-500'],
@@ -30,15 +44,73 @@ export default function Calendar() {
     ['bg-yellow-100', 'bg-yellow-200', 'bg-yellow-300', 'bg-yellow-400', 'bg-yellow-500'],
   ];
 
+  const todayColorsArray = ['rgba(0, 0, 0, 0)', '#2799c3', '#2182a7'];
+  const holidayColorsArray = ['text-red-500', 'text-blue-500', 'text-green-500'];
+
   useEffect(() => {
     const token = localStorage.getItem('token');
     if (!token) {
       navigate('/');
     }
+
+    let nowDateObject = new Date();
+    let initialDate = `${nowDateObject.getFullYear()}-${(nowDateObject.getMonth() + 1).toString().padStart(2, '0')}-01`;
+    let initialCategory = 'schedule';
+
+    if (myHistory.length > 0) {
+      const previousUrlSplitArray = myHistory[myHistory.length - 1].split('/');
+
+      if (previousUrlSplitArray[1] === 'day') {
+        const dateUrlSplitArray = previousUrlSplitArray[2].split('-');
+        if (dateUrlSplitArray.length === 3) {
+          const dateNumberArray = dateUrlSplitArray.map((dateNumber) => {
+            return Number.parseInt(dateNumber);
+          });
+
+          let isValidDate = true;
+          for (const dateNumber of dateNumberArray) {
+            if (!dateNumber) {
+              isValidDate = false;
+              break;
+            }
+          }
+
+          if (isValidDate) {
+            const year = dateNumberArray[0];
+            const month = dateNumberArray[1];
+            const day = dateNumberArray[2];
+            if (month >= 1 && month <= 12) {
+              const endOfMonthDay =
+                month === 2
+                  ? 28 + (!(year % 400) || (!(year % 4) && year % 100))
+                  : 31 - [4, 6, 9, 11].includes(month);
+
+              if (day >= 1 && day <= endOfMonthDay) {
+                initialDate = previousUrlSplitArray[2];
+              }
+            }
+          }
+        }
+
+        initialCategory = ['schedule', 'task', 'diary'].includes(previousUrlSplitArray[3])
+          ? previousUrlSplitArray[3]
+          : 'schedule';
+      }
+    }
+
+    document.documentElement.style.setProperty('--fc-today-bg-color', todayColorsArray[0]);
+
+    setCategoryState(initialCategory);
+    calendarRef.current.getApi().gotoDate(initialDate);
+    loadList(
+      Number.parseInt(initialDate.substring(0, 4)),
+      Number.parseInt(initialDate.substring(5, 7)),
+      initialCategory,
+    );
   }, []);
 
   const linkStyle =
-    'px-3 py-2 mr-2 rounded-lg text-gray-500 hover:bg-primary hover:text-white border';
+    'px-3 py-2 mr-2 rounded-lg text-gray-500 hover:bg-primary hover:text-white border cursor-pointer';
   const activeLinkStyle = 'text-primary';
 
   const buttonAttributiesList = [
@@ -86,20 +158,10 @@ export default function Calendar() {
       .gotoDate(`${targetYear}-${targetMonth.toString().padStart(2, '0')}-01`);
   };
 
-  // TODO: 색상 관련 임시 함수이므로 개발 진척에 따라 삭제 예정
-  const test1 = () => {
-    document.documentElement.style.setProperty('--fc-today-bg-color', '#2799c3');
+  const openModal = () => {
+    setShowModal(() => true);
   };
 
-  const test2 = () => {
-    document.documentElement.style.setProperty('--fc-today-bg-color', '#27c399');
-  };
-
-  const test3 = () => {
-    setDataColorIndex(() => (dataColorIndex + 1) % colorsArray.length);
-  };
-
-  // TODO: 색상 관련 임시 함수 버튼이 있으므로 개발 진척에 따라 삭제 예정
   const calendarButtonGroup = [
     <div key={0} className={`${linkStyle}`} onClick={moveToPrevMonth}>
       지난 달
@@ -110,14 +172,8 @@ export default function Calendar() {
     <div key={2} className={`${linkStyle}`} onClick={moveToNextMonth}>
       다음 달
     </div>,
-    <div key={3} className={`${linkStyle}`} onClick={test1}>
-      색상1
-    </div>,
-    <div key={4} className={`${linkStyle}`} onClick={test2}>
-      색상2
-    </div>,
-    <div key={5} className={`${linkStyle}`} onClick={test3}>
-      색상3
+    <div key={3} className={`${linkStyle}`} onClick={openModal}>
+      설정
     </div>,
   ];
 
@@ -167,57 +223,85 @@ export default function Calendar() {
   // headerToolbar: 달력 상단에 쓸 제목과 버튼 위치 지정
   return (
     <>
-      <section className="pt-4 flex justify-between">
-        <nav className="flex">{categoryButtonGroup}</nav>
-        <h2 className="text-3xl">
-          {yearState}년 {monthState}월
-        </h2>
-        <nav className="flex">{calendarButtonGroup}</nav>
-      </section>
-      <FullCalendar
-        ref={calendarRef}
-        plugins={[dayGridPlugin, interactionPlugin]}
-        initialView="dayGridMonth"
-        events={eventList}
-        dateClick={handleDayCellClick}
-        showNonCurrentDates={false}
-        firstDay={1}
-        locale={koLocale}
-        eventBackgroundColor="#FFFFFF"
-        dayCellClassNames={(arg) => {
-          let str = '';
-          if (arg.dow === 0) {
-            str += 'text-red-500 ';
-          } else if (arg.dow === 6) {
-            str += 'text-blue-500 ';
-          }
+      {showModal &&
+        createPortal(
+          <CalendarModalContent
+            onClose={() => setShowModal(false)}
+            calendarOption={calendarOption}
+            setCalendarOption={setCalendarOption}
+            dataColorsArray={dataColorsArray}
+            todayColorsArray={todayColorsArray}
+            holidayColorsArray={holidayColorsArray}
+          />,
+          document.body,
+        )}
+      <div className="w-full flex justify-center">
+        <div className="w-9/10 flex flex-col justify-center item-center">
+          <section className="pt-4 flex justify-between">
+            <nav className="flex flex-1 justify-start">{categoryButtonGroup}</nav>
+            <nav className="flex flex-1 justify-center">
+              <h2 className="text-3xl">
+                {yearState}년 {monthState}월
+              </h2>
+            </nav>
+            <nav className="flex flex-1 justify-end">{calendarButtonGroup}</nav>
+          </section>
+          <div className="w-full">
+            <FullCalendar
+              ref={calendarRef}
+              aspectRatio={1.55}
+              plugins={[dayGridPlugin, interactionPlugin]}
+              initialView="dayGridMonth"
+              events={eventList}
+              dateClick={handleDayCellClick}
+              showNonCurrentDates={false}
+              firstDay={calendarOption.firstDayOfWeek}
+              locale={koLocale}
+              eventBackgroundColor="#FFFFFF"
+              dayCellClassNames={(arg) => {
+                let str = '';
+                if (arg.dow === 0) {
+                  str += `${holidayColorsArray[calendarOption.sundayColorIndex]} `;
+                } else if (arg.dow === 6) {
+                  str += `${holidayColorsArray[calendarOption.saturdayColorIndex]} `;
+                }
 
-          const date = `${arg.date.getFullYear()}-${(arg.date.getMonth() + 1).toString().padStart(2, '0')}-${arg.date.getDate().toString().padStart(2, '0')}`;
+                const date = `${arg.date.getFullYear()}-${(arg.date.getMonth() + 1).toString().padStart(2, '0')}-${arg.date.getDate().toString().padStart(2, '0')}`;
+                for (let i = 0; i < eventList.length; i++) {
+                  if (date === eventList[i].date) {
+                    str +=
+                      dataColorsArray[calendarOption.dataColorIndex][
+                        Math.min(Number.parseInt(eventList[i].count / 3), 4)
+                      ];
+                    break;
+                  }
+                }
 
-          for (let i = 0; i < eventList.length; i++) {
-            if (date === eventList[i].date) {
-              str +=
-                colorsArray[dataColorIndex][Math.min(Number.parseInt(eventList[i].count / 3), 4)];
-              break;
-            }
-          }
-
-          return str;
-        }}
-        dayCellContent={(arg) => ({
-          html: `${arg.date.getDate()}`,
-        })}
-        datesSet={(dateInfo) => {
-          setYearState(() => dateInfo.start.getFullYear());
-          setMonthState(() => dateInfo.start.getMonth() + 1);
-          loadList(dateInfo.start.getFullYear(), dateInfo.start.getMonth() + 1, categoryState);
-        }}
-        headerToolbar={{
-          left: '',
-          center: '',
-          right: '',
-        }}
-      />
+                return str;
+              }}
+              dayCellContent={(arg) => ({
+                html: `${arg.date.getDate()}`,
+              })}
+              datesSet={(dateInfo) => {
+                setYearState(() => dateInfo.start.getFullYear());
+                setMonthState(() => dateInfo.start.getMonth() + 1);
+                if (categoryState !== '') {
+                  loadList(
+                    dateInfo.start.getFullYear(),
+                    dateInfo.start.getMonth() + 1,
+                    categoryState,
+                  );
+                }
+              }}
+              headerToolbar={{
+                left: '',
+                center: '',
+                right: '',
+              }}
+            />
+          </div>
+        </div>
+      </div>
     </>
   );
 }

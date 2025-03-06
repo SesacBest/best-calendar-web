@@ -3,6 +3,7 @@ package com.ssb.scalendar.domain.schedule.entity;
 import com.ssb.scalendar.domain.user.entity.User;
 import com.ssb.scalendar.global.entity.BaseTimeEntity;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.Size;
 import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
@@ -26,6 +27,8 @@ public class Schedule extends BaseTimeEntity {
     @Column(name = "schedule_time")
     private LocalTime scheduleTime;
 
+    @Column(length = 69)
+    @Size(max = 23)
     private String content;
 
     @ManyToOne

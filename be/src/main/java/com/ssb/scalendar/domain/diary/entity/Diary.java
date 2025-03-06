@@ -38,7 +38,6 @@ public class Diary extends BaseTimeEntity {
     }
 
     public Diary update(DiaryUpdateRequestDto requestDto) {
-        this.selectedDate = requestDto.getSelectedDate();
         this.content = requestDto.getContent();
         return this;
     }
