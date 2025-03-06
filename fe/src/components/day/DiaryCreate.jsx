@@ -8,10 +8,12 @@ export default function DiaryCreate() {
   const { date } = useParams();
   const [diary, setDiary] = useState();
   const [content, setContent] = useState("");
+  const [isLoading, SetIsLoading] = useState(true);
   const [isEdit, SetIsEdit] = useState(false);
 
   const fetchDiary = async () => {
     try {
+      SetIsLoading(true);
       const response = await diaryApi.getDiary(date);
       if (response.data) {
         setDiary(response.data);
@@ -19,6 +21,8 @@ export default function DiaryCreate() {
         SetIsEdit(true);
       }
     } catch (error) {
+    } finally {
+      SetIsLoading(false);
     }
   };
 
@@ -48,6 +52,10 @@ export default function DiaryCreate() {
 
   const diaryDiv = "flex items-center flex-col gap-15 mt-15";
   const titleStyle = "text-4xl font-semibold min-w-max";
+
+  if (isLoading) {
+    return <div className='h-100' />
+  }
 
   return (
     <div className={diaryDiv}>
