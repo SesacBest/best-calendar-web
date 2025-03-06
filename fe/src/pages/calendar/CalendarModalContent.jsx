@@ -7,11 +7,11 @@ export default function CalendarModalContent({
   intensityIndex,
 }) {
   const dataButtonColorsArray = [
-    'border-green-300 text-green-300',
-    'border-red-300 text-red-300',
-    'border-blue-300 text-blue-300',
-    'border-yellow-300 text-yellow-300',
-    'border-orange-300 text-orange-300',
+    'border-green-300 text-green-300 hover:bg-green-300',
+    'border-red-300 text-red-300 hover:bg-red-300',
+    'border-blue-300 text-blue-300 hover:bg-blue-300',
+    'border-yellow-300 text-yellow-300 hover:bg-yellow-300',
+    'border-orange-300 text-orange-300 hover:bg-orange-300',
   ];
 
   const dataColorChangeOption = (value) => {
@@ -42,8 +42,7 @@ export default function CalendarModalContent({
     localStorage.setItem('calendarOption', JSON.stringify(newCalendarOption));
   };
 
-  const linkStyle =
-    'px-3 py-2 mr-2 rounded-lg hover:bg-primary hover:text-white border cursor-pointer';
+  const linkStyle = 'px-3 py-2 mr-2 rounded-lg hover:text-white border cursor-pointer';
 
   return (
     <div className="w-full h-full bg-black/75 absolute top-0 left-0 z-3 flex" onClick={onClose}>

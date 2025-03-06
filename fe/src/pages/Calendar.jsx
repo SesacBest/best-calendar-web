@@ -163,7 +163,7 @@ export default function Calendar() {
 
   const linkStyle =
     'px-3 py-2 mr-2 rounded-lg text-gray-500 hover:bg-primary hover:text-white border cursor-pointer';
-  const activeLinkStyle = 'text-primary';
+  const activeLinkStyle = 'text-white bg-primary border-primary';
 
   const buttonAttributiesList = [
     { categoryForUrl: 'schedule', buttonName: '일정', categoryForApi: 'schedules' },
@@ -212,7 +212,7 @@ export default function Calendar() {
 
   const calendarButtonGroup = [
     <div key={0} className={`${linkStyle}`} onClick={moveToCurrentMonth}>
-      오늘로
+      오늘
     </div>,
     <div key={1} className={`${linkStyle}`} onClick={openModal}>
       설정
