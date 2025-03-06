@@ -89,14 +89,14 @@ export default function CalendarModalContent({
                 <input
                   type="button"
                   name="firstDayOfWeek"
-                  className={`${linkStyle} ${calendarOption.firstDayOfWeek ? '' : 'border-primary text-primary'}`}
+                  className={`${linkStyle} hover:bg-primary ${calendarOption.firstDayOfWeek ? '' : 'border-primary text-primary'}`}
                   value="일요일"
                   onClick={() => changeOption('firstDayOfWeek', 0)}
                 />
                 <input
                   type="button"
                   name="firstDayOfWeek"
-                  className={`${linkStyle} ${calendarOption.firstDayOfWeek ? 'border-primary text-primary' : ''}`}
+                  className={`${linkStyle} hover:bg-primary ${calendarOption.firstDayOfWeek ? 'border-primary text-primary' : ''}`}
                   value="월요일"
                   onClick={() => changeOption('firstDayOfWeek', 1)}
                 />
