@@ -11,9 +11,10 @@ jobs:
 
     steps: # 실행할 작업(step)
       - name: Checkout code
-        uses: actions/checkout@v4.2.2
+        uses:
+          actions/checkout@v4.2.2
 
-         # 캐시 저장 설정을 위한 actions(라이브러리)
+          # 캐시 저장 설정을 위한 actions(라이브러리)
       - name: Cache Docker Image Layer
         # actions/cache : 깃허브 캐시 저장소 활용을 위한 라이브러리
         uses: actions/cache@v4.2.0
@@ -34,8 +35,8 @@ jobs:
           echo "SECRET_KEY=${{ secrets.SECRET_KEY }}" >> .env
           echo "DOMAIN=${{ secrets.DOMAIN }}" >> .env
           echo "ORIGIN=${{ secrets.ORIGIN }}" >> .env
-
-
+          echo "KAKAO_CLIENT_ID=${{ secrets.KAKAO_CLIENT_ID }}" >> .env
+          echo "KAKAO_CLIENT_SECRET=${{ secrets.KAKAO_CLIENT_SECRET }}" >> .env
 
       - name: Add Remote Server Fingerprint to Known Hosts
         run: ssh-keyscan -H -p ${{ secrets.SSH_PORT }} ${{ secrets.SSH_HOST }} >> ~/.ssh/known_hosts || true
