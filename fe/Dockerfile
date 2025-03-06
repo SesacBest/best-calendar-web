@@ -5,6 +5,9 @@
 FROM node AS build
 WORKDIR /app
 
+ARG VITE_DOMAIN
+ENV VITE_DOMAIN=${VITE_DOMAIN}
+
 # 패키지 설치를 위한 패키지 목록 파일 복사
 COPY package.json package-lock.json ./
 

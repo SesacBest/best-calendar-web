@@ -50,6 +50,8 @@ services:
       # 캐시를 불러올 경로
       cache_from:
         - type=local,src=/tmp/.buildx-cache/fe
+      args:
+        - VITE_DOMAIN=${VITE_DOMAIN}
     image: ${DOCKER_USERNAME}/fe-image:latest
     ports:
       - "80:80"
