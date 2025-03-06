@@ -34,10 +34,6 @@ export default function TaskCreate() {
     }
   };
 
-  // useEffect(() => {
-  //   console.log(isLoading);
-  // }, [isLoading]);
-
   return (
     <div className="flex flex-col items-center gap-30 mt-15">
       <h1 className="text-4xl font-semibold min-w-max">할 일을 생성해 보세요.</h1>

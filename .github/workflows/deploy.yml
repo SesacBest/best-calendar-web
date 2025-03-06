@@ -4,7 +4,6 @@ on:
   push:
     branches:
       - main
-      - feature/*
 
 jobs:
   ssh-agent: # Job 이름

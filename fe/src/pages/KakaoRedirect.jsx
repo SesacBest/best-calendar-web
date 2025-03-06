@@ -17,10 +17,7 @@ export default function KakaoRedirect() {
 
     if (token !== null && token !== undefined) {
       try {
-        console.log('토큰 저장 성공:', token);
-
         dispatch(kakaoLogin(token));
-
         navigate('/calendar');
       } catch (error) {
         console.error('토큰 저장 중 오류:', error);

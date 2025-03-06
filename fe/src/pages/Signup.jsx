@@ -144,14 +144,12 @@ export default function Signup() {
         ...prev,
         email: { ...prev.email, isClicked: true, status: data.code },
       }));
-      console.log(data.code);
     } catch (err) {
       setError(err.message);
       setValidation((prev) => ({
         ...prev,
         email: { ...prev.email, isClicked: true, status: '' },
       }));
-      console.log(err.message);
     }
   };
 

@@ -43,13 +43,10 @@ export default function Login() {
       const data = response.data;
 
       const { token } = data.data;
-      console.log(token);
       dispatch(login(token));
       alert('로그인 성공');
       navigate('/calendar');
     } catch (err) {
-      // console.log(err.response.data)
-      // console.log(err.response.data.message);
       setError(err.response.data.message);
     } finally {
       setIsLoading(false);
@@ -99,14 +96,14 @@ export default function Login() {
 
           {isFormValid ? (
             <p className="text-red-600 text-[15px] mb-6">
-             {error !== "" ? error : <p className="text-red-600 text-[15px] mb-6 text-right invisible">
-              &nbsp;
-            </p>}
+              {error !== '' ? (
+                error
+              ) : (
+                <p className="text-red-600 text-[15px] mb-6 text-right invisible">&nbsp;</p>
+              )}
             </p>
           ) : (
-            <p className="text-red-600 text-[15px] mb-6 text-right invisible">
-              &nbsp;
-            </p>
+            <p className="text-red-600 text-[15px] mb-6 text-right invisible">&nbsp;</p>
           )}
 
           <button

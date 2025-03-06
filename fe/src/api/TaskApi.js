@@ -2,7 +2,6 @@ import api from './axios';
 const ENDPOINT = '/calendar/tasks';
 
 const taskApi = {
-
   taskcreate: async (formData) => {
     const response = await api.post(`${ENDPOINT}`, formData);
     return response;
@@ -16,11 +15,9 @@ const taskApi = {
     return response;
   },
   taskdelete: async (id) => {
-    console.log(id);
-    
     const response = await api.delete(`${ENDPOINT}/${id}`);
     return response;
-  }
+  },
 };
 
 export default taskApi;

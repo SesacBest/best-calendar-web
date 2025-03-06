@@ -36,10 +36,6 @@ export default function ScheduleCreate() {
     }
   };
 
-  // useEffect(() => {
-  //   console.log(isLoading);
-  // }, [isLoading]);
-
   return (
     <div className="flex flex-col items-center gap-15 mt-15">
       <h1 className="text-4xl font-semibold min-w-max">일정을 만들어 보세요.</h1>
