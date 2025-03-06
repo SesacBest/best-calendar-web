@@ -9,27 +9,25 @@ export default function KakaoRedirect() {
   const [isLoading, setIsLoading] = useState(false);
   const dispatch = useDispatch();
 
-
   useEffect(() => {
     // 백엔드에서 가져오기 (방법2로 변경)
     // 현재 url에서 token 가져오기
-  const urlParams = new URLSearchParams(window.location.search);
-  const token = urlParams.get('token');
+    const urlParams = new URLSearchParams(window.location.search);
+    const token = urlParams.get('token');
 
-  if (token !== null && token !== undefined) {
-    try {
-      console.log('토큰 저장 성공:', token);
+    if (token !== null && token !== undefined) {
+      try {
+        console.log('토큰 저장 성공:', token);
 
-      dispatch(kakaoLogin(token));
+        dispatch(kakaoLogin(token));
 
-      navigate('/calendar');
-
-    } catch (error) {
-      console.error('토큰 저장 중 오류:', error);
-      navigate('/');
+        navigate('/calendar');
+      } catch (error) {
+        console.error('토큰 저장 중 오류:', error);
+        navigate('/');
+      }
     }
-  }
-}, [navigate, dispatch]);
+  }, [navigate, dispatch]);
 
   return <div>로그인 중입니다.</div>;
 }

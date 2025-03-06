@@ -95,15 +95,22 @@ export default function Login() {
             value={formData.password}
             onChange={handleFormInput}
           />
-          <hr className="mt-0.5 mb-10" />
+          <hr className="mt-0.5" />
 
-          <p className="text-red-600 text-[15px] mb-8">{error && <div>{error}</div>}</p>
+          {isFormValid ? (
+            <p className="text-red-600 text-[15px] mb-6">
+             {error !== "" ? error : <p className="text-red-600 text-[15px] mb-6 text-right invisible">
+              &nbsp;
+            </p>}
+            </p>
+          ) : (
+            <p className="text-red-600 text-[15px] mb-6 text-right invisible">
+              &nbsp;
+            </p>
+          )}
 
           <button
-            className={`w-full py-2 px-4 ${isFormValid ? 'bg-primary' : 'bg-gray-200'} mb-3
-            ${isFormValid ? 'text-white' : 'text-gray-200'} text-gray-500 rounded-md text-base
-            ${isFormValid ? 'hover:bg-secondary' : ''} focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary mb-1
-            ${isFormValid ? 'cursor-pointer' : 'cursor-not-allowed'}`}
+            className="w-full py-2.5 px-4 bg-primary text-white  rounded-md text-base mb-3 hover: cursor-pointer mb-1"
             type="submit"
             // 두 값이 모두 채워지면 disabled={false}, 하나라도 비워있으면 disabled={true}
             // disabled={isFormValid ? true : false}
@@ -114,7 +121,7 @@ export default function Login() {
         </form>
         <SocialLogin></SocialLogin>
         <button
-          className="w-full mt-2 py-2 px-4 bg-white text-gray-600 rounded-md text-base cursor-pointer mb-10"
+          className="w-full mt-2 py-2 px-4 bg-white text-gray-600 rounded-md cursor-pointer mb-10 text-[18px]"
           onClick={toSignup}
         >
           회원가입
