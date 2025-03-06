@@ -227,7 +227,7 @@ export default function Calendar() {
   const loadList = async (year, month, categoryState) => {
     setEventList(() => []);
     document.documentElement.style.setProperty('--fc-today-bg-color', '#ffffff');
-    setIntensityIndex(-1);
+    setIntensityIndex(() => -1);
 
     let categoryForApi = '';
     buttonAttributiesList.forEach((buttonAttribute) => {
@@ -340,9 +340,9 @@ export default function Calendar() {
                         '--fc-today-bg-color',
                         todayDataColorsArray[calendarOption.dataColorIndex][newIntensityIndex],
                       );
-                    }
 
-                    setIntensityIndex(() => newIntensityIndex);
+                      setIntensityIndex(() => newIntensityIndex);
+                    }
                     break;
                   }
                 }
