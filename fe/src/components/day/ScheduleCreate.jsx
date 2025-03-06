@@ -66,6 +66,7 @@ export default function ScheduleCreate() {
           value={formData.scheduleTime}
           onChange={handleChange}
           onFocus={(e) => e.target.showPicker()}
+          required
         />
         <button className="px-3 py-2 w-15 mt-15 rounded-lg text-white bg-primary border self-end">
           {isLoading ? '생성중' : '생성'}
